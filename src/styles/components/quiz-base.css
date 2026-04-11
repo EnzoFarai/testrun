@@ -1,0 +1,153 @@
+/* ===== QUIZ BASE COMPONENT STYLES ===== */
+
+/* Question Prompts */
+.question {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: var(--basalt);
+  line-height: 1.4;
+}
+
+/* Options Container */
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.option-button {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: var(--cloud);
+  border: 2px solid var(--beluga);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  color: var(--basalt);
+  font-family: inherit;
+}
+
+.option-button:hover {
+  background-color: var(--arctic);
+  transform: translateY(-0.125rem);
+}
+
+.option-button.selected {
+  background-color: var(--info-light);
+  border-color: var(--info);
+}
+
+.option-button.correct {
+  background-color: var(--success-light);
+  border-color: var(--success);
+  color: var(--success-dark);
+}
+
+.option-button.incorrect {
+  background-color: var(--error-light);
+  border-color: var(--error);
+  color: #C5221F;
+}
+
+.option-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Used Option (for complete-sentence questions) */
+.option-button.used-option {
+  position: relative;
+  background-color: var(--koala);
+  border-color: var(--koala);
+  cursor: default;
+  color: transparent;
+}
+
+.option-button.used-option::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--koala);
+  border-radius: var(--radius-md);
+  z-index: 1;
+}
+
+/* Check Button */
+.check-button {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cloud);
+  background-color: var(--primary);
+  border: none;
+  border-bottom: 0.25rem solid var(--primary-dark);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all var(--transition-base);
+  font-family: inherit;
+}
+
+.check-button:hover {
+  background-color: var(--primary-dark);
+  border-bottom-color: #3166c4;
+  transform: translateY(-0.125rem);
+}
+
+.check-button:active {
+  transform: translateY(0.0625rem);
+  border-bottom-width: 0.125rem;
+}
+
+.check-button:disabled {
+  background-color: var(--beluga);
+  border-bottom: 0.25rem solid var(--koala);
+  color: var(--koala);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Question Container (for speech bubble layouts) */
+.question-container {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-md);
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .question-container {
+    gap: 0.8rem;
+    flex-wrap: nowrap;
+  }
+  
+  .check-button {
+    padding: 0.8rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .question-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .icon-container {
+    margin-bottom: 0;
+    margin-right: 0;
+    order: 1;
+  }
+}
