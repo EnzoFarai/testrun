@@ -1,0 +1,199 @@
+/* ===== SPEECH BUBBLE COMPONENT ===== */
+
+[speech-bubble], [speech-bubble] * { 
+  box-sizing: border-box;
+}
+
+[speech-bubble] {
+  --bbColor: var(--cloud);
+  --bbArrowSize: clamp(0.8rem, 2vw, 1rem);
+  --bbBorderRadius: 0.4rem;
+  --bbPadding: clamp(1rem, 3vw, 1.5rem);
+  background: var(--bbColor);
+  border-radius: var(--bbBorderRadius);
+  padding: var(--bbPadding);
+  position: relative;
+  border: 2px solid var(--beluga);
+  color: var(--basalt);
+  width: 100%;
+  min-height: min-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+[speech-bubble]::before,
+[speech-bubble]::after {
+  content: ''; 
+  position: absolute;
+  z-index: 1;
+}
+
+/* Left arrow pointing LEFT */
+[speech-bubble][pleft] { 
+  margin-left: var(--bbArrowSize); 
+}
+
+[speech-bubble][pleft]::before {
+  right: 100%;
+  border: solid transparent;
+  border-width: calc(var(--bbArrowSize) * 0.75) var(--bbArrowSize) calc(var(--bbArrowSize) * 0.75) 0;
+  border-right-color: var(--beluga);
+}
+
+[speech-bubble][pleft]::after {
+  right: calc(100% - 2px);
+  border: solid transparent;
+  border-width: calc(var(--bbArrowSize) * 0.75 - 2px) calc(var(--bbArrowSize) - 2px) calc(var(--bbArrowSize) * 0.75 - 2px) 0;
+  border-right-color: var(--bbColor);
+}
+
+/* Bottom arrow positioning */
+[speech-bubble][pleft][abottom]::before,
+[speech-bubble][pleft][abottom]::after {
+  bottom: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+/* Center arrow positioning (middle of left side) */
+[speech-bubble][pleft][acenter]::before,
+[speech-bubble][pleft][acenter]::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bubble-text {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  line-height: 1.5;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--basalt);
+  display: inline;
+}
+
+/* Blanks inside speech bubbles */
+.blank {
+  display: inline-block;
+  min-width: 80px;
+  width: auto;
+  max-width: 150px;
+  border-bottom: 2px solid var(--primary);
+  margin: 0 0.3rem;
+  padding: 0 0.3rem 2px 0.3rem;
+  position: relative;
+  font-family: inherit;
+  transition: all var(--transition-slow);
+  cursor: pointer;
+  text-align: center;
+  vertical-align: baseline;
+  height: 1.5em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.blank.filled {
+  border: 2px solid var(--info);
+  border-radius: var(--radius-md);
+  background: var(--info-light);
+  color: var(--basalt);
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  min-width: 100px;
+  max-width: 200px;
+  height: auto;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.3rem;
+  line-height: 1.4;
+  white-space: normal;
+  text-overflow: clip;
+}
+
+.blank.correct {
+  background-color: var(--success-light);
+  border-color: var(--success);
+  color: var(--success-dark);
+}
+
+.blank.incorrect {
+  background-color: var(--error-light);
+  border-color: var(--error);
+  color: #C5221F;
+}
+
+.full-stop {
+  color: var(--basalt);
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  [speech-bubble] {
+    max-width: 100%;
+    --bbPadding: 1rem;
+  }
+  
+  .bubble-text {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  
+  .blank {
+    min-width: 60px;
+    margin: 0 0.2rem;
+  }
+  
+  .blank.filled {
+    min-width: 80px;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 320px) {
+  [speech-bubble] {
+    order: 2;
+    margin-left: 0;
+    margin-top: var(--bbArrowSize);
+    --bbArrowSize: 0.8rem;
+  }
+  
+  /* Change arrow to point UP instead of LEFT for very small screens */
+  [speech-bubble][pleft]::before {
+    right: auto;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    border-width: 0 calc(var(--bbArrowSize) * 0.75) var(--bbArrowSize);
+    border-right-color: transparent;
+    border-bottom-color: var(--beluga);
+    border-left-color: transparent;
+  }
+  
+  [speech-bubble][pleft]::after {
+    right: auto;
+    left: 50%;
+    bottom: calc(100% - 2px);
+    transform: translateX(-50%);
+    border-width: 0 calc(var(--bbArrowSize) * 0.75 - 2px) calc(var(--bbArrowSize) - 2px);
+    border-right-color: transparent;
+    border-bottom-color: var(--bbColor);
+    border-left-color: transparent;
+  }
+  
+  [speech-bubble][pleft][abottom]::before,
+  [speech-bubble][pleft][abottom]::after {
+    bottom: auto;
+    left: 50%;
+  }
+  
+  [speech-bubble][pleft][acenter]::before,
+  [speech-bubble][pleft][acenter]::after {
+    top: auto;
+    bottom: 100%;
+    transform: translateX(-50%);
+  }
+}
