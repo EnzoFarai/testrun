@@ -1,0 +1,205 @@
+/* ===== RESULT PANEL OVERLAY ===== */
+
+.result-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 100;
+  animation: fadeIn var(--transition-slow);
+}
+
+.result-overlay.visible {
+  display: flex;
+}
+
+.result-container {
+  width: 100%;
+  max-width: 700px;
+  background: var(--cloud);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  animation: slideUp 0.4s ease;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.result-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.material-icon {
+  font-size: 2.5rem;
+  width: 1em;
+  height: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.explanation-content {
+  padding: 0 0.3rem;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: var(--space-lg);
+}
+
+.correct-answer-section {
+  margin: 0.94rem 0;
+}
+
+.correct-text {
+  font-weight: 700;
+  margin-right: var(--space-sm);
+}
+
+.underlined {
+  text-decoration: underline;
+}
+
+.explanation-section {
+  margin: 0.94rem 0;
+}
+
+.explanation-label {
+  font-weight: 700;
+  margin-right: var(--space-sm);
+}
+
+.explanation-text {
+  line-height: 1.5;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.result-container.correct {
+  background-color: var(--success-light);
+}
+
+.result-container.correct .result-header,
+.result-container.correct .material-icon,
+.result-container.correct .explanation-content,
+.result-container.correct .correct-answer-section,
+.result-container.correct .explanation-section {
+  color: var(--success-dark);
+}
+
+.result-container.incorrect {
+  background-color: var(--error-light);
+}
+
+.result-container.incorrect .result-header,
+.result-container.incorrect .material-icon,
+.result-container.incorrect .explanation-content,
+.result-container.incorrect .correct-answer-section,
+.result-container.incorrect .explanation-section {
+  color: #C5221F;
+}
+
+/* Continue Button in Result Panel */
+.result-continue-btn {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cloud);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all var(--transition-base);
+  font-family: inherit;
+  margin-top: var(--space-md);
+  border-bottom: 0.25rem solid transparent;
+}
+
+.result-container.correct .result-continue-btn {
+  background-color: var(--success);
+  border-bottom-color: var(--success-dark);
+}
+
+.result-container.correct .result-continue-btn:hover {
+  background-color: var(--success-dark);
+  border-bottom-color: #1B5E20;
+  transform: translateY(-0.125rem);
+}
+
+.result-container.incorrect .result-continue-btn {
+  background-color: var(--error);
+  border-bottom-color: var(--error-dark);
+}
+
+.result-container.incorrect .result-continue-btn:hover {
+  background-color: var(--error-dark);
+  border-bottom-color: #C5221F;
+  transform: translateY(-0.125rem);
+}
+
+.result-continue-btn:active {
+  transform: translateY(0.0625rem);
+  border-bottom-width: 0.125rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .result-container {
+    max-height: 85vh;
+    padding: 1.2rem;
+  }
+  
+  .result-header {
+    font-size: 1.3rem;
+  }
+  
+  .material-icon {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .result-container {
+    max-height: 90vh;
+    padding: var(--space-md);
+  }
+  
+  .result-header {
+    font-size: 1.2rem;
+  }
+  
+  .material-icon {
+    font-size: 1.8rem;
+  }
+  
+  .result-continue-btn {
+    font-size: 1.1rem;
+    padding: 0.8rem;
+  }
+}
