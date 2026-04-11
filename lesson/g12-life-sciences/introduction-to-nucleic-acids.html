@@ -8,17 +8,20 @@
   <!-- Local Fonts -->
   <link rel="stylesheet" href="../../public/assets/fonts/fonts.css">
   
-  <!-- Local Phosphor Icons -->
-  <link rel="stylesheet" href="../../public/assets/icons/phosphor/regular/style.css">
-  <link rel="stylesheet" href="../../public/assets/icons/phosphor/fill/style.css">
-  
-  <!-- Local Material Icons -->
-  <link rel="stylesheet" href="../../public/assets/icons/material-symbols/style.css">
+  <!-- Button Component Styles -->
+  <link rel="stylesheet" href="../../src/styles/components/buttons.css">
   
   <!-- Global Styles -->
   <link rel="stylesheet" href="../../src/styles/global.css">
   <link rel="stylesheet" href="../../src/styles/components/modals.css">
   <link rel="stylesheet" href="../../src/styles/components/matching.css">
+  
+  <!-- Phosphor Icons (local) -->
+  <link rel="stylesheet" href="../../public/assets/icons/phosphor/regular/style.css">
+  <link rel="stylesheet" href="../../public/assets/icons/phosphor/fill/style.css">
+  
+  <!-- Material Symbols (local) -->
+  <link rel="stylesheet" href="../../public/assets/icons/material-symbols/style.css">
 </head>
 <body>
   <div class="quiz-container">
@@ -42,7 +45,7 @@
       <div class="question" id="question-text-1">Where is most of a cell's DNA located?</div>
       <div class="options-container" id="options-container-1"></div>
       <div class="footer">
-        <button class="check-button" id="check-button-1" disabled>Check</button>
+        <button class="btn btn-carpenter-blue check-button" id="check-button-1" disabled>Check</button>
       </div>
     </div>
 
@@ -50,7 +53,9 @@
     <div id="question2" style="display: none;">
       <h2 class="quiz-title">Select what is missing</h2>
       <div class="question-container">
-        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div class="icon-container">
+          <img src="../../public/assets/icons/phosphor/fill/rabbit-fill.svg" alt="Vusi" style="width: 100%; height: 100%; filter: brightness(0) saturate(100%) invert(38%) sepia(98%) saturate(1500%) hue-rotate(202deg) brightness(94%) contrast(95%);">
+        </div>
         <div speech-bubble pleft abottom style="--bbColor:#FFFFFF">
           <div class="bubble-text">
             The nucleus is a cell organelle that 
@@ -61,7 +66,7 @@
       </div>
       <div id="options-2" class="options-container"></div>
       <div class="footer">
-        <button id="check-button-2" class="check-button" disabled>Check</button>
+        <button id="check-button-2" class="btn btn-carpenter-blue check-button" disabled>Check</button>
       </div>
     </div>
 
@@ -69,7 +74,9 @@
     <div id="question3" style="display: none;">
       <h2 class="quiz-title">Complete the statement</h2>
       <div class="question-container">
-        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div class="icon-container">
+          <img src="../../public/assets/icons/phosphor/fill/rabbit-fill.svg" alt="Vusi" style="width: 100%; height: 100%; filter: brightness(0) saturate(100%) invert(38%) sepia(98%) saturate(1500%) hue-rotate(202deg) brightness(94%) contrast(95%);">
+        </div>
         <div speech-bubble pleft acenter style="--bbColor:#FFFFFF">
           <div class="bubble-text">The monomers that make up DNA and RNA are called __________.</div>
         </div>
@@ -81,7 +88,7 @@
         </div>
       </div>
       <div class="footer">
-        <button class="check-button" id="check-button-3" disabled>Check</button>
+        <button class="btn btn-carpenter-blue check-button" id="check-button-3" disabled>Check</button>
       </div>
     </div>
 
@@ -91,7 +98,7 @@
       <div class="question" id="question-text-4">Which of the following is not a component of a nucleotide?</div>
       <div class="options-container" id="options-container-4"></div>
       <div class="footer">
-        <button class="check-button" id="check-button-4" disabled>Check</button>
+        <button class="btn btn-carpenter-blue check-button" id="check-button-4" disabled>Check</button>
       </div>
     </div>
 
@@ -104,7 +111,7 @@
         <div class="expand-hint"><i>Tap any image to expand for a closer look</i></div>
       </div>
       <div class="footer">
-        <button id="check-button-5" class="check-button" disabled>Check</button>
+        <button id="check-button-5" class="btn btn-carpenter-blue check-button" disabled>Check</button>
       </div>
     </div>
 
@@ -115,7 +122,7 @@
         <div class="column" id="leftColumn"></div>
         <div class="column" id="rightColumn"></div>
       </div>
-      <button class="matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button>
+      <button class="btn btn-carpenter-blue matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button>
       <div class="feedback-overlay" id="feedbackOverlay">
         <div class="matching-feedback" id="feedbackPanel">
           <div class="result-main">
@@ -124,7 +131,7 @@
             <span class="material-symbols-outlined material-icon" id="notesIcon">stylus_note</span>
           </div>
           <div class="feedback-subtitle" id="feedbackMessage">Let's try that again</div>
-          <button class="feedback-button" id="tryAgainBtn">Try Again</button>
+          <button class="btn btn-ladybug-solid feedback-button" id="tryAgainBtn">Try Again</button>
         </div>
       </div>
     </div>
