@@ -1,0 +1,121 @@
+/* ===== VULANET BASE STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, var(--arctic) 0%, var(--arctic) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--basalt);
+  padding: var(--space-md);
+  line-height: 1.4;
+}
+
+.quiz-container {
+  width: 100%;
+  max-width: 700px;
+  background: var(--cloud);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Streak Counter */
+.streak-counter {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: var(--space-sm);
+  color: var(--primary);
+  min-height: 1.5rem;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: 1.8rem;
+}
+
+.header .ph-x {
+  font-size: 1.5rem;
+  color: var(--koala);
+  cursor: pointer;
+}
+
+.progress-bar-container {
+  flex-grow: 1;
+  height: 1rem;
+  background-color: var(--beluga);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: var(--radius-sm);
+  transition: width var(--transition-slow);
+}
+
+.lives-container {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--error);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.lives-container .ph-heart {
+  font-size: 1.5rem;
+}
+
+/* Section Headers */
+.quiz-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1.8rem 0;
+  color: var(--basalt);
+}
+
+/* Footer */
+.footer {
+  margin-top: 1.4rem;
+}
+
+/* Icon Container */
+.icon-container {
+  color: var(--primary);
+  font-size: clamp(3rem, 6vw, 4rem);
+  margin-bottom: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+  .quiz-container {
+    padding: 1.2rem;
+  }
+  
+  .icon-container {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .quiz-container {
+    padding: 1rem;
+  }
+}
