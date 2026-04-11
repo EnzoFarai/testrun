@@ -1,0 +1,60 @@
+/* ===== VULANET COLOR VARIABLES ===== */
+:root {
+  /* Primary brand colors */
+  --carpenter-blue: #4285F4;
+  --belly-blue: #7B9FE0;
+  --basalt: #4B4B4B;
+  --cloud: #FFFFFF;
+  
+  /* Accent colors */
+  --gecko: #1CB0F6;
+  --ladybug: #EA4335;
+  --bee: #FBBC05;
+  --tiger: #FF6D01;
+  --beetle: #AA00FF;
+  --boa: #34A853;
+  
+  /* Neutral grays */
+  --hippo: #777777;
+  --koala: #AFAFAF;
+  --beluga: #E5E5E5;
+  --arctic: #F7F7F7;
+  
+  /* Semantic aliases */
+  --primary: var(--carpenter-blue);
+  --primary-dark: #3A75D9;
+  --primary-darker: #2d5bb5;
+  --success: var(--boa);
+  --success-dark: #2E7D32;
+  --success-light: #D7FFB8;
+  --error: var(--ladybug);
+  --error-dark: #D3382C;
+  --error-light: #FFDFE0;
+  --warning: var(--bee);
+  --info: var(--gecko);
+  --info-light: #E5F5FF;
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  
+  /* Border radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.12);
+  --shadow-button: 0 4px 0 rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
+}
