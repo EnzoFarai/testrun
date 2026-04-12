@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Mistakes</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #4B4B4B;
+    }
+    
+    .review-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 100%;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .review-speech-bubble {
+      --bbColor: white;
+      --bbArrowSize: clamp(1rem, 2.5vw, 1.2rem);
+      --bbBorderRadius: 0.4rem;
+      --bbPadding: clamp(1rem, 3vw, 1.2rem);
+      background: var(--bbColor);
+      border-radius: var(--bbBorderRadius);
+      padding: var(--bbPadding);
+      position: relative;
+      border: 2px solid #E5E5E5;
+      color: black;
+      width: 100%;
+      max-width: 320px;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+    }
+    
+    .review-speech-bubble::before,
+    .review-speech-bubble::after {
+      content: ''; 
+      position: absolute;
+      z-index: 1;
+    }
+    
+    .review-speech-bubble[pbottom] { margin-bottom: var(--bbArrowSize); }
+    
+    .review-speech-bubble[pbottom]::before {
+      top: 100%;
+      border: solid transparent;
+      border-width: var(--bbArrowSize) calc(var(--bbArrowSize) * 0.75) 0;
+      border-top-color: #E5E5E5;
+    }
+    
+    .review-speech-bubble[pbottom]::after {
+      top: calc(100% - 2px);
+      border: solid transparent;
+      border-width: calc(var(--bbArrowSize) - 2px) calc(var(--bbArrowSize) * 0.75 - 2px) 0;
+      border-top-color: var(--bbColor);
+    }
+    
+    .review-speech-bubble[pbottom][acenter]::before,
+    .review-speech-bubble[pbottom][acenter]::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .review-bubble-text {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      line-height: 1.4;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      font-weight: 400;
+      color: black;
+    }
+    
+    .review-icon-container {
+      color: #4285F4;
+      font-size: clamp(3.5rem, 8vw, 5rem);
+      flex-shrink: 0;
+    }
+    
+    .review-continue-btn {
+      width: 100%;
+      max-width: 300px;
+      padding: 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: white;
+      background-color: #4285F4;
+      border: none;
+      border-bottom: 0.25rem solid #3A75D9;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    }
+    
+    .review-continue-btn:hover {
+      background-color: #3A75D9;
+      border-bottom-color: #3166c4;
+      transform: translateY(-0.125rem);
+    }
+    
+    .review-continue-btn:active {
+      transform: translateY(0.0625rem);
+      border-bottom-width: 0.125rem;
+    }
+    
+    @media (max-width: 480px) {
+      .review-container {
+        padding: 1.5rem;
+      }
+      .review-icon-container {
+        font-size: 4rem;
+      }
+      .review-speech-bubble {
+        max-width: 280px;
+        min-height: 65px;
+      }
+      .review-bubble-text {
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 320px) {
+      .review-container {
+        padding: 1rem;
+      }
+      .review-icon-container {
+        font-size: 3.5rem;
+      }
+      .review-speech-bubble {
+        max-width: 260px;
+        min-height: 60px;
+      }
+      .review-bubble-text {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="review-container">
+    <div class="review-speech-bubble" pbottom acenter style="--bbColor:#FFFFFF">
+      <div class="review-bubble-text">
+        Practice makes perfect. Let's review your mistakes before we go ahead.
+      </div>
+    </div>
+    
+    <div class="review-icon-container">
+      <i class="ph-fill ph-rabbit"></i>
+    </div>
+    
+    <button class="review-continue-btn" id="continueBtn">Continue</button>
+  </div>
+
+  <script>
+    window.modalOnContinue = null;
+    document.getElementById('continueBtn').addEventListener('click', () => {
+      if (window.modalOnContinue) window.modalOnContinue();
+    });
+  </script>
+</body>
+</html>
