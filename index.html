@@ -926,19 +926,26 @@
       border-bottom-width: 0.125rem;
     }
     
-    /* Modal Container */
-    .modal-container {
+    /* Full-screen Modal Overlay */
+    .fullscreen-modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 2000;
+      background: white;
+      z-index: 10000;
       display: none;
     }
     
-    .modal-container.visible {
+    .fullscreen-modal-overlay.visible {
       display: block;
+    }
+    
+    .fullscreen-modal-overlay iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
     
     /* Mobile-specific adjustments */
@@ -1172,8 +1179,10 @@
     <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/incorrect.mp3" type="audio/mpeg">
   </audio>
   
-  <!-- Modal Container -->
-  <div id="modalContainer" class="modal-container"></div>
+  <!-- Full-screen Modal Overlay -->
+  <div id="fullscreenModalOverlay" class="fullscreen-modal-overlay">
+    <iframe id="modalIframe" src="about:blank"></iframe>
+  </div>
   
   <div class="quiz-container">
     <!-- Streak Counter -->
@@ -1430,7 +1439,8 @@
     const livesIconElement = document.getElementById('lives-icon');
     const closeBtn = document.getElementById('close-btn');
     const streakCounter = document.getElementById('streakCounter');
-    const modalContainer = document.getElementById('modalContainer');
+    const fullscreenOverlay = document.getElementById('fullscreenModalOverlay');
+    const modalIframe = document.getElementById('modalIframe');
     const questionSections = [document.getElementById('question1'), document.getElementById('question2'), document.getElementById('question3'), document.getElementById('question4'), document.getElementById('question5'), document.getElementById('question6')];
     
     const correctSound = document.getElementById('correctSound');
@@ -1444,8 +1454,7 @@
     let inRetryMode = false;
     let showedRetryMessage = false;
     let currentStreak = 0;
-    let pendingCelebrationCallback = null;
-    let pendingRetryCallback = null;
+    let pendingModalCallback = null;
 
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -1469,71 +1478,40 @@
     }
 
     function showModal(modalUrl, onClose) {
-      fetch(modalUrl)
-        .then(response => response.text())
-        .then(html => {
-          modalContainer.innerHTML = html;
-          modalContainer.classList.add('visible');
-          
-          const closeModal = () => {
-            modalContainer.classList.remove('visible');
-            setTimeout(() => { modalContainer.innerHTML = ''; }, 300);
-            if (onClose) onClose();
-          };
-          
-          const script = modalContainer.querySelector('script');
-          if (script) {
-            const newScript = document.createElement('script');
-            newScript.textContent = script.textContent;
-            document.body.appendChild(newScript);
-            setTimeout(() => {
-              if (window.modalOnContinue) {
-                window.modalOnContinue = closeModal;
-              }
-              if (window.modalOnQuit) {
-                window.modalOnQuit = () => {
-                  window.location.href = 'https://vulanet.vercel.app/lesson';
-                };
-              }
-            }, 50);
-          }
-          
-          const continueBtn = modalContainer.querySelector('#continueBtn, #modalContinueBtn');
-          if (continueBtn) {
-            continueBtn.onclick = closeModal;
-          }
-          
-          const keepGoingBtn = modalContainer.querySelector('#keepGoingBtn');
-          if (keepGoingBtn) {
-            keepGoingBtn.onclick = closeModal;
-          }
-          
-          const quitBtn = modalContainer.querySelector('#quitBtn');
-          if (quitBtn) {
-            quitBtn.onclick = () => {
-              window.location.href = 'https://vulanet.vercel.app/lesson';
-            };
-          }
-        })
-        .catch(error => console.error('Error loading modal:', error));
+      modalIframe.src = modalUrl;
+      fullscreenOverlay.classList.add('visible');
+      
+      const messageHandler = (event) => {
+        if (event.data === 'modalClose') {
+          window.removeEventListener('message', messageHandler);
+          fullscreenOverlay.classList.remove('visible');
+          modalIframe.src = 'about:blank';
+          if (onClose) onClose();
+        } else if (event.data === 'modalQuit') {
+          window.removeEventListener('message', messageHandler);
+          window.location.href = 'https://vulanet.vercel.app/lesson';
+        }
+      };
+      
+      window.addEventListener('message', messageHandler);
     }
 
     function showCelebrationModal(streakCount, onContinue) {
-      pendingCelebrationCallback = onContinue;
-      showModal('answer-streak.html?streak=' + streakCount, () => {
-        if (pendingCelebrationCallback) {
-          pendingCelebrationCallback();
-          pendingCelebrationCallback = null;
+      pendingModalCallback = onContinue;
+      showModal(`answer-streak.html?streak=${streakCount}`, () => {
+        if (pendingModalCallback) {
+          pendingModalCallback();
+          pendingModalCallback = null;
         }
       });
     }
 
     function showRetryModal(onContinue) {
-      pendingRetryCallback = onContinue;
+      pendingModalCallback = onContinue;
       showModal('review-questions.html', () => {
-        if (pendingRetryCallback) {
-          pendingRetryCallback();
-          pendingRetryCallback = null;
+        if (pendingModalCallback) {
+          pendingModalCallback();
+          pendingModalCallback = null;
         }
       });
     }
@@ -1729,7 +1707,7 @@
         };
         
       } else if (actualQuestionIndex === 1) {
-        // Question 2 - Complete Sentence
+        // Question 2 - Complete Sentence (simplified for brevity - same as before)
         const blank21 = document.getElementById('blank-2-1');
         const blank22 = document.getElementById('blank-2-2');
         const optionsContainer2 = document.getElementById('options-2');
@@ -1754,7 +1732,6 @@
           const button = document.createElement('button');
           button.className = 'option-button';
           button.dataset.value = opt.value;
-          button.dataset.idx = idx;
           const label = document.createElement('span');
           label.textContent = opt.label;
           button.appendChild(label);
@@ -1769,7 +1746,7 @@
             if (filledBlanks2[0] === null) { blankIndex = 0; targetBlank = blank21; }
             else if (filledBlanks2[1] === null) { blankIndex = 1; targetBlank = blank22; }
             if (blankIndex === -1) return;
-            filledBlanks2[blankIndex] = { value: opt.value, label: opt.label, idx: idx };
+            filledBlanks2[blankIndex] = { value: opt.value, label: opt.label };
             targetBlank.textContent = opt.label;
             targetBlank.classList.add('filled');
             button.classList.add('used-option');
@@ -1778,29 +1755,8 @@
           optionsContainer2.appendChild(button);
         });
         
-        blank21.onclick = function() {
-          if (answered || !filledBlanks2[0]) return;
-          const blankData = filledBlanks2[0];
-          if (!blankData) return;
-          const button = optionButtons2.find(btn => btn.dataset.value === blankData.value);
-          if (button) button.classList.remove('used-option');
-          blank21.textContent = '';
-          blank21.classList.remove('filled', 'correct', 'incorrect');
-          filledBlanks2[0] = null;
-          checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null;
-        };
-        
-        blank22.onclick = function() {
-          if (answered || !filledBlanks2[1]) return;
-          const blankData = filledBlanks2[1];
-          if (!blankData) return;
-          const button = optionButtons2.find(btn => btn.dataset.value === blankData.value);
-          if (button) button.classList.remove('used-option');
-          blank22.textContent = '';
-          blank22.classList.remove('filled', 'correct', 'incorrect');
-          filledBlanks2[1] = null;
-          checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null;
-        };
+        blank21.onclick = function() { if (answered || !filledBlanks2[0]) return; const button = optionButtons2.find(btn => btn.dataset.value === filledBlanks2[0].value); if (button) button.classList.remove('used-option'); blank21.textContent = ''; blank21.classList.remove('filled', 'correct', 'incorrect'); filledBlanks2[0] = null; checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null; };
+        blank22.onclick = function() { if (answered || !filledBlanks2[1]) return; const button = optionButtons2.find(btn => btn.dataset.value === filledBlanks2[1].value); if (button) button.classList.remove('used-option'); blank22.textContent = ''; blank22.classList.remove('filled', 'correct', 'incorrect'); filledBlanks2[1] = null; checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null; };
         
         checkButton2.onclick = function() {
           if (answered || !filledBlanks2[0] || !filledBlanks2[1]) return;
@@ -1997,7 +1953,7 @@
         };
         
       } else if (actualQuestionIndex === 5) {
-        // Question 6 - Matching Pairs Game
+        // Question 6 - Matching Pairs Game (simplified for brevity)
         const leftColumn = document.getElementById('leftColumn');
         const rightColumn = document.getElementById('rightColumn');
         const feedbackOverlay = document.getElementById('feedbackOverlay');
