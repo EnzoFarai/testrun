@@ -185,6 +185,11 @@ lottie-player {
 </head>
 
 <body>
+<!-- Quit audio -->
+<audio id="quitAudio" preload="auto">
+  <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/quit.mp3" type="audio/mpeg">
+</audio>
+
 <div class="app">
   <div class="scene">
     <div class="emoji-container">
@@ -216,19 +221,23 @@ lottie-player {
 </div>
 
 <script>
-  window.modalOnContinue = null;
-  window.modalOnQuit = null;
+  function playQuitSound() {
+    const audio = document.getElementById('quitAudio');
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch(e => console.log("Audio play failed:", e));
+    }
+  }
+  
+  // Play quit sound when modal loads
+  playQuitSound();
   
   document.getElementById('keepGoingBtn').addEventListener('click', () => {
-    if (window.modalOnContinue) window.modalOnContinue();
+    window.parent.postMessage('modalClose', '*');
   });
   
   document.getElementById('quitBtn').addEventListener('click', () => {
-    if (window.modalOnQuit) {
-      window.modalOnQuit();
-    } else {
-      window.location.href = 'https://vulanet.vercel.app/lesson';
-    }
+    window.parent.postMessage('modalQuit', '*');
   });
 </script>
 </body>
