@@ -160,6 +160,11 @@
   </style>
 </head>
 <body>
+  <!-- Rewind audio -->
+  <audio id="rewindAudio" preload="auto">
+    <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/rewind.mp3" type="audio/mpeg">
+  </audio>
+  
   <div class="review-container">
     <div class="review-speech-bubble" pbottom acenter style="--bbColor:#FFFFFF">
       <div class="review-bubble-text">
@@ -175,9 +180,19 @@
   </div>
 
   <script>
-    window.modalOnContinue = null;
+    function playRewindSound() {
+      const audio = document.getElementById('rewindAudio');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Audio play failed:", e));
+      }
+    }
+    
+    // Play rewind sound when modal loads
+    playRewindSound();
+    
     document.getElementById('continueBtn').addEventListener('click', () => {
-      if (window.modalOnContinue) window.modalOnContinue();
+      window.parent.postMessage('modalClose', '*');
     });
   </script>
 </body>
