@@ -166,6 +166,11 @@
   </style>
 </head>
 <body>
+  <!-- Clapping audio -->
+  <audio id="clappingAudio" preload="auto">
+    <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/clapping.mp3" type="audio/mpeg">
+  </audio>
+  
   <div class="celebration-container">
     <div class="celebration-speech-bubble" pbottom acenter style="--bbColor:#FFFFFF">
       <div class="celebration-bubble-text" id="celebrationMessage"></div>
@@ -179,6 +184,14 @@
   </div>
 
   <script>
+    function playClappingSound() {
+      const audio = document.getElementById('clappingAudio');
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(e => console.log("Audio play failed:", e));
+      }
+    }
+    
     function getMessageForStreak(streak) {
       switch(streak) {
         case 5: return "5 in a row! Fantastic!";
@@ -196,9 +209,11 @@
     const messageElement = document.getElementById('celebrationMessage');
     messageElement.textContent = getMessageForStreak(streakCount);
     
-    window.modalOnContinue = null;
+    // Play clapping sound when modal loads
+    playClappingSound();
+    
     document.getElementById('continueBtn').addEventListener('click', () => {
-      if (window.modalOnContinue) window.modalOnContinue();
+      window.parent.postMessage('modalClose', '*');
     });
   </script>
 </body>
