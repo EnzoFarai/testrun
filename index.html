@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Introduction to Nucleic Acids</title>
+  <title>DNA & RNA Biology Quiz</title>
   
   <!-- Atkinson Hyperlegible Next Font -->
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   
   <style>
-    /* All original styles remain exactly as provided */
+    /* ALL ORIGINAL STYLES - PRESERVED COMPLETELY */
     * {
       margin: 0;
       padding: 0;
@@ -1116,7 +1116,7 @@
   <div class="result-overlay" id="resultOverlay-5"><div class="result-container" id="resultContainer-5"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-5"></span><div class="result-header" id="resultHeader-5"></div><span class="material-symbols-outlined material-icon" id="actionIcon-5"></span></div><div class="explanation-content" id="explanationContainer-5"></div><button class="result-continue-btn" id="resultContinueBtn-5">Continue</button></div></div>
 
   <script>
-    // ---------- QUESTION DATA ----------
+    // ---------- ORIGINAL QUESTION DATA (PRESERVED) ----------
     const questions = [
       { id: 1, type: "multiple-choice", correctAnswer: 'Nucleus', explanation: "The nucleus contains most of the cell's DNA within the chromatin network. The cytoplasm and ribosomes do not store DNA, and the nuclear membrane only encloses the nucleus.", options: ['Cytoplasm', 'Ribosomes', 'Nucleus', 'Nuclear membrane'] },
       { id: 2, type: "complete-sentence", options: [{ label: "is the site of protein synthesis", value: "protein_synthesis" }, { label: "contains DNA", value: "contains_dna" }, { label: "produces ribosomes", value: "produces_ribosomes" }, { label: "is the site of most metabolic reactions", value: "metabolic_reactions" }], correctAnswers: ["contains_dna", "produces_ribosomes"], explanation: "The nucleus contains the cell's DNA and produces ribosomes in the nucleolus. Protein synthesis occurs at ribosomes, and most metabolic reactions take place in the cytoplasm, not the nucleus." },
@@ -1149,16 +1149,14 @@
     let inRetryMode = false;
     let showedRetryMessage = false;
     let currentStreak = 0;
-    let pendingModalCallback = null;
     let shouldShowCelebrationAfterExplanation = false;
     let pendingCelebrationStreak = null;
 
-    // ---------- TRACKING VARIABLES ----------
-    let quizStartTime = null;
+    // ---------- TRACKING VARIABLES (NEW) ----------
+    let quizStartTime = Date.now();
     let quizCompleted = false;
-    let totalAttempts = 0;          // each "Check" click counts
-    let correctFinalAttempts = 0;   // number of questions answered correctly on final attempt (max 6)
-    let questionFinalCorrect = [false, false, false, false, false, false]; // index 0-5
+    let totalAttempts = 0;
+    let questionFinalCorrect = [false, false, false, false, false, false];
 
     // ---------- HELPER FUNCTIONS ----------
     function shuffleArray(array) {
@@ -1194,17 +1192,16 @@
           if (onClose) onClose();
         } else if (event.data === 'modalQuit') {
           window.removeEventListener('message', messageHandler);
-          window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences/introduction-to-nucleic-acids';
+          window.location.href = 'https://vulanet.vercel.app/lesson';
         } else if (event.data && event.data.type === 'refillHearts') {
-          // Refill hearts and reset current question
           window.removeEventListener('message', messageHandler);
           fullscreenOverlay.classList.remove('visible');
           modalIframe.src = 'about:blank';
           lives = 5;
           livesCountElement.textContent = lives;
           updateHeartIcon();
-          // Reset the current question (the one that caused out-of-hearts)
-          resetCurrentQuestionToOriginal();
+          // Reset current question to original state
+          resetCurrentQuestion();
           if (onClose) onClose();
         }
       };
@@ -1212,10 +1209,9 @@
       window.addEventListener('message', messageHandler);
     }
 
-    function resetCurrentQuestionToOriginal() {
-      const actualIndex = getCurrentQuestionIndex();
-      // Force a full re-render of the current question
-      showQuestion(currentQuestion, true); // pass reset flag
+    function resetCurrentQuestion() {
+      // Force re-render of current question
+      showQuestion(currentQuestion, true);
     }
 
     function showCelebrationModal(streakCount, onContinue) {
@@ -1226,8 +1222,8 @@
       showModal('review-questions.html', onContinue);
     }
 
-    function showRefillHeartsModal(onRefillComplete) {
-      showModal('refill-hearts.html', onRefillComplete);
+    function showRefillHeartsModal(onComplete) {
+      showModal('refill-hearts.html', onComplete);
     }
 
     function showLessonCompleteModal(correctAttempts, totalAttempts, timeSeconds, boost, onComplete) {
@@ -1305,6 +1301,30 @@
       updateStreakCounter();
     }
 
+    function finishQuiz() {
+      if (quizCompleted) return;
+      quizCompleted = true;
+      const endTime = Date.now();
+      const timeSeconds = Math.floor((endTime - quizStartTime) / 1000);
+      
+      let finalCorrect = 0;
+      for (let i = 0; i < questionFinalCorrect.length; i++) {
+        if (questionFinalCorrect[i]) finalCorrect++;
+      }
+      
+      const boost = null; // No boost for now
+      
+      showLessonCompleteModal(finalCorrect, totalAttempts, timeSeconds, boost, () => {
+        showAchievementModal(() => {
+          showStreakModal(() => {
+            showDailyQuestModal(finalCorrect, totalAttempts, () => {
+              window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences/introduction-to-nucleic-acids';
+            });
+          });
+        });
+      });
+    }
+
     function showResultOverlay(questionNumber, isCorrect, explanationHTML, onComplete) {
       const overlay = document.getElementById(`resultOverlay-${questionNumber}`);
       const container = document.getElementById(`resultContainer-${questionNumber}`);
@@ -1340,7 +1360,6 @@
       continueBtn.onclick = function() {
         overlay.classList.remove('visible');
         
-        // After explanation closes, check if we need to show celebration
         const celebrationShown = checkAndShowCelebration(() => {
           if (onComplete) onComplete();
         });
@@ -1359,7 +1378,6 @@
           retryQueue = [];
           showedRetryMessage = false;
           currentQuestion = 0;
-          // Quiz fully completed
           finishQuiz();
           return false;
         }
@@ -1390,35 +1408,8 @@
       }
     }
 
-    function finishQuiz() {
-      if (quizCompleted) return;
-      quizCompleted = true;
-      const endTime = Date.now();
-      const timeSeconds = Math.floor((endTime - quizStartTime) / 1000);
-      
-      // Calculate correctFinalAttempts (count of true in questionFinalCorrect)
-      let finalCorrect = 0;
-      for (let i = 0; i < questionFinalCorrect.length; i++) {
-        if (questionFinalCorrect[i]) finalCorrect++;
-      }
-      
-      // No boost for now
-      const boost = null;
-      
-      // Show modals in sequence
-      showLessonCompleteModal(finalCorrect, totalAttempts, timeSeconds, boost, () => {
-        showAchievementModal(() => {
-          showStreakModal(() => {
-            showDailyQuestModal(finalCorrect, totalAttempts, () => {
-              window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences/introduction-to-nucleic-acids';
-            });
-          });
-        });
-      });
-    }
-
-    // Modified showQuestion to accept optional reset flag
-    function showQuestion(questionIndex, forceReset = false) {
+    // ---------- showQuestion (MODIFIED TO TRACK ATTEMPTS) ----------
+    function showQuestion(questionIndex) {
       questionSections.forEach(section => { section.style.display = 'none'; });
       
       const actualQuestionIndex = getCurrentQuestionIndex();
@@ -1437,7 +1428,7 @@
       updateStreakCounter();
       
       if (actualQuestionIndex === 0) {
-        // Question 1 - Multiple Choice (same as original but with tracking integration)
+        // Question 1 - Multiple Choice
         const optionButtons1 = document.querySelectorAll('#options-container-1 .option-button');
         const checkButton1 = document.getElementById('check-button-1');
         
@@ -1463,16 +1454,14 @@
         checkButton1.onclick = function() {
           if (!selectedOption || answered) return;
           answered = true;
-          totalAttempts++; // increment total attempts
+          totalAttempts++;
           
           const correctButton = Array.from(optionButtons1).find(btn => btn.dataset.value === questions[0].correctAnswer);
           if (correctButton) correctButton.classList.add('correct');
 
           if (selectedOption === questions[0].correctAnswer) {
+            if (!questionFinalCorrect[0]) questionFinalCorrect[0] = true;
             playSound(true);
-            if (!questionFinalCorrect[0]) {
-              questionFinalCorrect[0] = true;
-            }
             handleCorrectAnswer(() => {});
             showResultOverlay(1, true, 0, moveToNextQuestion);
           } else {
@@ -1487,16 +1476,12 @@
               livesCountElement.textContent = lives; 
               updateHeartIcon();
               if (lives === 0) {
-                // Show refill hearts modal after this explanation
-                const originalOnComplete = moveToNextQuestion;
                 showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[0].explanation}</span></div>`, () => {
                   showRefillHeartsModal(() => {
-                    // Refill done, reset lives to 5 and reset current question
                     lives = 5;
                     livesCountElement.textContent = lives;
                     updateHeartIcon();
-                    // Reset the question state
-                    resetCurrentQuestionToOriginal();
+                    resetCurrentQuestion();
                   });
                 });
                 return;
@@ -1506,18 +1491,462 @@
           }
           optionButtons1.forEach(button => { button.disabled = true; button.style.cursor = 'not-allowed'; });
         };
-      } 
-      // ... (similar modifications for questions 2-5 and matching game to track attempts and final correctness)
-      // For brevity, I'll show the essential changes: increment totalAttempts on each check,
-      // mark questionFinalCorrect[index] = true only when answer is correct and not already correct,
-      // and handle lives=0 by showing refill modal after the explanation overlay.
-      // The full implementation would replicate the same pattern for all 6 questions.
-      // Due to length constraints, I'll provide the complete modified index.html in the final answer.
-    }
+        
+      } else if (actualQuestionIndex === 1) {
+        // Question 2 - Complete Sentence (MODIFIED with tracking)
+        const blank21 = document.getElementById('blank-2-1');
+        const blank22 = document.getElementById('blank-2-2');
+        const optionsContainer2 = document.getElementById('options-2');
+        const checkButton2 = document.getElementById('check-button-2');
+        
+        blank21.textContent = '';
+        blank22.textContent = '';
+        blank21.classList.remove('filled', 'correct', 'incorrect');
+        blank22.classList.remove('filled', 'correct', 'incorrect');
+        
+        checkButton2.disabled = true;
+        checkButton2.textContent = 'Check';
+        
+        optionsContainer2.innerHTML = '';
+        let filledBlanks2 = [null, null];
+        let optionButtons2 = [];
+        
+        const shuffledOptions = [...questions[1].options];
+        shuffleArray(shuffledOptions);
+        
+        shuffledOptions.forEach((opt, idx) => {
+          const button = document.createElement('button');
+          button.className = 'option-button';
+          button.dataset.value = opt.value;
+          const label = document.createElement('span');
+          label.textContent = opt.label;
+          button.appendChild(label);
+          optionButtons2.push(button);
+          
+          button.onclick = function() {
+            if (answered) return;
+            const isAlreadyUsed = filledBlanks2.some(blank => blank && blank.value === opt.value);
+            if (isAlreadyUsed) return;
+            let blankIndex = -1;
+            let targetBlank = null;
+            if (filledBlanks2[0] === null) { blankIndex = 0; targetBlank = blank21; }
+            else if (filledBlanks2[1] === null) { blankIndex = 1; targetBlank = blank22; }
+            if (blankIndex === -1) return;
+            filledBlanks2[blankIndex] = { value: opt.value, label: opt.label };
+            targetBlank.textContent = opt.label;
+            targetBlank.classList.add('filled');
+            button.classList.add('used-option');
+            checkButton2.disabled = false;
+          };
+          optionsContainer2.appendChild(button);
+        });
+        
+        blank21.onclick = function() { if (answered || !filledBlanks2[0]) return; const button = optionButtons2.find(btn => btn.dataset.value === filledBlanks2[0].value); if (button) button.classList.remove('used-option'); blank21.textContent = ''; blank21.classList.remove('filled', 'correct', 'incorrect'); filledBlanks2[0] = null; checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null; };
+        blank22.onclick = function() { if (answered || !filledBlanks2[1]) return; const button = optionButtons2.find(btn => btn.dataset.value === filledBlanks2[1].value); if (button) button.classList.remove('used-option'); blank22.textContent = ''; blank22.classList.remove('filled', 'correct', 'incorrect'); filledBlanks2[1] = null; checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null; };
+        
+        checkButton2.onclick = function() {
+          if (answered || !filledBlanks2[0] || !filledBlanks2[1]) return;
+          answered = true;
+          totalAttempts++;
+          
+          const userAnswer1 = filledBlanks2[0].value;
+          const userAnswer2 = filledBlanks2[1].value;
+          const isCorrect = (userAnswer1 === questions[1].correctAnswers[0] && userAnswer2 === questions[1].correctAnswers[1]) || (userAnswer1 === questions[1].correctAnswers[1] && userAnswer2 === questions[1].correctAnswers[0]);
+          playSound(isCorrect);
+          optionButtons2.forEach(btn => { btn.disabled = true; btn.style.cursor = 'not-allowed'; });
+          
+          if (isCorrect) {
+            if (!questionFinalCorrect[1]) questionFinalCorrect[1] = true;
+            blank21.classList.add('correct');
+            blank22.classList.add('correct');
+            optionButtons2.forEach(btn => { if (btn.dataset.value === questions[1].correctAnswers[0] || btn.dataset.value === questions[1].correctAnswers[1]) btn.classList.add('correct'); });
+            handleCorrectAnswer(() => {});
+            showResultOverlay(2, true, 1, moveToNextQuestion);
+          } else {
+            blank21.classList.add('incorrect');
+            blank22.classList.add('incorrect');
+            if (!retryQueue.includes(1)) retryQueue.push(1);
+            else if (inRetryMode) retryQueue.push(1);
+            handleIncorrectAnswer();
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[1].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
+              }
+            }
+            optionButtons2.forEach(btn => { if (btn.dataset.value === questions[1].correctAnswers[0] || btn.dataset.value === questions[1].correctAnswers[1]) btn.classList.add('correct'); });
+            showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[1].explanation}</span></div>`, moveToNextQuestion);
+          }
+        };
+        
+      } else if (actualQuestionIndex === 2) {
+        // Question 3 - Fill in the blank (MODIFIED with tracking)
+        const nucleotideAnswerInput = document.getElementById('nucleotide-answer-input');
+        const checkButton3 = document.getElementById('check-button-3');
+        
+        nucleotideAnswerInput.value = '';
+        nucleotideAnswerInput.classList.remove('correct', 'incorrect');
+        nucleotideAnswerInput.disabled = false;
+        checkButton3.disabled = true;
+        checkButton3.textContent = 'Check';
+        
+        nucleotideAnswerInput.oninput = function() {
+          checkButton3.disabled = !nucleotideAnswerInput.value.trim();
+          if (answered) { nucleotideAnswerInput.classList.remove('correct', 'incorrect'); answered = false; }
+        };
+        
+        nucleotideAnswerInput.onkeypress = function(e) { if (e.key === 'Enter' && !checkButton3.disabled) checkButton3.click(); };
+        
+        checkButton3.onclick = function() {
+          answered = true;
+          totalAttempts++;
+          const userAnswer = normalizeAnswer(nucleotideAnswerInput.value.trim());
+          const isCorrect = questions[2].acceptableAnswers.some(acceptable => userAnswer === normalizeAnswer(acceptable));
+          playSound(isCorrect);
+          
+          if (isCorrect) {
+            if (!questionFinalCorrect[2]) questionFinalCorrect[2] = true;
+            nucleotideAnswerInput.classList.add('correct');
+            handleCorrectAnswer(() => {});
+            showResultOverlay(3, true, 2, moveToNextQuestion);
+          } else {
+            if (!retryQueue.includes(2)) retryQueue.push(2);
+            else if (inRetryMode) retryQueue.push(2);
+            handleIncorrectAnswer();
+            nucleotideAnswerInput.classList.add('incorrect');
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
+              }
+            }
+            showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`, moveToNextQuestion);
+          }
+          nucleotideAnswerInput.disabled = true;
+        };
+        nucleotideAnswerInput.focus();
+        
+      } else if (actualQuestionIndex === 3) {
+        // Question 4 - Multiple Choice (MODIFIED with tracking)
+        const container4 = document.getElementById('options-container-4');
+        const checkButton4 = document.getElementById('check-button-4');
+        
+        checkButton4.disabled = true;
+        checkButton4.textContent = 'Check';
+        
+        const options4 = [{ label: 'Phosphate group', value: 'Phosphate group' }, { label: 'Amino acid', value: 'Amino acid' }, { label: 'Sugar molecule', value: 'Sugar molecule' }, { label: 'Nitrogenous base', value: 'Nitrogenous base' }];
+        shuffleArray(options4);
+        container4.innerHTML = '';
+        
+        options4.forEach(opt => {
+          const button = document.createElement('button');
+          button.className = 'option-button';
+          button.dataset.value = opt.value;
+          button.textContent = opt.label;
+          container4.appendChild(button);
+          button.onclick = function() {
+            if (answered) return;
+            document.querySelectorAll('#options-container-4 .option-button').forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedOption = this.dataset.value;
+            checkButton4.disabled = false;
+          };
+        });
+        
+        checkButton4.onclick = function() {
+          if (!selectedOption) return;
+          answered = true;
+          totalAttempts++;
+          const optionButtons4 = document.querySelectorAll('#options-container-4 .option-button');
+          const correctButton = Array.from(optionButtons4).find(btn => btn.dataset.value === questions[3].correctAnswer);
+          if (correctButton) correctButton.classList.add('correct');
 
-    // Initialize quiz timer
-    function startQuizTimer() {
-      quizStartTime = Date.now();
+          if (selectedOption === questions[3].correctAnswer) {
+            if (!questionFinalCorrect[3]) questionFinalCorrect[3] = true;
+            playSound(true);
+            handleCorrectAnswer(() => {});
+            showResultOverlay(4, true, 3, moveToNextQuestion);
+          } else {
+            playSound(false);
+            if (!retryQueue.includes(3)) retryQueue.push(3);
+            else if (inRetryMode) retryQueue.push(3);
+            handleIncorrectAnswer();
+            const selectedButton = Array.from(optionButtons4).find(btn => btn.dataset.value === selectedOption);
+            if (selectedButton) selectedButton.classList.add('incorrect');
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
+              }
+            }
+            showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`, moveToNextQuestion);
+          }
+          optionButtons4.forEach(button => { button.disabled = true; button.style.cursor = 'not-allowed'; });
+        };
+        
+      } else if (actualQuestionIndex === 4) {
+        // Question 5 - Image Selection (MODIFIED with tracking)
+        const imageTiles = document.querySelectorAll('#question5 .image-tile');
+        const imageContainers = document.querySelectorAll('#question5 .image-container');
+        const checkButton5 = document.getElementById('check-button-5');
+        const imageZoomModal = document.getElementById('imageZoomModal');
+        const zoomedImage = document.getElementById('zoomedImage');
+        const zoomImageLabel = document.getElementById('zoomImageLabel');
+        const zoomCloseBtn = document.getElementById('zoomCloseBtn');
+        
+        let imageSelectionState = { selectedImage: null, answered: false };
+        
+        imageTiles.forEach(tile => {
+          tile.classList.remove('selected', 'correct', 'incorrect');
+          tile.style.cursor = 'pointer';
+        });
+        
+        checkButton5.disabled = true;
+        checkButton5.textContent = 'Check';
+        
+        imageTiles.forEach(tile => {
+          tile.onclick = function(e) {
+            if (imageSelectionState.answered) return;
+            if (e.target.closest('.image-container')) return;
+            imageTiles.forEach(t => t.classList.remove('selected'));
+            this.classList.add('selected');
+            imageSelectionState.selectedImage = parseInt(this.dataset.image);
+            checkButton5.disabled = false;
+          };
+        });
+        
+        imageContainers.forEach(container => {
+          container.onclick = function(e) {
+            e.stopPropagation();
+            const imageNumber = parseInt(this.dataset.image);
+            const imgElement = this.querySelector('img');
+            if (imgElement && imgElement.src) {
+              zoomedImage.src = imgElement.src;
+              zoomImageLabel.textContent = `Image ${imageNumber}`;
+              imageZoomModal.classList.add('visible');
+              document.addEventListener('keydown', function handleEscapeKey(e) {
+                if (e.key === 'Escape') { imageZoomModal.classList.remove('visible'); zoomedImage.src = ''; document.removeEventListener('keydown', handleEscapeKey); }
+              });
+            }
+          };
+        });
+        
+        function closeImageZoom() { imageZoomModal.classList.remove('visible'); zoomedImage.src = ''; }
+        imageZoomModal.onclick = function(e) { if (e.target === imageZoomModal) closeImageZoom(); };
+        zoomCloseBtn.onclick = closeImageZoom;
+        
+        checkButton5.onclick = function() {
+          if (imageSelectionState.selectedImage === null || imageSelectionState.answered) return;
+          imageSelectionState.answered = true;
+          totalAttempts++;
+          imageTiles.forEach(tile => tile.style.cursor = 'default');
+          imageTiles.forEach(tile => {
+            const imageNum = parseInt(tile.dataset.image);
+            if (imageNum === questions[4].correctAnswer) tile.classList.add('correct');
+            else if (imageNum === imageSelectionState.selectedImage && imageSelectionState.selectedImage !== questions[4].correctAnswer) tile.classList.add('incorrect');
+            tile.classList.remove('selected');
+          });
+          const isCorrect = imageSelectionState.selectedImage === questions[4].correctAnswer;
+          playSound(isCorrect);
+          
+          if (isCorrect) {
+            if (!questionFinalCorrect[4]) questionFinalCorrect[4] = true;
+            handleCorrectAnswer(() => {});
+            showResultOverlay(5, true, `<div class="explanation-section"><span class="explanation-text">${questions[4].explanation}</span></div>`, moveToNextQuestion);
+          } else {
+            if (!retryQueue.includes(4)) retryQueue.push(4);
+            else if (inRetryMode) retryQueue.push(4);
+            handleIncorrectAnswer();
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
+              }
+            }
+            showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`, moveToNextQuestion);
+          }
+        };
+        
+      } else if (actualQuestionIndex === 5) {
+        // Question 6 - Matching Pairs Game (MODIFIED with tracking)
+        const leftColumn = document.getElementById('leftColumn');
+        const rightColumn = document.getElementById('rightColumn');
+        const feedbackOverlay = document.getElementById('feedbackOverlay');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+        const matchingContinueBtn = document.getElementById('matchingContinueBtn');
+        const cancelIcon = document.getElementById('cancelIcon');
+        const notesIcon = document.getElementById('notesIcon');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        
+        let selectedLeftCard = null;
+        let selectedRightCard = null;
+        let matchedPairs = 0;
+        let matchingGameActive = true;
+        let matchingGameLifeLost = false;
+        let celebrationShownForMatching = false;
+        let matchingCompleted = false;
+        const totalPairs = pairs.length;
+        
+        leftColumn.innerHTML = '';
+        rightColumn.innerHTML = '';
+        
+        const shuffledPairs = shuffleArray([...pairs]);
+        
+        shuffledPairs.forEach((pair, index) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = index;
+          card.dataset.type = 'term';
+          card.textContent = pair.term;
+          leftColumn.appendChild(card);
+          card.onclick = function() {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrongSelections(); return; }
+            if (!matchingGameActive || this.classList.contains('matched')) return;
+            if (this.classList.contains('wrong')) { resetWrongSelections(); return; }
+            document.querySelectorAll('#leftColumn .card.selected').forEach(card => card.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedLeftCard = this;
+            if (selectedLeftCard && selectedRightCard) checkMatch();
+          };
+        });
+        
+        const shuffledMeanings = shuffleArray([...shuffledPairs]);
+        shuffledMeanings.forEach((pair, index) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = shuffledPairs.findIndex(p => p.meaning === pair.meaning);
+          card.dataset.type = 'meaning';
+          card.textContent = pair.meaning;
+          rightColumn.appendChild(card);
+          card.onclick = function() {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrongSelections(); return; }
+            if (!matchingGameActive || this.classList.contains('matched')) return;
+            if (this.classList.contains('wrong')) { resetWrongSelections(); return; }
+            document.querySelectorAll('#rightColumn .card.selected').forEach(card => card.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedRightCard = this;
+            if (selectedLeftCard && selectedRightCard) checkMatch();
+          };
+        });
+        
+        feedbackOverlay.classList.remove('visible');
+        matchingContinueBtn.style.display = 'none';
+        celebrationShownForMatching = false;
+        matchingCompleted = false;
+        
+        function checkMatch() {
+          if (!selectedLeftCard || !selectedRightCard || !matchingGameActive) return;
+          if (selectedLeftCard.dataset.pair === selectedRightCard.dataset.pair) {
+            playSound(true);
+            selectedLeftCard.classList.remove('selected');
+            selectedRightCard.classList.remove('selected');
+            selectedLeftCard.classList.add('correct');
+            selectedRightCard.classList.add('correct');
+            matchedPairs++;
+            setTimeout(() => {
+              document.querySelectorAll('#question6 .card.correct').forEach(card => {
+                card.classList.remove('correct');
+                card.classList.add('matched');
+              });
+            }, 800);
+            if (matchedPairs === totalPairs && !matchingCompleted) {
+              matchingGameActive = false;
+              matchingCompleted = true;
+              totalAttempts++;
+              if (!questionFinalCorrect[5]) questionFinalCorrect[5] = true;
+              currentStreak++;
+              updateStreakCounter();
+              
+              if (currentStreak % 5 === 0 && currentStreak > 0) {
+                showCelebrationModal(currentStreak, () => {
+                  moveToNextQuestion();
+                });
+              } else {
+                setTimeout(() => { moveToNextQuestion(); }, 500);
+              }
+            }
+          } else {
+            playSound(false);
+            selectedLeftCard.classList.add('wrong');
+            selectedRightCard.classList.add('wrong');
+            if (lives > 0 && !matchingGameLifeLost) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon(); 
+              matchingGameLifeLost = true;
+              if (lives === 0) {
+                feedbackTitle.textContent = 'Game Over';
+                feedbackMessage.textContent = 'You\'ve run out of lives! Try again from the beginning.';
+                feedbackOverlay.classList.add('visible');
+                matchingGameActive = false;
+                return;
+              }
+            }
+            handleIncorrectAnswer();
+            if (lives > 0) { 
+              feedbackTitle.textContent = 'Incorrect'; 
+              feedbackMessage.textContent = 'Let\'s try that again'; 
+            }
+            feedbackOverlay.classList.add('visible');
+          }
+          selectedLeftCard = null;
+          selectedRightCard = null;
+        }
+        
+        function resetWrongSelections() {
+          document.querySelectorAll('#question6 .card.wrong').forEach(card => card.classList.remove('wrong'));
+          document.querySelectorAll('#question6 .card.selected').forEach(card => card.classList.remove('selected'));
+          selectedLeftCard = null;
+          selectedRightCard = null;
+          feedbackOverlay.classList.remove('visible');
+        }
+        
+        tryAgainBtn.onclick = resetWrongSelections;
+        feedbackOverlay.onclick = function(e) { if (e.target === feedbackOverlay) resetWrongSelections(); };
+        cancelIcon.onclick = resetWrongSelections;
+        notesIcon.onclick = resetWrongSelections;
+      }
     }
 
     closeBtn.addEventListener('click', () => {
@@ -1530,7 +1959,6 @@
       return '';
     });
 
-    startQuizTimer();
     showQuestion(currentQuestion);
     updateStreakCounter();
   </script>
