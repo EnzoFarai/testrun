@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
-  /* Same as original achievement.html styles – preserved */
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Atkinson Hyperlegible', sans-serif; }
   body { background: #ffffff; color: #0f1c22; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
   .header { position: fixed; top: 0; left: 0; right: 0; height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; background: transparent; z-index: 100; }
@@ -27,7 +26,7 @@
   .achievement-title { font-weight: 600; font-size: 18px; margin-top: 8px; color: #0f1c22; }
   .achievement-date { font-size: 14px; color: #fff; background-color: #D4AF37; padding: 6px 16px; border-radius: 20px; font-weight: 600; }
   .buttons-container { width: 100%; display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
-  .action-button { width: 100%; height: 52px; border-radius: 0.75rem; font-weight: 700; letter-spacing: 0.5px; border: none; font-size: 15px; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; line-height: 1; font-family: 'Atkinson Hyperlegible', sans-serif; }
+  .action-button { width: 100%; height: 52px; border-radius: 0.75rem; font-weight: 700; letter-spacing: 0.5px; border: none; font-size: 15px; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; line-height: 1; font-family: 'Atkinson Hyperlegible', sans-serif; }
   .claim-reward { color: #ffffff; background-color: #4285F4; border-bottom: 0.25rem solid #3a75d9; }
   .claim-reward:hover { background-color: #3a75d9; border-bottom-color: #3166c4; transform: translateY(-0.125rem); }
   .share-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
@@ -86,8 +85,16 @@
       <div class="share-brand">vulanet</div>
     </div>
     <div class="share-sheet">
-      <div class="share-grid"> ... </div> <!-- same as before -->
-      <div class="bottom-grid"> ... </div>
+      <div class="share-grid">
+        <div class="share-item" id="share-facebook"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg"></div></div><div class="share-text">Facebook</div></div>
+        <div class="share-item" id="share-x"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/X_logo.jpg"></div></div><div class="share-text">X</div></div>
+        <div class="share-item" id="share-whatsapp"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div></div><div class="share-text">WhatsApp</div></div>
+        <div class="share-item" id="share-sms"><div class="share-icon-circle"><div class="share-icon"><span class="material-symbols-outlined">sms</span></div></div><div class="share-text">Message</div></div>
+      </div>
+      <div class="bottom-grid">
+        <div class="bottom-item" id="save-image"><div class="bottom-icon-circle"><div class="bottom-icon"><span class="material-symbols-outlined">download</span></div></div><div class="bottom-text">Save image</div></div>
+        <div class="bottom-item" id="more-options"><div class="bottom-icon-circle"><div class="bottom-icon"><span class="material-symbols-outlined">more_horiz</span></div></div><div class="bottom-text">More</div></div>
+      </div>
     </div>
   </div>
 </div>
@@ -106,24 +113,53 @@
   document.getElementById('currentDate').textContent = dateStr;
   document.getElementById('shareDate').textContent = dateStr;
 
-  // Share overlay (same as original)
+  // Share overlay
   const shareOverlay = document.getElementById('share-overlay');
   document.getElementById('share-button').addEventListener('click', () => shareOverlay.style.display = 'flex');
   shareOverlay.addEventListener('click', (e) => { if (e.target === shareOverlay) shareOverlay.style.display = 'none'; });
   document.getElementById('exit-button').addEventListener('click', () => window.parent.postMessage('modalClose', '*'));
   
-  // Coin reward trigger: when claiming reward, if this is Level 8 (30000 XP), we should send a message to open coins-reward.html
-  // But the parent will handle that after this modal closes.
-  // For now, we just close the modal. The parent will check the achievement level and open coins-reward if needed.
+  // Claim reward - closes achievement and moves to coin reward
   document.getElementById('claimRewardBtn').addEventListener('click', () => {
-    // TODO: Check if achievement level is 8 (30000 XP) and if so, parent will show coin reward.
-    // We simply close the modal. Parent's finishQuiz sequence will handle the rest.
     window.parent.postMessage('modalClose', '*');
   });
 
-  // Save image, share handlers (same as original – omitted for brevity but must be included. I'll add a minimal version)
-  document.getElementById('save-image')?.addEventListener('click', async () => { const card = document.getElementById('share-card'); await document.fonts.ready; html2canvas(card, { scale: 2 }).then(canvas => { const link = document.createElement('a'); link.download = 'achievement.png'; link.href = canvas.toDataURL('image/png'); link.click(); }); });
-  // ... other share handlers identical to your original.
+  // Save image
+  document.getElementById('save-image').addEventListener('click', async () => {
+    const card = document.getElementById('share-card');
+    await document.fonts.ready;
+    html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'achievement.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  });
+
+  // Share handlers
+  document.getElementById('share-facebook').addEventListener('click', () => {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://vulanet.com/achievement")}&quote=I earned XP Powerhouse!`, 'fb-share');
+  });
+  document.getElementById('share-x').addEventListener('click', () => {
+    window.open(`https://twitter.com/intent/tweet?text=I earned XP Powerhouse on Vulanet!`, 'twitter-share');
+  });
+  document.getElementById('share-whatsapp').addEventListener('click', () => {
+    window.open(`https://wa.me/?text=I earned XP Powerhouse on Vulanet!`, 'whatsapp-share');
+  });
+  document.getElementById('share-sms').addEventListener('click', () => {
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      window.location.href = `sms:?body=I earned XP Powerhouse on Vulanet!`;
+    } else {
+      navigator.clipboard.writeText("I earned XP Powerhouse on Vulanet!").then(() => alert("Copied!"));
+    }
+  });
+  document.getElementById('more-options').addEventListener('click', async () => {
+    if (navigator.share) {
+      await navigator.share({ title: 'My Vulanet Achievement', text: 'I earned XP Powerhouse!', url: 'https://vulanet.com/achievement' });
+    } else {
+      alert("Share not supported.");
+    }
+  });
 </script>
 </body>
 </html>
