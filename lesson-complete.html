@@ -5,15 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lesson Complete</title>
 
-<!-- Atkinson Hyperlegible Next Font Import -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 
-<!-- Lottie Player -->
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-<!-- Phosphor Icons -->
 <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" rel="stylesheet">
 <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css" rel="stylesheet">
 <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" rel="stylesheet">
@@ -464,27 +461,23 @@ lottie-player {
 </div>
 
 <script>
-  // Play complete sound
   const audio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/complete.mp3');
   audio.play().catch(e => console.log("Audio play failed:", e));
 
-  // Parse URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   let correctAttempts = parseInt(urlParams.get('correctAttempts')) || 0;
-  let totalAttempts = parseInt(urlParams.get('totalAttempts')) || 1; // avoid division by zero
+  let totalAttempts = parseInt(urlParams.get('totalAttempts')) || 1;
   let timeSeconds = parseInt(urlParams.get('time')) || 0;
   let boost = parseFloat(urlParams.get('boost')) || null;
 
   const totalQuestions = 6;
-  const T_expected = totalQuestions * 15; // 90 seconds
-  const T_max = 2 * T_expected; // 180 seconds
+  const T_expected = totalQuestions * 15;
+  const T_max = 2 * T_expected;
 
-  // Calculate Accuracy XP (max 10)
   let ratio = correctAttempts / totalAttempts;
   let accuracyXP = Math.round(ratio * 10);
   accuracyXP = Math.min(accuracyXP, 10);
 
-  // Calculate Speed XP (max 10)
   let speedXP = 0;
   if (timeSeconds <= T_expected) {
     speedXP = 10;
@@ -497,19 +490,15 @@ lottie-player {
 
   let totalXP = 10 + accuracyXP + speedXP;
 
-  // Apply boost if present
   let displayedXP = totalXP;
   let stat1HeaderText = "TOTAL XP";
-  let stat1Color = "tiger";
   if (boost !== null) {
     displayedXP = Math.round(totalXP * boost);
     stat1HeaderText = "XP BOOST";
-    stat1Color = "tiger"; // actually tiger is used for both, but we'll keep class
   }
   document.getElementById('stat1Header').textContent = stat1HeaderText;
   document.getElementById('xpValue').textContent = displayedXP;
 
-  // Format time
   let timeString = "";
   if (timeSeconds < 60) {
     timeString = `${timeSeconds}s`;
@@ -523,11 +512,9 @@ lottie-player {
   }
   document.getElementById('timeValue').textContent = timeString;
 
-  // Determine stat2 label
   let stat2Header = (timeSeconds <= T_expected) ? "WHOA" : "COMMITTED";
   document.getElementById('stat2Header').textContent = stat2Header;
 
-  // Percentage and stat3 label
   let percentage = Math.round((correctAttempts / totalAttempts) * 100);
   let stat3Header = "";
   if (percentage === 100) stat3Header = "PERFECT";
@@ -537,7 +524,6 @@ lottie-player {
   document.getElementById('stat3Header').textContent = stat3Header;
   document.getElementById('percentValue').textContent = `${percentage}%`;
 
-  // Continue button
   document.getElementById('continueBtn').addEventListener('click', () => {
     window.parent.postMessage('modalClose', '*');
   });
