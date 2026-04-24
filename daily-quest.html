@@ -27,7 +27,6 @@
     .progress-count.dark-text { color: #666; text-shadow: none; }
     .chest { width: 44px; height: 44px; border-radius: 8px; flex: 0 0 44px; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; transition: transform 0.1s ease; }
     .chest:active { transform: scale(0.95); }
-    .chest.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
     .chest.claimed { opacity: 0.5; filter: grayscale(0.3); pointer-events: none; }
     .bronze { color: #cd7f32; }
     .silver { color: #c0c0c0; }
@@ -117,94 +116,57 @@
     // Quest 1 always completed
     const quest1Completed = true;
 
-    // Chest claiming with localStorage
-    const today = new Date().toISOString().slice(0,10);
-    const storageKey = `dailyQuestClaims_${today}`;
-    let claimedChests = { bronze: false, silver: false, gold: false };
-    
-    const savedClaims = localStorage.getItem(storageKey);
-    if (savedClaims) {
-      claimedChests = JSON.parse(savedClaims);
-    }
+    // Track claimed chests in memory for this session
+    let claimedChests = {
+      bronze: false,
+      silver: false,
+      gold: false
+    };
 
-    // Track which quests are completed for chest availability
-    const questCompleted = {
+    // Track which chests are eligible (quest completed)
+    const chestEligible = {
       bronze: quest1Completed,
       silver: quest2Completed,
       gold: quest3Completed
     };
 
-    // Function to show coin reward modal
-    function showCoinsReward(amount) {
-      window.parent.postMessage({ type: 'openCoinsReward', amount: amount }, '*');
-    }
+    // Apply claimed styling from any previously sent data (if parent tells us)
+    // For now, none are claimed until user taps
 
-    // Track pending chest claims to handle multiple taps
-    let pendingClaims = [];
-    let isShowingReward = false;
-
-    // Function to process next pending claim
-    function processNextClaim() {
-      if (pendingClaims.length === 0) {
-        isShowingReward = false;
-        return;
-      }
-      
-      isShowingReward = true;
-      const claim = pendingClaims.shift();
-      
-      // Mark as claimed immediately to prevent double claims
-      claimedChests[claim.chestId] = true;
-      localStorage.setItem(storageKey, JSON.stringify(claimedChests));
-      
-      // Update UI
-      const chestElement = document.getElementById(`chest${claim.chestId.charAt(0).toUpperCase() + claim.chestId.slice(1)}`);
-      if (chestElement) chestElement.classList.add('claimed');
-      
-      // Show coin reward
-      showCoinsReward(claim.coins);
-      
-      // Wait for modal to close before processing next
-      const checkInterval = setInterval(() => {
-        if (!isShowingReward) {
-          clearInterval(checkInterval);
-          processNextClaim();
-        }
-      }, 500);
-    }
-
-    // Chest click handlers
-    function claimChest(chestId, coins, questId) {
-      if (claimedChests[chestId]) {
-        alert("You've already claimed this chest!");
-        return;
-      }
-      
-      if (!questCompleted[chestId]) {
+    // Chest click handlers - send message to parent to show coin reward
+    function claimChest(chestId, coins) {
+      if (claimedChests[chestId]) return;
+      if (!chestEligible[chestId]) {
         alert("Complete this quest first to claim the chest!");
         return;
       }
       
-      // Add to pending claims queue
-      pendingClaims.push({ chestId, coins, questId });
+      // Mark as claimed
+      claimedChests[chestId] = true;
       
-      if (!isShowingReward) {
-        processNextClaim();
-      }
+      // Update UI
+      const chestElement = document.getElementById(`chest${chestId.charAt(0).toUpperCase() + chestId.slice(1)}`);
+      if (chestElement) chestElement.classList.add('claimed');
+      
+      // Send message to parent to show coins reward
+      window.parent.postMessage({ type: 'chestClaimed', chestId: chestId, amount: coins }, '*');
     }
 
-    document.getElementById('chestBronze').addEventListener('click', () => claimChest('bronze', 50, 1));
-    document.getElementById('chestSilver').addEventListener('click', () => claimChest('silver', 75, 2));
-    document.getElementById('chestGold').addEventListener('click', () => claimChest('gold', 100, 3));
+    document.getElementById('chestBronze').addEventListener('click', () => claimChest('bronze', 50));
+    document.getElementById('chestSilver').addEventListener('click', () => claimChest('silver', 75));
+    document.getElementById('chestGold').addEventListener('click', () => claimChest('gold', 100));
 
-    // Apply claimed styling on load
-    if (claimedChests.bronze) document.getElementById('chestBronze').classList.add('claimed');
-    if (claimedChests.silver) document.getElementById('chestSilver').classList.add('claimed');
-    if (claimedChests.gold) document.getElementById('chestGold').classList.add('claimed');
-
-    // Continue button - closes modal and lets parent proceed to achievement
+    // Continue button - send final status to parent
     document.getElementById('continueButton').addEventListener('click', () => {
-      window.parent.postMessage({ type: 'dailyQuestContinue' }, '*');
+      // Send which chests were claimed and quest completion status
+      window.parent.postMessage({ 
+        type: 'dailyQuestContinue', 
+        claimedChests: claimedChests,
+        chestEligible: chestEligible,
+        quest1Completed: quest1Completed,
+        quest2Completed: quest2Completed,
+        quest3Completed: quest3Completed
+      }, '*');
       window.parent.postMessage('modalClose', '*');
     });
   </script>
