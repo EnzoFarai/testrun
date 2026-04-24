@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   
   <style>
+    /* ALL ORIGINAL STYLES - PRESERVED COMPLETELY */
     * {
       margin: 0;
       padding: 0;
@@ -1213,23 +1214,6 @@
       return answer.toLowerCase().replace(/\s+/g, ' ').replace(/[()]/g, '').replace(/\//g, ' ').trim();
     }
 
-    function isMilestoneDay() {
-      return currentStreakDays % 5 === 0;
-    }
-
-    // FIXED: Check if first lesson of day using separate key
-    function checkFirstLessonOfDay() {
-      const today = new Date().toISOString().slice(0, 10);
-      const firstLessonRewardGiven = localStorage.getItem('firstLessonRewardGiven');
-      return firstLessonRewardGiven !== today;
-    }
-
-    // FIXED: Mark that first lesson reward was given today
-    function markFirstLessonRewardGiven() {
-      const today = new Date().toISOString().slice(0, 10);
-      localStorage.setItem('firstLessonRewardGiven', today);
-    }
-
     function loadStreakFromStorage() {
       const savedStreak = localStorage.getItem('userStreakDays');
       if (savedStreak) {
@@ -1435,49 +1419,37 @@
       }
     }
 
-    // ----- REWARD SEQUENCE (FULL CORRECT ORDER) -----
+    // ----- SIMPLE DIRECT REWARD SEQUENCE -----
     function processRewardSequence(finalCorrect, totalAttemptsTotal) {
+      // Step 1: Show streak modal
       showStreakModal(() => {
-        if (isMilestoneDay()) {
-          let coinsAmount = 250;
-          if (currentStreakDays >= 30 && currentStreakDays <= 70) coinsAmount = 500;
-          showCoinsReward(coinsAmount, () => {
+        // Step 2: For a 1-day streak (non-milestone), show Heart or Boost reward
+        // 50% chance of Heart or Boost
+        const random = Math.random();
+        const shouldShowBoost = (random < 0.5);
+        
+        if (shouldShowBoost) {
+          // Show boost reward
+          const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
+          const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
+          showBoostReward(chosen.mult, chosen.dur, () => {
+            // After boost, show daily quest
             showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           });
         } else {
-          // Check if this is the first lesson of the day AND no reward given yet
-          const isFirstLesson = checkFirstLessonOfDay();
-          
-          if (isFirstLesson) {
-            const random = Math.random();
-            const shouldShowBoost = (random < 0.5);
-            
-            if (shouldShowBoost) {
-              const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
-              const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
-              showBoostReward(chosen.mult, chosen.dur, () => {
-                markFirstLessonRewardGiven();
-                showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
-              });
-            } else {
-              if (heartsAtCompletion <= 2) {
-                let heartsParam = 'full';
-                if (heartsAtCompletion === 1) heartsParam = '1';
-                else if (heartsAtCompletion === 2) heartsParam = '2';
-                showHeartReward(heartsParam, () => {
-                  markFirstLessonRewardGiven();
-                  showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
-                });
-              } else {
-                showBoostReward(1.5, 30, () => {
-                  markFirstLessonRewardGiven();
-                  showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
-                });
-              }
-            }
+          // Heart reward - only if hearts <= 2
+          if (heartsAtCompletion <= 2) {
+            let heartsParam = 'full';
+            if (heartsAtCompletion === 1) heartsParam = '1';
+            else if (heartsAtCompletion === 2) heartsParam = '2';
+            showHeartReward(heartsParam, () => {
+              showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
+            });
           } else {
-            // Not first lesson today (reward already given or previous lessons done)
-            showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
+            // If hearts > 2, always show Boost instead
+            showBoostReward(1.5, 30, () => {
+              showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
+            });
           }
         }
       });
@@ -1534,16 +1506,12 @@
     }
 
     function goToAchievement() {
-      const isLevel8Achieved = true;
-      if (isLevel8Achieved) {
-        showAchievementModal(() => {
-          showCoinsReward(400, () => {
-            window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences';
-          });
+      // XP Powerhouse Level 10 reached (500 coins)
+      showAchievementModal(() => {
+        showCoinsReward(500, () => {
+          window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences';
         });
-      } else {
-        window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences';
-      }
+      });
     }
 
     function finishQuiz() {
