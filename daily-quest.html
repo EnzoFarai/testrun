@@ -10,7 +10,7 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #ffffff; font-family: 'Atkinson Hyperlegible Next', system-ui; -webkit-font-smoothing: antialiased; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 24px 16px; }
-    .daily-quests-module { max-width: 500px; width: 100%; margin: 0 auto; }
+    .daily-quests-module { max-width: 500px; width: 100%; margin: 0 auto; position: relative; }
     .section-title { font-family: 'Atkinson Hyperlegible Next', sans-serif; font-size: 22px; margin: 0; color: #3b3b3b; font-weight: 700; }
     .time-cta { color: #ff9f1a; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 14px; }
     .card { background: #ffffff; border-radius: 18px; padding: 0; border: 1px solid #eee; box-shadow: 0 6px 18px rgba(15,15,15,0.06); margin-bottom: 24px; }
@@ -35,6 +35,110 @@
     .continue-btn:hover { background: #2a75f0; transform: translateY(-1px); }
     .continue-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
     .daily-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+
+    /* Internal coin reward modal */
+    .internal-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s ease;
+    }
+    .internal-modal-overlay.visible {
+      visibility: visible;
+      opacity: 1;
+    }
+    .internal-modal {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .internal-modal-content {
+      width: 100%;
+      padding: 40px 24px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .internal-modal-title {
+      margin-top: 20px;
+      font-weight: 700;
+      color: #0f1c22;
+      font-size: 20px;
+      line-height: 1.4;
+      max-width: 320px;
+    }
+    .internal-modal-subtitle {
+      margin-top: 8px;
+      font-weight: 400;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.4;
+      max-width: 280px;
+      margin-bottom: 24px;
+    }
+    .internal-modal-scene {
+      width: 100%;
+      height: 200px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .internal-coin-icon {
+      color: #FFD700;
+      font-size: 140px;
+      filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.3));
+    }
+    .internal-claim-button {
+      width: 100%;
+      height: 58px;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border: none;
+      font-size: 16px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      gap: 8px;
+      color: #ffffff;
+      background-color: #4285F4;
+      border-bottom: 0.25rem solid #3a75d9;
+    }
+    .internal-claim-button:hover {
+      background-color: #3a75d9;
+      border-bottom-color: #3166c4;
+      transform: translateY(-0.125rem);
+    }
+    @media (max-width: 768px) {
+      .internal-coin-icon { font-size: 120px; }
+    }
+    @media (max-width: 480px) {
+      .internal-coin-icon { font-size: 100px; }
+      .internal-modal-content { padding: 28px 16px 36px; }
+    }
   </style>
 </head>
 <body>
@@ -78,6 +182,22 @@
     
     <div class="continue-action">
       <button class="continue-btn" id="continueButton">CONTINUE</button>
+    </div>
+  </div>
+
+  <!-- Internal modal for coin rewards (stays inside iframe) -->
+  <div id="coinRewardModal" class="internal-modal-overlay">
+    <div class="internal-modal">
+      <div class="internal-modal-content">
+        <div class="internal-modal-scene">
+          <i class="ph-duotone ph-coins internal-coin-icon"></i>
+        </div>
+        <div class="internal-modal-title" id="modalTitle">You have earned 250 coins!</div>
+        <div class="internal-modal-subtitle" id="modalSubtitle">Spend them wisely</div>
+        <div class="reward-buttons-container">
+          <button class="internal-claim-button" id="modalClaimBtn">Claim 250 <i class="ph-duotone ph-coins"></i></button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -143,7 +263,40 @@
     if (!chestEligible.silver) document.getElementById('chestSilver').classList.add('disabled');
     if (!chestEligible.gold) document.getElementById('chestGold').classList.add('disabled');
 
-    // Chest click handlers
+    // Internal modal handling
+    const modal = document.getElementById('coinRewardModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalClaimBtn = document.getElementById('modalClaimBtn');
+    let currentClaimAmount = 0;
+    let currentChestId = null;
+
+    function showCoinReward(amount, chestId) {
+      currentClaimAmount = amount;
+      currentChestId = chestId;
+      modalTitle.innerText = `You have earned ${amount} coins!`;
+      modalClaimBtn.innerHTML = `Claim ${amount} <i class="ph-duotone ph-coins"></i>`;
+      modal.classList.add('visible');
+      // Play coin sound
+      const coinAudio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/coins.mp3');
+      coinAudio.play().catch(e => console.log("Audio play failed:", e));
+    }
+
+    function hideModal() {
+      modal.classList.remove('visible');
+    }
+
+    modalClaimBtn.onclick = () => {
+      // Mark chest as claimed in localStorage
+      if (currentChestId) {
+        claimedChests[currentChestId] = true;
+        localStorage.setItem(storageKey, JSON.stringify(claimedChests));
+        const chestElement = document.getElementById(`chest${currentChestId.charAt(0).toUpperCase() + currentChestId.slice(1)}`);
+        if (chestElement) chestElement.classList.add('claimed');
+      }
+      hideModal();
+    };
+
+    // Chest click handlers - show internal modal instead of parent message
     function claimChest(chestId) {
       if (claimedChests[chestId]) {
         alert("You've already claimed this chest today!");
@@ -153,35 +306,58 @@
         alert("Complete this quest first to claim the chest!");
         return;
       }
-      
-      // Mark as claimed in localStorage
-      claimedChests[chestId] = true;
-      localStorage.setItem(storageKey, JSON.stringify(claimedChests));
-      
-      // Update UI
-      const chestElement = document.getElementById(`chest${chestId.charAt(0).toUpperCase() + chestId.slice(1)}`);
-      if (chestElement) chestElement.classList.add('claimed');
-      
-      // Send message to parent to show coins reward
-      window.parent.postMessage({ 
-        type: 'chestClaimed', 
-        chestId: chestId, 
-        amount: chestValues[chestId] 
-      }, '*');
+      // Show coin reward modal inside this iframe
+      showCoinReward(chestValues[chestId], chestId);
     }
 
     document.getElementById('chestBronze').addEventListener('click', () => claimChest('bronze'));
     document.getElementById('chestSilver').addEventListener('click', () => claimChest('silver'));
     document.getElementById('chestGold').addEventListener('click', () => claimChest('gold'));
 
-    // Continue button - send final status to parent
+    // Continue button - send final status to parent (including unclaimed chests sum)
     document.getElementById('continueButton').addEventListener('click', () => {
-      window.parent.postMessage({ 
-        type: 'dailyQuestContinue', 
-        claimedChests: claimedChests,
-        chestEligible: chestEligible
-      }, '*');
-      window.parent.postMessage('modalClose', '*');
+      // Check for unclaimed eligible chests
+      const unclaimedEligible = [];
+      if (chestEligible.bronze && !claimedChests.bronze) unclaimedEligible.push('bronze');
+      if (chestEligible.silver && !claimedChests.silver) unclaimedEligible.push('silver');
+      if (chestEligible.gold && !claimedChests.gold) unclaimedEligible.push('gold');
+      
+      const allQuestsCompleted = chestEligible.bronze && chestEligible.silver && chestEligible.gold;
+      
+      if (allQuestsCompleted && unclaimedEligible.length > 0) {
+        let totalSum = 0;
+        if (unclaimedEligible.includes('bronze')) totalSum += 50;
+        if (unclaimedEligible.includes('silver')) totalSum += 75;
+        if (unclaimedEligible.includes('gold')) totalSum += 100;
+        // Show sum reward modal first
+        showCoinReward(totalSum, null); // no chest id because it's sum of multiple
+        // After modal closes, we need to mark those chests as claimed
+        const originalClaim = modalClaimBtn.onclick;
+        modalClaimBtn.onclick = () => {
+          unclaimedEligible.forEach(chestId => {
+            claimedChests[chestId] = true;
+            localStorage.setItem(storageKey, JSON.stringify(claimedChests));
+            const chestElement = document.getElementById(`chest${chestId.charAt(0).toUpperCase() + chestId.slice(1)}`);
+            if (chestElement) chestElement.classList.add('claimed');
+          });
+          hideModal();
+          // Then send continue to parent
+          window.parent.postMessage({ 
+            type: 'dailyQuestContinue', 
+            claimedChests: claimedChests,
+            chestEligible: chestEligible
+          }, '*');
+          window.parent.postMessage('modalClose', '*');
+        };
+      } else {
+        // No sum reward, just send continue
+        window.parent.postMessage({ 
+          type: 'dailyQuestContinue', 
+          claimedChests: claimedChests,
+          chestEligible: chestEligible
+        }, '*');
+        window.parent.postMessage('modalClose', '*');
+      }
     });
   </script>
 </body>
