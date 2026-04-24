@@ -1156,17 +1156,19 @@
     let totalAttempts = 0;
     let questionFinalCorrect = [false, false, false, false, false, false];
 
-    // Reward sequence variables - THESE NEED TO BE LOADED FROM localStorage/DB
-    let currentStreakDays = 1; // TODO: Load from localStorage
-    let isFirstLessonOfDay = true; // TODO: Check localStorage for last lesson date
+    // Reward sequence variables
+    let currentStreakDays = 1;
+    let isFirstLessonOfDay = true;
     let heartsAtCompletion = 5;
+    let chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
+    let chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
+    let dailyQuestHandlerAttached = false;
 
-    // Helper function to check if milestone
+    // Helper functions
     function isMilestoneDay() {
       return currentStreakDays % 5 === 0;
     }
 
-    // Helper function to check if first lesson today
     function checkFirstLessonOfDay() {
       const lastLessonDate = localStorage.getItem('lastLessonDate');
       const today = new Date().toISOString().slice(0, 10);
@@ -1177,7 +1179,6 @@
       return false;
     }
 
-    // Helper to load/save streak
     function loadStreakFromStorage() {
       const savedStreak = localStorage.getItem('userStreakDays');
       if (savedStreak) {
@@ -1194,11 +1195,6 @@
 
     function incrementStreak() {
       currentStreakDays++;
-      saveStreakToStorage();
-    }
-
-    function resetStreak() {
-      currentStreakDays = 1;
       saveStreakToStorage();
     }
 
@@ -1278,16 +1274,6 @@
           currentStreakDays = event.data.streakDays || currentStreakDays;
           saveStreakToStorage();
           if (onClose) onClose();
-        } else if (event.data && event.data.type === 'dailyQuestContinue') {
-          window.removeEventListener('message', messageHandler);
-          fullscreenOverlay.classList.remove('visible');
-          modalIframe.src = 'about:blank';
-          if (onClose) onClose();
-        } else if (event.data && event.data.type === 'goToAchievement') {
-          window.removeEventListener('message', messageHandler);
-          fullscreenOverlay.classList.remove('visible');
-          modalIframe.src = 'about:blank';
-          if (onClose) onClose();
         }
       };
       
@@ -1335,10 +1321,6 @@
 
     function showStreakModal(onComplete) {
       showModal('streak.html', onComplete);
-    }
-
-    function showDailyQuestModal(correctAttempts, totalAttempts, onComplete) {
-      showModal(`daily-quest.html?correctAttempts=${correctAttempts}&totalAttempts=${totalAttempts}&completed=true`, onComplete);
     }
 
     // ---------- CELEBRATION HANDLING ----------
@@ -1448,40 +1430,29 @@
       }
     }
 
-    // ---------- REWARD SEQUENCE (COMPLETE CORRECT ORDER) ----------
-    let chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
-    let chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
-    
+    // ---------- REWARD SEQUENCE (FULL CORRECT ORDER) ----------
     function processRewardSequence(finalCorrect, totalAttemptsTotal) {
-      // Step 2: Show streak modal
       showStreakModal(() => {
-        // Step 3: Determine which reward to show after streak
         if (isMilestoneDay()) {
-          // Milestone day: coins reward
           let coinsAmount = 250;
           if (currentStreakDays >= 30 && currentStreakDays <= 70) coinsAmount = 500;
           showCoinsReward(coinsAmount, () => {
-            // After milestone coins, go to daily quest
             showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           });
         } else {
-          // Non-milestone day: check first lesson of day
           isFirstLessonOfDay = checkFirstLessonOfDay();
           
           if (isFirstLessonOfDay) {
-            // Random 50/50 between boost and heart
             const random = Math.random();
-            const showBoostReward = (random < 0.5);
+            const shouldShowBoost = (random < 0.5);
             
-            if (showBoostReward) {
-              // Show boost reward
+            if (shouldShowBoost) {
               const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
               const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
               showBoostReward(chosen.mult, chosen.dur, () => {
                 showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
               });
             } else {
-              // Heart reward - only if hearts <= 2
               if (heartsAtCompletion <= 2) {
                 let heartsParam = 'full';
                 if (heartsAtCompletion === 1) heartsParam = '1';
@@ -1490,14 +1461,12 @@
                   showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
                 });
               } else {
-                // Fallback to boost if hearts > 2
                 showBoostReward(1.5, 30, () => {
                   showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
                 });
               }
             }
           } else {
-            // Not first lesson - skip to daily quest directly
             showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           }
         }
@@ -1505,77 +1474,57 @@
     }
 
     function showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal) {
-      // Reset chest tracking for this session
       chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
       chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
       
-      // Set up a one-time message handler for daily quest responses
-      const dailyQuestHandler = (event) => {
+      if (dailyQuestHandlerAttached) {
+        window.removeEventListener('message', dailyQuestMessageHandler);
+      }
+      
+      function dailyQuestMessageHandler(event) {
         if (event.data && event.data.type === 'chestClaimed') {
-          // Handle chest claim - show coins reward
           const chestId = event.data.chestId;
           const amount = event.data.amount;
           chestsClaimedDuringQuest[chestId] = true;
-          
-          // Show the coin reward for this chest
-          showCoinsReward(amount, () => {
-            // After coin reward closes, daily quest is still open
-            // The user can continue claiming other chests
-          });
+          showCoinsReward(amount, () => {});
         } else if (event.data && event.data.type === 'dailyQuestContinue') {
-          // Daily quest is done - remove handler and process final rewards
-          window.removeEventListener('message', dailyQuestHandler);
+          window.removeEventListener('message', dailyQuestMessageHandler);
+          dailyQuestHandlerAttached = false;
           
-          // Store eligibility info
           chestsEligibleFromQuest = event.data.chestEligible || { bronze: false, silver: false, gold: false };
-          const quest1Completed = event.data.quest1Completed;
-          const quest2Completed = event.data.quest2Completed;
-          const quest3Completed = event.data.quest3Completed;
           
-          // Check if all three quests are completed
-          const allQuestsCompleted = quest1Completed && quest2Completed && quest3Completed;
-          
-          // Check which chests are eligible but NOT claimed
           const unclaimedEligibleChests = [];
           if (chestsEligibleFromQuest.bronze && !chestsClaimedDuringQuest.bronze) unclaimedEligibleChests.push('bronze');
           if (chestsEligibleFromQuest.silver && !chestsClaimedDuringQuest.silver) unclaimedEligibleChests.push('silver');
           if (chestsEligibleFromQuest.gold && !chestsClaimedDuringQuest.gold) unclaimedEligibleChests.push('gold');
           
+          const allQuestsCompleted = chestsEligibleFromQuest.bronze && chestsEligibleFromQuest.silver && chestsEligibleFromQuest.gold;
+          
           if (allQuestsCompleted && unclaimedEligibleChests.length > 0) {
-            // Show ONE coins reward with the sum of all unclaimed chests
             let totalSum = 0;
             if (unclaimedEligibleChests.includes('bronze')) totalSum += 50;
             if (unclaimedEligibleChests.includes('silver')) totalSum += 75;
             if (unclaimedEligibleChests.includes('gold')) totalSum += 100;
-            
             showCoinsReward(totalSum, () => {
-              // After sum reward, go to achievement
               goToAchievement();
             });
           } else {
-            // No unclaimed chests or not all quests completed - go to achievement directly
             goToAchievement();
           }
         }
-      };
+      }
       
-      window.addEventListener('message', dailyQuestHandler);
+      window.addEventListener('message', dailyQuestMessageHandler);
+      dailyQuestHandlerAttached = true;
       
-      // Show daily quest modal
-      showModal(`daily-quest.html?correctAttempts=${finalCorrect}&totalAttempts=${totalAttemptsTotal}&completed=true`, () => {
-        // This onClose is called when modal closes via other means
-        // The dailyQuestContinue handler will handle the actual continuation
-      });
+      showModal(`daily-quest.html?correctAttempts=${finalCorrect}&totalAttempts=${totalAttemptsTotal}&completed=true`, () => {});
     }
 
     function goToAchievement() {
-      // Step 5: Check if XP Powerhouse Level 8 achieved (30000 XP)
-      // TODO: Replace with actual XP check from database
       const isLevel8Achieved = true;
       
       if (isLevel8Achieved) {
         showAchievementModal(() => {
-          // Step 6: Achievement reward (400 coins = level 8 × 50)
           showCoinsReward(400, () => {
             window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences';
           });
@@ -1598,11 +1547,8 @@
       
       heartsAtCompletion = lives;
       loadStreakFromStorage();
-      
-      // Increment streak for completing a lesson
       incrementStreak();
       
-      // Step 1: Show lesson complete modal
       showLessonCompleteModal(finalCorrect, totalAttempts, timeSeconds, null, () => {
         processRewardSequence(finalCorrect, totalAttempts);
       });
