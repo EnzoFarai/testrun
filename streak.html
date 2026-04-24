@@ -1,378 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Streak</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streak</title>
 
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.0.3/src/fill/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 16px;
-      font-family: 'Atkinson Hyperlegible', sans-serif;
-    }
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      background: transparent;
-      z-index: 100;
-    }
-    .header-icon {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #5F6368;
-      font-size: 24px;
-    }
-    .material-symbols-outlined { font-size: 28px; color: #333; }
-    .container {
-      max-width: 400px;
-      width: 100%;
-      margin-top: 40px;
-      text-align: center;
-    }
-    .flame { visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease; }
-    .flame.visible { visibility: visible; opacity: 1; }
-    .flame img { width: 110px; height: auto; margin: 0 auto 4px; }
-    .streak-number {
-      font-size: 72px;
-      font-weight: 700;
-      color: #ff9600;
-      text-shadow: -4px -4px 0 #fff, 4px -4px 0 #fff, -4px 4px 0 #fff, 4px 4px 0 #fff;
-      margin: 0;
-      line-height: 1.1;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s, opacity 0.3s ease;
-    }
-    .streak-number.visible { visibility: visible; opacity: 1; }
-    .streak-text {
-      font-size: 28px;
-      color: #ff9600;
-      font-weight: 700;
-      margin-top: -6px;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s, opacity 0.3s ease;
-    }
-    .streak-text.visible { visibility: visible; opacity: 1; }
-    .card {
-      margin-top: 30px;
-      background: white;
-      border-radius: 22px;
-      padding: 18px;
-      box-shadow: 0 0 0 3px #e5e5e5;
-    }
-    .days {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      color: #999;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    .days span { width: 38px; text-align: center; }
-    .days span.active { color: #ff9600; }
-    .ticks {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .tick {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-    .tick.orange { background: #ff9600; color: white; }
-    .tick.grey { background: #cccccc; color: white; }
-    .tick i { font-size: 22px; }
-    .divider { height: 1px; background: #e5e5e5; margin: 18px 0; }
-    .message { font-size: 20px; color: #444; }
-    .continue-btn {
-      width: 100%;
-      height: 52px;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      border: none;
-      font-size: 15px;
-      text-transform: uppercase;
-      cursor: pointer;
-      background: #4285F4;
-      color: white;
-      border-bottom: 4px solid #3a75d9;
-      margin-top: 24px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    .share-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    .share-content {
-      width: 100%;
-      max-width: 357px;
-      background: #f5f5f7;
-      border-radius: 24px;
-      overflow: hidden;
-    }
-    .share-card {
-      background: white;
-      border-radius: 24px;
-      padding: 32px 24px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    .share-sheet {
-      background: white;
-      border-top: 1px solid #dadada;
-      border-radius: 24px 24px 0 0;
-      padding: 16px 12px;
-    }
-    .share-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .share-item, .bottom-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-    }
-    .share-icon-circle, .bottom-icon-circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 8px;
-    }
-    .share-icon, .bottom-icon {
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .share-icon img { width: 100%; height: 100%; object-fit: contain; }
-    .share-text, .bottom-text { font-size: 11px; color: #333; }
-    .bottom-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      padding: 0 20px;
-    }
-    .mini-streak { display: flex; flex-direction: column; align-items: center; }
-    .share-streak-number {
-      font-size: 48px;
-      font-weight: 700;
-      color: #ff9600;
-      text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
-    }
-    .share-streak-text { font-size: 22px; color: #ff9600; font-weight: 700; }
-    .share-message { font-size: 18px; color: #444; margin: 8px 0; }
-    .share-brand { margin-top: 16px; font-weight: 700; color: #4285F4; font-size: 24px; }
-  </style>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 16px;
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      background: transparent;
+      z-index: 100;
+    }
+    .header-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #5F6368;
+      font-size: 24px;
+    }
+    .material-symbols-outlined { font-size: 28px; color: #333; }
+    .container {
+      max-width: 400px;
+      width: 100%;
+      margin-top: 40px;
+      text-align: center;
+    }
+    .flame { visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease; }
+    .flame.visible { visibility: visible; opacity: 1; }
+    .flame img { width: 110px; height: auto; margin: 0 auto 4px; }
+    .streak-number {
+      font-size: 72px;
+      font-weight: 700;
+      color: #ff9600;
+      text-shadow: -4px -4px 0 #fff, 4px -4px 0 #fff, -4px 4px 0 #fff, 4px 4px 0 #fff;
+      margin: 0;
+      line-height: 1.1;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s ease;
+    }
+    .streak-number.visible { visibility: visible; opacity: 1; }
+    .streak-text {
+      font-size: 28px;
+      color: #ff9600;
+      font-weight: 700;
+      margin-top: -6px;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s ease;
+    }
+    .streak-text.visible { visibility: visible; opacity: 1; }
+    .card {
+      margin-top: 30px;
+      background: white;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 0 0 3px #e5e5e5;
+    }
+    .days {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #999;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .days span { width: 38px; text-align: center; }
+    .days span.active { color: #ff9600; }
+    .ticks {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .tick {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .tick.orange { background: #ff9600; color: white; }
+    .tick.grey { background: #cccccc; color: white; }
+    .tick i { font-size: 22px; }
+    .divider { height: 1px; background: #e5e5e5; margin: 18px 0; }
+    .message { font-size: 20px; color: #444; }
+    .continue-btn {
+      width: 100%;
+      height: 52px;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      border: none;
+      font-size: 15px;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: #4285F4;
+      color: white;
+      border-bottom: 4px solid #3a75d9;
+      margin-top: 24px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .share-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .share-content {
+      width: 100%;
+      max-width: 357px;
+      background: #f5f5f7;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+    .share-card {
+      background: white;
+      border-radius: 24px;
+      padding: 32px 24px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .share-sheet {
+      background: white;
+      border-top: 1px solid #dadada;
+      border-radius: 24px 24px 0 0;
+      padding: 16px 12px;
+    }
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .share-item, .bottom-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+    .share-icon-circle, .bottom-icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .share-icon, .bottom-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .share-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .share-text, .bottom-text { font-size: 11px; color: #333; }
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 0 20px;
+    }
+    .mini-streak { display: flex; flex-direction: column; align-items: center; }
+    .share-streak-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: #ff9600;
+      text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
+    }
+    .share-streak-text { font-size: 22px; color: #ff9600; font-weight: 700; }
+    .share-message { font-size: 18px; color: #444; margin: 8px 0; }
+    .share-brand { margin-top: 16px; font-weight: 700; color: #4285F4; font-size: 24px; }
+  </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-icon" id="exit-button"><span class="material-symbols-outlined">close</span></div>
-  <div class="header-icon" id="share-button"><span class="material-symbols-outlined">upload</span></div>
+  <div class="header-icon" id="exit-button"><span class="material-symbols-outlined">close</span></div>
+  <div class="header-icon" id="share-button"><span class="material-symbols-outlined">upload</span></div>
 </div>
 
 <div class="container">
-  <div class="flame" id="flame"><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp" alt="flame"></div>
-  <h1 class="streak-number" id="streakNumber">1</h1>
-  <div class="streak-text" id="streakText">day streak!</div>
-  <div class="card">
-    <div class="days" id="daysContainer"></div>
-    <div class="ticks" id="ticksContainer"></div>
-    <div class="divider"></div>
-    <div class="message" id="streakMessage">You now have an active streak. Do a lesson everyday to extend it.</div>
-  </div>
-  <button class="continue-btn" id="continueButton">CONTINUE</button>
+  <div class="flame" id="flame"><img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp" alt="flame"></div>
+  <h1 class="streak-number" id="streakNumber">1</h1>
+  <div class="streak-text" id="streakText">day streak!</div>
+  <div class="card">
+    <div class="days" id="daysContainer"></div>
+    <div class="ticks" id="ticksContainer"></div>
+    <div class="divider"></div>
+    <div class="message" id="streakMessage">You now have an active streak. Do a lesson everyday to extend it.</div>
+  </div>
+  <button class="continue-btn" id="continueButton">CONTINUE</button>
 </div>
 
 <div class="share-overlay" id="share-overlay">
-  <div class="share-content">
-    <div class="share-card" id="share-card">
-      <div class="mini-streak">
-        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp" width="60" alt="flame" style="margin-bottom: 4px;">
-        <div class="share-streak-number">1</div>
-        <div class="share-streak-text">day streak!</div>
-        <div class="share-message" id="shareMessage">I now have an active streak on Vulanet.</div>
-      </div>
-      <div class="share-brand">vulanet</div>
-    </div>
-    <div class="share-sheet">
-      <div class="share-grid">
-        <div class="share-item" id="share-facebook"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg"></div></div><div class="share-text">Facebook</div></div>
-        <div class="share-item" id="share-x"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/X_logo.jpg"></div></div><div class="share-text">X</div></div>
-        <div class="share-item" id="share-whatsapp"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div></div><div class="share-text">WhatsApp</div></div>
-        <div class="share-item" id="share-sms"><div class="share-icon-circle"><div class="share-icon"><span class="material-symbols-outlined">sms</span></div></div><div class="share-text">Message</div></div>
-      </div>
-      <div class="bottom-grid">
-        <div class="bottom-item" id="save-image"><div class="bottom-icon-circle"><div class="bottom-icon"><span class="material-symbols-outlined">download</span></div></div><div class="bottom-text">Save image</div></div>
-        <div class="bottom-item" id="more-options"><div class="bottom-icon-circle"><div class="bottom-icon"><span class="material-symbols-outlined">more_horiz</span></div></div><div class="bottom-text">More</div></div>
-      </div>
-    </div>
-  </div>
+  <div class="share-content">
+    <div class="share-card" id="share-card">
+      <div class="mini-streak">
+        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f525/512.webp" width="60" alt="flame" style="margin-bottom: 4px;">
+        <div class="share-streak-number">1</div>
+        <div class="share-streak-text">day streak!</div>
+        <div class="share-message" id="shareMessage">I now have an active streak on Vulanet.</div>
+      </div>
+      <div class="share-brand">vulanet</div>
+    </div>
+    <div class="share-sheet">
+      <div class="share-grid">
+        <div class="share-item" id="share-facebook"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg"></div></div><div class="share-text">Facebook</div></div>
+        <div class="share-item" id="share-x"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/X_logo.jpg"></div></div><div class="share-text">X</div></div>
+        <div class="share-item" id="share-whatsapp"><div class="share-icon-circle"><div class="share-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"></div></div><div class="share-text">WhatsApp</div></div>
+        <div class="share-item" id="share-sms"><div class="share-icon-circle"><div class="share-icon"><span class="material-symbols-outlined">sms</span></div></div><div class="share-text">Message</div></div>
+      </div>
+      <div class="bottom-grid">
+        <div class="bottom-item" id="save-image"><div class="bottom-icon-circle"><div class="bottom-icon"><span class="material-symbols-outlined">download</span></div></div><div class="bottom-text">Save image</div></div>
+        <div class="bottom-item" id="more-options"><div class="bottom-icon-circle"><div class="bottom-icon"><span class="material-symbols-outlined">more_horiz</span></div></div><div class="bottom-text">More</div></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-  // Play streak sound
-  const streakAudio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/streak.mp3');
-  streakAudio.play().catch(e => console.log("Audio play failed:", e));
+  const streakAudio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/streak.mp3');
+  streakAudio.play().catch(e => console.log("Audio play failed:", e));
 
-  let streakDays = 1;
-  
-  const today = new Date();
-  let currentDayIndex = today.getDay();
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  let displayDays = [];
-  for (let i = 0; i < 7; i++) {
-    let dayIdx = (currentDayIndex + i) % 7;
-    displayDays.push(dayNames[dayIdx]);
-  }
+  let streakDays = 1;
+  const today = new Date();
+  let currentDayIndex = today.getDay();
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  let displayDays = [];
+  for (let i = 0; i < 7; i++) {
+    let dayIdx = (currentDayIndex + i) % 7;
+    displayDays.push(dayNames[dayIdx]);
+  }
 
-  const daysContainer = document.getElementById('daysContainer');
-  daysContainer.innerHTML = '';
-  displayDays.forEach((day, idx) => {
-    const span = document.createElement('span');
-    span.textContent = day;
-    if (idx === 0) span.classList.add('active');
-    daysContainer.appendChild(span);
-  });
+  const daysContainer = document.getElementById('daysContainer');
+  daysContainer.innerHTML = '';
+  displayDays.forEach((day, idx) => {
+    const span = document.createElement('span');
+    span.textContent = day;
+    if (idx === 0) span.classList.add('active');
+    daysContainer.appendChild(span);
+  });
 
-  const ticksContainer = document.getElementById('ticksContainer');
-  ticksContainer.innerHTML = '';
-  for (let i = 0; i < 7; i++) {
-    const tickDiv = document.createElement('div');
-    tickDiv.className = 'tick grey';
-    tickDiv.innerHTML = '<i class="ph-fill ph-check-fat"></i>';
-    tickDiv.id = `tick-${i}`;
-    ticksContainer.appendChild(tickDiv);
-  }
+  const ticksContainer = document.getElementById('ticksContainer');
+  ticksContainer.innerHTML = '';
+  for (let i = 0; i < 7; i++) {
+    const tickDiv = document.createElement('div');
+    tickDiv.className = 'tick grey';
+    tickDiv.innerHTML = '<i class="ph-fill ph-check-fat"></i>';
+    tickDiv.id = `tick-${i}`;
+    ticksContainer.appendChild(tickDiv);
+  }
 
-  let activeTickCount = Math.min(streakDays, 7);
+  let activeTickCount = Math.min(streakDays, 7);
 
-  document.getElementById('streakNumber').textContent = streakDays;
-  document.getElementById('streakText').textContent = streakDays === 1 ? 'day streak!' : 'day streak!';
-  document.querySelector('.share-streak-number').textContent = streakDays;
-  document.querySelector('.share-streak-text').textContent = streakDays === 1 ? 'day streak!' : 'day streak!';
-  const shareMessageElement = document.getElementById('shareMessage');
-  shareMessageElement.textContent = 'I now have an active streak on Vulanet.';
+  document.getElementById('streakNumber').textContent = streakDays;
+  document.getElementById('streakText').textContent = streakDays === 1 ? 'day streak!' : 'day streak!';
+  document.querySelector('.share-streak-number').textContent = streakDays;
+  document.querySelector('.share-streak-text').textContent = streakDays === 1 ? 'day streak!' : 'day streak!';
+  const shareMessageElement = document.getElementById('shareMessage');
+  shareMessageElement.textContent = 'I now have an active streak on Vulanet.';
 
-  setTimeout(() => {
-    const allTicks = document.querySelectorAll('.tick');
-    for (let i = 0; i < activeTickCount; i++) {
-      const tick = allTicks[i];
-      if (tick) {
-        tick.classList.remove('grey');
-        tick.classList.add('orange');
-      }
-    }
-    document.getElementById('flame').classList.add('visible');
-    document.getElementById('streakNumber').classList.add('visible');
-    document.getElementById('streakText').classList.add('visible');
-  }, 1000);
+  setTimeout(() => {
+    const allTicks = document.querySelectorAll('.tick');
+    for (let i = 0; i < activeTickCount; i++) {
+      const tick = allTicks[i];
+      if (tick) {
+        tick.classList.remove('grey');
+        tick.classList.add('orange');
+      }
+    }
+    document.getElementById('flame').classList.add('visible');
+    document.getElementById('streakNumber').classList.add('visible');
+    document.getElementById('streakText').classList.add('visible');
+  }, 1000);
 
-  const shareOverlay = document.getElementById('share-overlay');
-  document.getElementById('share-button').addEventListener('click', () => shareOverlay.style.display = 'flex');
-  shareOverlay.addEventListener('click', (e) => { if (e.target === shareOverlay) shareOverlay.style.display = 'none'; });
-  
-  document.getElementById('save-image').addEventListener('click', async () => {
-    const card = document.getElementById('share-card');
-    await document.fonts.ready;
-    html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
-      const link = document.createElement('a');
-      link.download = 'streak.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    });
-  });
+  const shareOverlay = document.getElementById('share-overlay');
+  document.getElementById('share-button').addEventListener('click', () => shareOverlay.style.display = 'flex');
+  shareOverlay.addEventListener('click', (e) => { if (e.target === shareOverlay) shareOverlay.style.display = 'none'; });
+  
+  document.getElementById('save-image').addEventListener('click', async () => {
+    const card = document.getElementById('share-card');
+    await document.fonts.ready;
+    html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'streak.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  });
 
-  function getShareText() {
-    return 'I now have an active streak on Vulanet.';
-  }
+  function getShareText() {
+    return 'I now have an active streak on Vulanet.';
+  }
 
-  document.getElementById('share-facebook').addEventListener('click', () => {
-    const shareText = encodeURIComponent(getShareText());
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://vulanet.com/streak")}&quote=${shareText}`, 'fb-share');
-  });
-  document.getElementById('share-x').addEventListener('click', () => {
-    const shareText = encodeURIComponent(getShareText());
-    window.open(`https://twitter.com/intent/tweet?text=${shareText}`, 'twitter-share');
-  });
-  document.getElementById('share-whatsapp').addEventListener('click', () => {
-    const shareText = encodeURIComponent(getShareText());
-    window.open(`https://wa.me/?text=${shareText}`, 'whatsapp-share');
-  });
-  document.getElementById('share-sms').addEventListener('click', () => {
-    const shareText = getShareText();
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      window.location.href = `sms:?body=${encodeURIComponent(shareText)}`;
-    } else {
-      navigator.clipboard.writeText(shareText).then(() => alert("Copied!"));
-    }
-  });
-  document.getElementById('more-options').addEventListener('click', async () => {
-    const shareText = getShareText();
-    if (navigator.share) {
-      await navigator.share({ title: 'My Vulanet Streak', text: shareText, url: 'https://vulanet.com/streak' });
-    } else {
-      alert("Share not supported, you can take a screenshot.");
-    }
-  });
+  document.getElementById('share-facebook').addEventListener('click', () => {
+    const shareText = encodeURIComponent(getShareText());
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://vulanet.com/streak")}&quote=${shareText}`, 'fb-share');
+  });
+  document.getElementById('share-x').addEventListener('click', () => {
+    const shareText = encodeURIComponent(getShareText());
+    window.open(`https://twitter.com/intent/tweet?text=${shareText}`, 'twitter-share');
+  });
+  document.getElementById('share-whatsapp').addEventListener('click', () => {
+    const shareText = encodeURIComponent(getShareText());
+    window.open(`https://wa.me/?text=${shareText}`, 'whatsapp-share');
+  });
+  document.getElementById('share-sms').addEventListener('click', () => {
+    const shareText = getShareText();
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      window.location.href = `sms:?body=${encodeURIComponent(shareText)}`;
+    } else {
+      navigator.clipboard.writeText(shareText).then(() => alert("Copied!"));
+    }
+  });
+  document.getElementById('more-options').addEventListener('click', async () => {
+    const shareText = getShareText();
+    if (navigator.share) {
+      await navigator.share({ title: 'My Vulanet Streak', text: shareText, url: 'https://vulanet.com/streak' });
+    } else {
+      alert("Share not supported, you can take a screenshot.");
+    }
+  });
 
-  document.getElementById('exit-button').addEventListener('click', () => {
-    window.parent.postMessage({ type: 'streakClosed', streakDays: streakDays }, '*');
-    window.parent.postMessage('modalClose', '*');
-  });
-  
-  document.getElementById('continueButton').addEventListener('click', () => {
-    window.parent.postMessage({ type: 'streakClosed', streakDays: streakDays }, '*');
-    window.parent.postMessage('modalClose', '*');
-  });
+  document.getElementById('exit-button').addEventListener('click', () => {
+    window.parent.postMessage({ type: 'streakClosed', streakDays: streakDays }, '*');
+    window.parent.postMessage('modalClose', '*');
+  });
+  
+  document.getElementById('continueButton').addEventListener('click', () => {
+    window.parent.postMessage({ type: 'streakClosed', streakDays: streakDays }, '*');
+    window.parent.postMessage('modalClose', '*');
+  });
 </script>
 </body>
 </html>
