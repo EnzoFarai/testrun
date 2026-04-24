@@ -145,7 +145,6 @@
         <div class="reward-content">
             <div class="reward-scene">
                 <div class="hearts-container" id="heartsContainer">
-                    <!-- Dynamic hearts will be injected here -->
                 </div>
             </div>
             <div class="reward-title" id="rewardTitle">You gained more hearts!</div>
@@ -165,15 +164,12 @@
         const params = new URLSearchParams(window.location.search);
         let heartsParam = params.get('hearts') || 'full';
         let heartCount = 0;
-        let message = '';
 
         if (heartsParam === 'full') {
             heartCount = 5;
-            message = 'You now have 5 hearts again.';
         } else {
             heartCount = parseInt(heartsParam);
             if (isNaN(heartCount)) heartCount = 1;
-            message = `You now have ${heartCount} heart${heartCount > 1 ? 's' : ''}.`;
         }
 
         // Render hearts
@@ -186,9 +182,13 @@
         }
 
         // Update text
-        document.getElementById('rewardSubtitle').innerText = message;
-        if (heartCount === 1) document.getElementById('rewardTitle').innerText = 'You gained a heart!';
-        else document.getElementById('rewardTitle').innerText = 'You gained more hearts!';
+        if (heartCount === 5) {
+            document.getElementById('rewardSubtitle').innerText = 'You now have 5 hearts again.';
+            document.getElementById('rewardTitle').innerText = 'You gained more hearts!';
+        } else {
+            document.getElementById('rewardSubtitle').innerText = `You now have ${heartCount} heart${heartCount > 1 ? 's' : ''}.`;
+            document.getElementById('rewardTitle').innerText = heartCount === 1 ? 'You gained a heart!' : 'You gained more hearts!';
+        }
 
         document.getElementById('claimButton').addEventListener('click', () => {
             window.parent.postMessage('modalClose', '*');
