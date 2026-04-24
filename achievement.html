@@ -119,12 +119,10 @@
   shareOverlay.addEventListener('click', (e) => { if (e.target === shareOverlay) shareOverlay.style.display = 'none'; });
   document.getElementById('exit-button').addEventListener('click', () => window.parent.postMessage('modalClose', '*'));
   
-  // Claim reward - closes achievement and moves to coin reward
   document.getElementById('claimRewardBtn').addEventListener('click', () => {
     window.parent.postMessage('modalClose', '*');
   });
 
-  // Save image
   document.getElementById('save-image').addEventListener('click', async () => {
     const card = document.getElementById('share-card');
     await document.fonts.ready;
@@ -136,7 +134,6 @@
     });
   });
 
-  // Share handlers
   document.getElementById('share-facebook').addEventListener('click', () => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://vulanet.com/achievement")}&quote=I earned XP Powerhouse!`, 'fb-share');
   });
