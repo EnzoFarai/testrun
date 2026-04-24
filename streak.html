@@ -263,13 +263,9 @@
   const streakAudio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/streak.mp3');
   streakAudio.play().catch(e => console.log("Audio play failed:", e));
 
-  // TODO: Replace with actual streak length from database
   let streakDays = 1;
   
-  // Get current date
   const today = new Date();
-
-  // Get day of week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
   let currentDayIndex = today.getDay();
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   let displayDays = [];
@@ -278,7 +274,6 @@
     displayDays.push(dayNames[dayIdx]);
   }
 
-  // Render days
   const daysContainer = document.getElementById('daysContainer');
   daysContainer.innerHTML = '';
   displayDays.forEach((day, idx) => {
@@ -288,7 +283,6 @@
     daysContainer.appendChild(span);
   });
 
-  // Render ticks
   const ticksContainer = document.getElementById('ticksContainer');
   ticksContainer.innerHTML = '';
   for (let i = 0; i < 7; i++) {
@@ -301,7 +295,6 @@
 
   let activeTickCount = Math.min(streakDays, 7);
 
-  // Update streak number display
   document.getElementById('streakNumber').textContent = streakDays;
   document.getElementById('streakText').textContent = streakDays === 1 ? 'day streak!' : 'day streak!';
   document.querySelector('.share-streak-number').textContent = streakDays;
@@ -309,7 +302,6 @@
   const shareMessageElement = document.getElementById('shareMessage');
   shareMessageElement.textContent = 'I now have an active streak on Vulanet.';
 
-  // After 1 second, animate: light up the ticks
   setTimeout(() => {
     const allTicks = document.querySelectorAll('.tick');
     for (let i = 0; i < activeTickCount; i++) {
@@ -324,12 +316,10 @@
     document.getElementById('streakText').classList.add('visible');
   }, 1000);
 
-  // Share functionality
   const shareOverlay = document.getElementById('share-overlay');
   document.getElementById('share-button').addEventListener('click', () => shareOverlay.style.display = 'flex');
   shareOverlay.addEventListener('click', (e) => { if (e.target === shareOverlay) shareOverlay.style.display = 'none'; });
   
-  // Save image
   document.getElementById('save-image').addEventListener('click', async () => {
     const card = document.getElementById('share-card');
     await document.fonts.ready;
@@ -374,7 +364,6 @@
     }
   });
 
-  // UPDATED: Send streak days back to parent when modal closes
   document.getElementById('exit-button').addEventListener('click', () => {
     window.parent.postMessage({ type: 'streakClosed', streakDays: streakDays }, '*');
     window.parent.postMessage('modalClose', '*');
