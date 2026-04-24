@@ -11,17 +11,17 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #ffffff; font-family: 'Atkinson Hyperlegible Next', system-ui; -webkit-font-smoothing: antialiased; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 24px 16px; }
     .daily-quests-module { max-width: 500px; width: 100%; margin: 0 auto; position: relative; }
-    .section-title { font-family: 'Atkinson Hyperlegible Next', sans-serif; font-size: 22px; margin: 0; color: #3b3b3b; font-weight: 700; }
+    .section-title { font-size: 22px; margin: 0; color: #3b3b3b; font-weight: 700; }
     .time-cta { color: #ff9f1a; font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 14px; }
-    .card { background: #ffffff; border-radius: 18px; padding: 0; border: 1px solid #eee; box-shadow: 0 6px 18px rgba(15,15,15,0.06); margin-bottom: 24px; }
+    .card { background: #ffffff; border-radius: 18px; border: 1px solid #eee; box-shadow: 0 6px 18px rgba(15,15,15,0.06); margin-bottom: 24px; }
     .quests { margin-top: 8px; border-radius: 14px; overflow: hidden; border: 1px solid #eee; }
     .quest-row { padding: 18px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #f0f0f0; background: #fff; }
     .quest-info { flex: 1; }
-    .quest-title { font-weight: 700; margin: 0 0 10px; color: #444; font-size: 15px; }
+    .quest-title { font-weight: 700; margin-bottom: 10px; color: #444; font-size: 15px; }
     .progress-wrapper { position: relative; width: 100%; }
     .progress-bar { height: 28px; background: #e6e6e6; border-radius: 20px; position: relative; overflow: hidden; display: flex; align-items: center; }
     .progress-inner { height: 12px; background: #ffa726; border-radius: 12px; }
-    .progress-count { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 13px; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.1); pointer-events: none; white-space: nowrap; }
+    .progress-count { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: #fff; font-weight: 700; font-size: 13px; z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.1); pointer-events: none; white-space: nowrap; }
     .progress-count.dark-text { color: #666; text-shadow: none; }
     .chest { width: 44px; height: 44px; border-radius: 8px; flex: 0 0 44px; display: flex; align-items: center; justify-content: center; font-size: 32px; cursor: pointer; transition: transform 0.1s ease; }
     .chest:active { transform: scale(0.95); }
@@ -30,192 +30,77 @@
     .bronze { color: #cd7f32; }
     .silver { color: #c0c0c0; }
     .gold { color: #ffd700; }
-    .continue-action { width: 100%; margin-top: 8px; margin-bottom: 0; }
-    .continue-btn { width: 100%; background: #4285F4; border: none; border-radius: 0.75rem; padding: 14px 20px; font-weight: 700; font-size: 15px; text-transform: uppercase; color: white; cursor: pointer; border-bottom: 4px solid #3a75d9; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.2s ease; font-family: 'Atkinson Hyperlegible Next', sans-serif; letter-spacing: 0.5px; }
+    .continue-action { width: 100%; margin-top: 8px; }
+    .continue-btn { width: 100%; background: #4285F4; border: none; border-radius: 0.75rem; padding: 14px 20px; font-weight: 700; font-size: 15px; text-transform: uppercase; color: white; cursor: pointer; border-bottom: 4px solid #3a75d9; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: all 0.2s ease; }
     .continue-btn:hover { background: #2a75f0; transform: translateY(-1px); }
     .continue-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
-    .daily-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .daily-header-row { display: flex; justify-content: space-between; margin-bottom: 16px; }
 
-    /* Internal coin reward modal */
+    /* Internal coin modal */
     .internal-modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s, opacity 0.3s ease;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+      display: flex; justify-content: center; align-items: center; z-index: 1000;
+      visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease;
     }
-    .internal-modal-overlay.visible {
-      visibility: visible;
-      opacity: 1;
-    }
-    .internal-modal {
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      border-radius: 0;
-      box-shadow: none;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .internal-modal-content {
-      width: 100%;
-      padding: 40px 24px 48px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .internal-modal-title {
-      margin-top: 20px;
-      font-weight: 700;
-      color: #0f1c22;
-      font-size: 20px;
-      line-height: 1.4;
-      max-width: 320px;
-    }
-    .internal-modal-subtitle {
-      margin-top: 8px;
-      font-weight: 400;
-      color: #6b7280;
-      font-size: 14px;
-      line-height: 1.4;
-      max-width: 280px;
-      margin-bottom: 24px;
-    }
-    .internal-modal-scene {
-      width: 100%;
-      height: 200px;
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .internal-coin-icon {
-      color: #FFD700;
-      font-size: 140px;
-      filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.3));
-    }
-    .internal-claim-button {
-      width: 100%;
-      height: 58px;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      border: none;
-      font-size: 16px;
-      text-transform: uppercase;
-      cursor: pointer;
-      font-family: 'Atkinson Hyperlegible', sans-serif;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      gap: 8px;
-      color: #ffffff;
-      background-color: #4285F4;
-      border-bottom: 0.25rem solid #3a75d9;
-    }
-    .internal-claim-button:hover {
-      background-color: #3a75d9;
-      border-bottom-color: #3166c4;
-      transform: translateY(-0.125rem);
-    }
-    @media (max-width: 768px) {
-      .internal-coin-icon { font-size: 120px; }
-    }
-    @media (max-width: 480px) {
-      .internal-coin-icon { font-size: 100px; }
-      .internal-modal-content { padding: 28px 16px 36px; }
-    }
+    .internal-modal-overlay.visible { visibility: visible; opacity: 1; }
+    .internal-modal { width: 100%; max-width: 420px; background: white; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .internal-modal-content { width: 100%; padding: 40px 24px 48px; display: flex; flex-direction: column; align-items: center; }
+    .internal-modal-title { margin-top: 20px; font-weight: 700; color: #0f1c22; font-size: 20px; }
+    .internal-modal-subtitle { margin-top: 8px; font-weight: 400; color: #6b7280; font-size: 14px; margin-bottom: 24px; }
+    .internal-modal-scene { width: 100%; height: 200px; margin-top: 20px; display: flex; justify-content: center; align-items: center; }
+    .internal-coin-icon { color: #FFD700; font-size: 140px; filter: drop-shadow(0 4px 8px rgba(255,215,0,0.3)); }
+    .internal-claim-button { width: 100%; height: 58px; border-radius: 0.75rem; font-weight: 700; border: none; font-size: 16px; text-transform: uppercase; cursor: pointer; background-color: #4285F4; color: white; border-bottom: 0.25rem solid #3a75d9; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .internal-claim-button:hover { background-color: #3a75d9; transform: translateY(-0.125rem); }
+    @media (max-width: 768px) { .internal-coin-icon { font-size: 120px; } }
+    @media (max-width: 480px) { .internal-coin-icon { font-size: 100px; } .internal-modal-content { padding: 28px 16px 36px; } }
   </style>
 </head>
 <body>
   <div class="daily-quests-module">
     <div class="daily-header-row">
       <div class="section-title">Daily Quests</div>
-      <div class="time-cta"><i class="ph-bold ph-clock-countdown" style="color: #ff9f1a;"></i>20 MINUTES</div>
+      <div class="time-cta"><i class="ph-bold ph-clock-countdown"></i>20 MINUTES</div>
     </div>
-
     <div class="card quests">
       <div class="quest-row">
-        <div class="quest-info">
-          <div class="quest-title">Start a streak</div>
-          <div class="progress-wrapper">
-            <div class="progress-bar"><div class="progress-inner" style="width: calc(100% - 20px); margin-left: 10px;"></div><div class="progress-count">1 / 1</div></div>
-          </div>
-        </div>
-        <div class="chest bronze" id="chestBronze" data-quest="1" data-coins="50"><i class="ph-duotone ph-treasure-chest"></i></div>
+        <div class="quest-info"><div class="quest-title">Start a streak</div><div class="progress-wrapper"><div class="progress-bar"><div class="progress-inner" style="width: calc(100% - 20px); margin-left: 10px;"></div><div class="progress-count">1 / 1</div></div></div></div>
+        <div class="chest bronze" id="chestBronze"><i class="ph-duotone ph-treasure-chest"></i></div>
       </div>
-
       <div class="quest-row">
-        <div class="quest-info">
-          <div class="quest-title">Score 80% or higher in 3 lessons</div>
-          <div class="progress-wrapper">
-            <div class="progress-bar"><div class="progress-inner" id="quest2Fill" style="width: 0px; margin-left: 0px; background: #d9d9d9;"></div><div class="progress-count dark-text" id="quest2Count">0 / 3</div></div>
-          </div>
-        </div>
-        <div class="chest silver" id="chestSilver" data-quest="2" data-coins="75"><i class="ph-duotone ph-treasure-chest"></i></div>
+        <div class="quest-info"><div class="quest-title">Score 80% or higher in 3 lessons</div><div class="progress-wrapper"><div class="progress-bar"><div class="progress-inner" id="quest2Fill" style="width: 0px; margin-left: 0px; background: #d9d9d9;"></div><div class="progress-count dark-text" id="quest2Count">0 / 3</div></div></div></div>
+        <div class="chest silver" id="chestSilver"><i class="ph-duotone ph-treasure-chest"></i></div>
       </div>
-
       <div class="quest-row">
-        <div class="quest-info">
-          <div class="quest-title">Complete 4 lessons</div>
-          <div class="progress-wrapper">
-            <div class="progress-bar"><div class="progress-inner" id="quest3Fill" style="width: calc(25% - 20px); margin-left: 10px;"></div><div class="progress-count" id="quest3Count">1 / 4</div></div>
-          </div>
-        </div>
-        <div class="chest gold" id="chestGold" data-quest="3" data-coins="100"><i class="ph-duotone ph-treasure-chest"></i></div>
+        <div class="quest-info"><div class="quest-title">Complete 4 lessons</div><div class="progress-wrapper"><div class="progress-bar"><div class="progress-inner" id="quest3Fill" style="width: calc(25% - 20px); margin-left: 10px;"></div><div class="progress-count" id="quest3Count">1 / 4</div></div></div></div>
+        <div class="chest gold" id="chestGold"><i class="ph-duotone ph-treasure-chest"></i></div>
       </div>
     </div>
-    
-    <div class="continue-action">
-      <button class="continue-btn" id="continueButton">CONTINUE</button>
-    </div>
+    <div class="continue-action"><button class="continue-btn" id="continueButton">CONTINUE</button></div>
   </div>
 
-  <!-- Internal modal for coin rewards (stays inside iframe) -->
+  <!-- Internal coin reward modal -->
   <div id="coinRewardModal" class="internal-modal-overlay">
     <div class="internal-modal">
       <div class="internal-modal-content">
-        <div class="internal-modal-scene">
-          <i class="ph-duotone ph-coins internal-coin-icon"></i>
-        </div>
+        <div class="internal-modal-scene"><i class="ph-duotone ph-coins internal-coin-icon"></i></div>
         <div class="internal-modal-title" id="modalTitle">You have earned 250 coins!</div>
         <div class="internal-modal-subtitle" id="modalSubtitle">Spend them wisely</div>
-        <div class="reward-buttons-container">
-          <button class="internal-claim-button" id="modalClaimBtn">Claim 250 <i class="ph-duotone ph-coins"></i></button>
-        </div>
+        <button class="internal-claim-button" id="modalClaimBtn">Claim 250 <i class="ph-duotone ph-coins"></i></button>
       </div>
     </div>
   </div>
 
   <script>
-    // Play quest sound
     const questAudio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/quest.mp3');
-    questAudio.play().catch(e => console.log("Audio play failed:", e));
+    questAudio.play().catch(e=>console.log(e));
 
-    // Parse URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const correctAttempts = parseInt(urlParams.get('correctAttempts')) || 0;
     const totalAttempts = parseInt(urlParams.get('totalAttempts')) || 1;
     const completed = urlParams.get('completed') === 'true';
 
-    // Calculate percentage for quest 2
     const percentage = Math.round((correctAttempts / totalAttempts) * 100);
     let quest2Completed = (percentage >= 80);
-    
     if (quest2Completed) {
       document.getElementById('quest2Fill').style.width = "calc(33% - 20px)";
       document.getElementById('quest2Fill').style.marginLeft = "10px";
@@ -223,62 +108,43 @@
       document.getElementById('quest2Count').textContent = "1 / 3";
       document.getElementById('quest2Count').classList.remove('dark-text');
     }
-
-    // Quest 3: if completed is true, set to 1/4
     let quest3Completed = completed;
     if (quest3Completed) {
       document.getElementById('quest3Fill').style.width = "calc(25% - 20px)";
       document.getElementById('quest3Fill').style.marginLeft = "10px";
       document.getElementById('quest3Count').textContent = "1 / 4";
     }
-
-    // Quest 1 always completed
     const quest1Completed = true;
 
-    // Load claimed chests from localStorage
-    const today = new Date().toISOString().slice(0, 10);
+    const today = new Date().toISOString().slice(0,10);
     const storageKey = `dailyQuest_${today}`;
     let claimedChests = { bronze: false, silver: false, gold: false };
-    
-    const savedClaims = localStorage.getItem(storageKey);
-    if (savedClaims) {
-      claimedChests = JSON.parse(savedClaims);
-    }
-
-    // Apply claimed styling on load
+    const saved = localStorage.getItem(storageKey);
+    if (saved) claimedChests = JSON.parse(saved);
     if (claimedChests.bronze) document.getElementById('chestBronze').classList.add('claimed');
     if (claimedChests.silver) document.getElementById('chestSilver').classList.add('claimed');
     if (claimedChests.gold) document.getElementById('chestGold').classList.add('claimed');
 
-    // Chest values
     const chestValues = { bronze: 50, silver: 75, gold: 100 };
-    const chestEligible = {
-      bronze: quest1Completed,
-      silver: quest2Completed,
-      gold: quest3Completed
-    };
-
-    // Disable ineligible chests visually
+    const chestEligible = { bronze: quest1Completed, silver: quest2Completed, gold: quest3Completed };
     if (!chestEligible.bronze) document.getElementById('chestBronze').classList.add('disabled');
     if (!chestEligible.silver) document.getElementById('chestSilver').classList.add('disabled');
     if (!chestEligible.gold) document.getElementById('chestGold').classList.add('disabled');
 
-    // Internal modal handling
     const modal = document.getElementById('coinRewardModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalClaimBtn = document.getElementById('modalClaimBtn');
-    let currentClaimAmount = 0;
-    let currentChestId = null;
+    let currentAmount = 0;
+    let pendingChestIds = [];
 
-    function showCoinReward(amount, chestId) {
-      currentClaimAmount = amount;
-      currentChestId = chestId;
+    function showCoinReward(amount, chestIds) {
+      currentAmount = amount;
+      pendingChestIds = chestIds;
       modalTitle.innerText = `You have earned ${amount} coins!`;
       modalClaimBtn.innerHTML = `Claim ${amount} <i class="ph-duotone ph-coins"></i>`;
       modal.classList.add('visible');
-      // Play coin sound
       const coinAudio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/coins.mp3');
-      coinAudio.play().catch(e => console.log("Audio play failed:", e));
+      coinAudio.play().catch(e=>console.log(e));
     }
 
     function hideModal() {
@@ -286,76 +152,47 @@
     }
 
     modalClaimBtn.onclick = () => {
-      // Mark chest as claimed in localStorage
-      if (currentChestId) {
-        claimedChests[currentChestId] = true;
+      pendingChestIds.forEach(chestId => {
+        claimedChests[chestId] = true;
         localStorage.setItem(storageKey, JSON.stringify(claimedChests));
-        const chestElement = document.getElementById(`chest${currentChestId.charAt(0).toUpperCase() + currentChestId.slice(1)}`);
-        if (chestElement) chestElement.classList.add('claimed');
-      }
+        const el = document.getElementById(`chest${chestId.charAt(0).toUpperCase() + chestId.slice(1)}`);
+        if (el) el.classList.add('claimed');
+      });
       hideModal();
     };
 
-    // Chest click handlers - show internal modal instead of parent message
     function claimChest(chestId) {
-      if (claimedChests[chestId]) {
-        alert("You've already claimed this chest today!");
-        return;
-      }
-      if (!chestEligible[chestId]) {
-        alert("Complete this quest first to claim the chest!");
-        return;
-      }
-      // Show coin reward modal inside this iframe
-      showCoinReward(chestValues[chestId], chestId);
+      if (claimedChests[chestId]) { alert("Already claimed!"); return; }
+      if (!chestEligible[chestId]) { alert("Complete this quest first!"); return; }
+      showCoinReward(chestValues[chestId], [chestId]);
     }
 
     document.getElementById('chestBronze').addEventListener('click', () => claimChest('bronze'));
     document.getElementById('chestSilver').addEventListener('click', () => claimChest('silver'));
     document.getElementById('chestGold').addEventListener('click', () => claimChest('gold'));
 
-    // Continue button - send final status to parent (including unclaimed chests sum)
     document.getElementById('continueButton').addEventListener('click', () => {
-      // Check for unclaimed eligible chests
-      const unclaimedEligible = [];
-      if (chestEligible.bronze && !claimedChests.bronze) unclaimedEligible.push('bronze');
-      if (chestEligible.silver && !claimedChests.silver) unclaimedEligible.push('silver');
-      if (chestEligible.gold && !claimedChests.gold) unclaimedEligible.push('gold');
-      
-      const allQuestsCompleted = chestEligible.bronze && chestEligible.silver && chestEligible.gold;
-      
-      if (allQuestsCompleted && unclaimedEligible.length > 0) {
-        let totalSum = 0;
-        if (unclaimedEligible.includes('bronze')) totalSum += 50;
-        if (unclaimedEligible.includes('silver')) totalSum += 75;
-        if (unclaimedEligible.includes('gold')) totalSum += 100;
-        // Show sum reward modal first
-        showCoinReward(totalSum, null); // no chest id because it's sum of multiple
-        // After modal closes, we need to mark those chests as claimed
-        const originalClaim = modalClaimBtn.onclick;
+      const unclaimed = [];
+      if (chestEligible.bronze && !claimedChests.bronze) unclaimed.push('bronze');
+      if (chestEligible.silver && !claimedChests.silver) unclaimed.push('silver');
+      if (chestEligible.gold && !claimedChests.gold) unclaimed.push('gold');
+      const allCompleted = chestEligible.bronze && chestEligible.silver && chestEligible.gold;
+      if (allCompleted && unclaimed.length > 0) {
+        let sum = 0;
+        if (unclaimed.includes('bronze')) sum += 50;
+        if (unclaimed.includes('silver')) sum += 75;
+        if (unclaimed.includes('gold')) sum += 100;
+        showCoinReward(sum, unclaimed);
+        // After modal close, send continue to parent
+        const originalClose = modalClaimBtn.onclick;
         modalClaimBtn.onclick = () => {
-          unclaimedEligible.forEach(chestId => {
-            claimedChests[chestId] = true;
-            localStorage.setItem(storageKey, JSON.stringify(claimedChests));
-            const chestElement = document.getElementById(`chest${chestId.charAt(0).toUpperCase() + chestId.slice(1)}`);
-            if (chestElement) chestElement.classList.add('claimed');
-          });
+          unclaimed.forEach(id => { claimedChests[id] = true; localStorage.setItem(storageKey, JSON.stringify(claimedChests)); const el = document.getElementById(`chest${id.charAt(0).toUpperCase()+id.slice(1)}`); if(el) el.classList.add('claimed'); });
           hideModal();
-          // Then send continue to parent
-          window.parent.postMessage({ 
-            type: 'dailyQuestContinue', 
-            claimedChests: claimedChests,
-            chestEligible: chestEligible
-          }, '*');
+          window.parent.postMessage({ type: 'dailyQuestContinue', claimedChests, chestEligible }, '*');
           window.parent.postMessage('modalClose', '*');
         };
       } else {
-        // No sum reward, just send continue
-        window.parent.postMessage({ 
-          type: 'dailyQuestContinue', 
-          claimedChests: claimedChests,
-          chestEligible: chestEligible
-        }, '*');
+        window.parent.postMessage({ type: 'dailyQuestContinue', claimedChests, chestEligible }, '*');
         window.parent.postMessage('modalClose', '*');
       }
     });
