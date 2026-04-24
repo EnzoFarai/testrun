@@ -1449,6 +1449,9 @@
     }
 
     // ---------- REWARD SEQUENCE (COMPLETE CORRECT ORDER) ----------
+    let chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
+    let chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
+    
     function processRewardSequence(finalCorrect, totalAttemptsTotal) {
       // Step 2: Show streak modal
       showStreakModal(() => {
@@ -1459,10 +1462,7 @@
           if (currentStreakDays >= 30 && currentStreakDays <= 70) coinsAmount = 500;
           showCoinsReward(coinsAmount, () => {
             // After milestone coins, go to daily quest
-            showDailyQuestModal(finalCorrect, totalAttemptsTotal, () => {
-              // After daily quest continues, go to achievement
-              goToAchievement();
-            });
+            showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           });
         } else {
           // Non-milestone day: check first lesson of day
@@ -1478,9 +1478,7 @@
               const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
               const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
               showBoostReward(chosen.mult, chosen.dur, () => {
-                showDailyQuestModal(finalCorrect, totalAttemptsTotal, () => {
-                  goToAchievement();
-                });
+                showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
               });
             } else {
               // Heart reward - only if hearts <= 2
@@ -1489,26 +1487,84 @@
                 if (heartsAtCompletion === 1) heartsParam = '1';
                 else if (heartsAtCompletion === 2) heartsParam = '2';
                 showHeartReward(heartsParam, () => {
-                  showDailyQuestModal(finalCorrect, totalAttemptsTotal, () => {
-                    goToAchievement();
-                  });
+                  showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
                 });
               } else {
                 // Fallback to boost if hearts > 2
                 showBoostReward(1.5, 30, () => {
-                  showDailyQuestModal(finalCorrect, totalAttemptsTotal, () => {
-                    goToAchievement();
-                  });
+                  showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
                 });
               }
             }
           } else {
             // Not first lesson - skip to daily quest directly
-            showDailyQuestModal(finalCorrect, totalAttemptsTotal, () => {
-              goToAchievement();
-            });
+            showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           }
         }
+      });
+    }
+
+    function showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal) {
+      // Reset chest tracking for this session
+      chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
+      chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
+      
+      // Set up a one-time message handler for daily quest responses
+      const dailyQuestHandler = (event) => {
+        if (event.data && event.data.type === 'chestClaimed') {
+          // Handle chest claim - show coins reward
+          const chestId = event.data.chestId;
+          const amount = event.data.amount;
+          chestsClaimedDuringQuest[chestId] = true;
+          
+          // Show the coin reward for this chest
+          showCoinsReward(amount, () => {
+            // After coin reward closes, daily quest is still open
+            // The user can continue claiming other chests
+          });
+        } else if (event.data && event.data.type === 'dailyQuestContinue') {
+          // Daily quest is done - remove handler and process final rewards
+          window.removeEventListener('message', dailyQuestHandler);
+          
+          // Store eligibility info
+          chestsEligibleFromQuest = event.data.chestEligible || { bronze: false, silver: false, gold: false };
+          const quest1Completed = event.data.quest1Completed;
+          const quest2Completed = event.data.quest2Completed;
+          const quest3Completed = event.data.quest3Completed;
+          
+          // Check if all three quests are completed
+          const allQuestsCompleted = quest1Completed && quest2Completed && quest3Completed;
+          
+          // Check which chests are eligible but NOT claimed
+          const unclaimedEligibleChests = [];
+          if (chestsEligibleFromQuest.bronze && !chestsClaimedDuringQuest.bronze) unclaimedEligibleChests.push('bronze');
+          if (chestsEligibleFromQuest.silver && !chestsClaimedDuringQuest.silver) unclaimedEligibleChests.push('silver');
+          if (chestsEligibleFromQuest.gold && !chestsClaimedDuringQuest.gold) unclaimedEligibleChests.push('gold');
+          
+          if (allQuestsCompleted && unclaimedEligibleChests.length > 0) {
+            // Show ONE coins reward with the sum of all unclaimed chests
+            let totalSum = 0;
+            if (unclaimedEligibleChests.includes('bronze')) totalSum += 50;
+            if (unclaimedEligibleChests.includes('silver')) totalSum += 75;
+            if (unclaimedEligibleChests.includes('gold')) totalSum += 100;
+            
+            showCoinsReward(totalSum, () => {
+              // After sum reward, go to achievement
+              goToAchievement();
+            });
+          } else {
+            // No unclaimed chests or not all quests completed - go to achievement directly
+            goToAchievement();
+          }
+        }
+      };
+      
+      window.addEventListener('message', dailyQuestHandler);
+      
+      // Show daily quest modal
+      showModal(`daily-quest.html?correctAttempts=${finalCorrect}&totalAttempts=${totalAttemptsTotal}&completed=true`, () => {
+        // This onClose is called when modal closes via other means
+        // The dailyQuestContinue handler will handle the actual continuation
       });
     }
 
