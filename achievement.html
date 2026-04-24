@@ -6,7 +6,7 @@
 <title>XP Powerhouse Achievement</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;600;700&display=swap" rel="stylesheet>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
@@ -100,11 +100,9 @@
 </div>
 
 <script>
-  // Play achievement sound
   const achievementAudio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/achievement.mp3');
   achievementAudio.play().catch(e => console.log("Audio play failed:", e));
 
-  // Set current date
   const now = new Date();
   const day = now.getDate();
   const month = now.toLocaleString('en-US', { month: 'long' });
@@ -113,7 +111,6 @@
   document.getElementById('currentDate').textContent = dateStr;
   document.getElementById('shareDate').textContent = dateStr;
 
-  // Share overlay
   const shareOverlay = document.getElementById('share-overlay');
   document.getElementById('share-button').addEventListener('click', () => shareOverlay.style.display = 'flex');
   shareOverlay.addEventListener('click', (e) => { if (e.target === shareOverlay) shareOverlay.style.display = 'none'; });
