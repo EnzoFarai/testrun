@@ -1,186 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>XP Boost Reward</title>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Atkinson Hyperlegible', sans-serif;
-            background: #FFFFFF;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-        }
-        .treasure-panel {
-            width: 100%;
-            max-width: 100%;
-            background: white;
-            border-radius: 0;
-            box-shadow: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .reward-content {
-            width: 100%;
-            max-width: 420px;
-            margin: 0 auto;
-            padding: 40px 24px 48px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .reward-title {
-            margin-top: 20px;
-            font-weight: 700;
-            color: #0f1c22;
-            font-size: 20px;
-            line-height: 1.4;
-            max-width: 320px;
-        }
-        .reward-subtitle {
-            margin-top: 8px;
-            font-weight: 400;
-            color: #6b7280;
-            font-size: 14px;
-            line-height: 1.4;
-            max-width: 280px;
-            margin-bottom: 24px;
-        }
-        .reward-scene {
-            width: 100%;
-            height: 200px;
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .rocket-container {
-            width: 160px;
-            height: 160px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .large-rocket-icon {
-            color: #FF9600;
-            font-size: 140px;
-            filter: drop-shadow(0 4px 8px rgba(255, 150, 0, 0.3));
-            margin-bottom: 4px;
-        }
-        .xp-multiplier {
-            font-size: 24px;
-            font-weight: 900;
-            color: #FF9600;
-            text-align: center;
-            margin-top: -10px;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 4px rgba(255, 150, 0, 0.2);
-        }
-        .reward-buttons-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .claim-button {
-            width: 100%;
-            height: 58px;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border: none;
-            font-size: 16px;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-family: 'Atkinson Hyperlegible', sans-serif;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            color: #ffffff;
-            background-color: #4285F4;
-            border-bottom: 0.25rem solid #3a75d9;
-        }
-        .claim-button:hover {
-            background-color: #3a75d9;
-            border-bottom-color: #3166c4;
-            transform: translateY(-0.125rem);
-        }
-        .claim-button:active {
-            transform: translateY(0.0625rem);
-            border-bottom-width: 0.125rem;
-        }
-        @media (max-width: 768px) {
-            .reward-content { padding: 32px 20px 40px; }
-            .reward-title { font-size: 18px; max-width: 280px; }
-            .reward-subtitle { font-size: 13px; max-width: 260px; }
-            .reward-scene { height: 180px; }
-            .rocket-container { width: 140px; height: 140px; }
-            .large-rocket-icon { font-size: 120px; }
-            .xp-multiplier { font-size: 22px; margin-top: -8px; }
-            .claim-button { height: 54px; font-size: 15px; }
-        }
-        @media (max-width: 480px) {
-            .reward-content { padding: 28px 16px 36px; }
-            .large-rocket-icon { font-size: 100px; }
-            .rocket-container { width: 120px; height: 120px; }
-            .xp-multiplier { font-size: 20px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>XP Boost Reward</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+      background: #FFFFFF;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    .treasure-panel {
+      width: 100%;
+      max-width: 100%;
+      background: white;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .reward-content {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 40px 24px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .reward-title {
+      margin-top: 20px;
+      font-weight: 700;
+      color: #0f1c22;
+      font-size: 20px;
+      line-height: 1.4;
+      max-width: 320px;
+    }
+    .reward-subtitle {
+      margin-top: 8px;
+      font-weight: 400;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.4;
+      max-width: 280px;
+      margin-bottom: 24px;
+    }
+    .reward-scene {
+      width: 100%;
+      height: 200px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .rocket-container {
+      width: 160px;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .large-rocket-icon {
+      color: #FF9600;
+      font-size: 140px;
+      filter: drop-shadow(0 4px 8px rgba(255, 150, 0, 0.3));
+      margin-bottom: 4px;
+    }
+    .xp-multiplier {
+      font-size: 24px;
+      font-weight: 900;
+      color: #FF9600;
+      text-align: center;
+      margin-top: -10px;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 4px rgba(255, 150, 0, 0.2);
+    }
+    .reward-buttons-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .claim-button {
+      width: 100%;
+      height: 58px;
+      border-radius: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border: none;
+      font-size: 16px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      color: #ffffff;
+      background-color: #4285F4;
+      border-bottom: 0.25rem solid #3a75d9;
+    }
+    .claim-button:hover {
+      background-color: #3a75d9;
+      border-bottom-color: #3166c4;
+      transform: translateY(-0.125rem);
+    }
+    .claim-button:active {
+      transform: translateY(0.0625rem);
+      border-bottom-width: 0.125rem;
+    }
+    @media (max-width: 768px) {
+      .reward-content { padding: 32px 20px 40px; }
+      .reward-title { font-size: 18px; max-width: 280px; }
+      .reward-subtitle { font-size: 13px; max-width: 260px; }
+      .reward-scene { height: 180px; }
+      .rocket-container { width: 140px; height: 140px; }
+      .large-rocket-icon { font-size: 120px; }
+      .xp-multiplier { font-size: 22px; margin-top: -8px; }
+      .claim-button { height: 54px; font-size: 15px; }
+    }
+    @media (max-width: 480px) {
+      .reward-content { padding: 28px 16px 36px; }
+      .large-rocket-icon { font-size: 100px; }
+      .rocket-container { width: 120px; height: 120px; }
+      .xp-multiplier { font-size: 20px; }
+    }
+  </style>
 </head>
 <body>
-    <audio id="boostAudio" preload="auto">
-        <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/boost.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="treasure-panel">
-        <div class="reward-content">
-            <div class="reward-scene">
-                <div class="rocket-container">
-                    <i class="ph-duotone ph-rocket-launch large-rocket-icon"></i>
-                    <div class="xp-multiplier" id="multiplierDisplay">x1.5</div>
-                </div>
-            </div>
-            <div class="reward-title" id="rewardTitle">You found an XP Boost!</div>
-            <div class="reward-subtitle" id="rewardSubtitle">Congrats! You now have 1.5x XP in lessons for the next 30 minutes.</div>
-            <div class="reward-buttons-container">
-                <button class="claim-button" id="claimButton">Claim XP Boost</button>
-            </div>
+  <div class="treasure-panel">
+    <div class="reward-content">
+      <div class="reward-scene">
+        <div class="rocket-container">
+          <i class="ph-duotone ph-rocket-launch large-rocket-icon"></i>
+          <div class="xp-multiplier" id="multiplierDisplay">x1.5</div>
         </div>
+      </div>
+      <div class="reward-title" id="rewardTitle">You found an XP Boost!</div>
+      <div class="reward-subtitle" id="rewardSubtitle">Congrats! You now have 1.5x XP in lessons for the next 30 minutes.</div>
+      <div class="reward-buttons-container">
+        <button class="claim-button" id="claimButton">Claim XP Boost</button>
+      </div>
     </div>
+  </div>
 
-    <script>
-        // Play sound
-        const audio = document.getElementById('boostAudio');
-        audio.play().catch(e => console.log("Audio play failed:", e));
+  <script>
+    // Play boost sound
+    const audio = new Audio('https://github.com/EnzoFarai/RsLib/raw/main/audios/boost.mp3');
+    audio.play().catch(e => console.log("Audio play failed:", e));
 
-        // Parse parameters
-        const params = new URLSearchParams(window.location.search);
-        let multiplier = parseFloat(params.get('multiplier')) || 1.5;
-        let duration = parseInt(params.get('duration')) || 30;
+    const params = new URLSearchParams(window.location.search);
+    let multiplier = parseFloat(params.get('multiplier')) || 1.5;
+    let duration = parseInt(params.get('duration')) || 30;
 
-        // Update UI
-        document.getElementById('multiplierDisplay').innerText = `x${multiplier}`;
-        document.getElementById('rewardTitle').innerHTML = `You found an XP Boost!`;
-        document.getElementById('rewardSubtitle').innerHTML = `Congrats! You now have ${multiplier}x XP in lessons for the next ${duration} minutes.`;
+    document.getElementById('multiplierDisplay').innerText = `x${multiplier}`;
+    document.getElementById('rewardSubtitle').innerHTML = `Congrats! You now have ${multiplier}x XP in lessons for the next ${duration} minutes.`;
 
-        document.getElementById('claimButton').addEventListener('click', () => {
-            window.parent.postMessage('modalClose', '*');
-        });
-    </script>
+    document.getElementById('claimButton').addEventListener('click', () => {
+      window.parent.postMessage('modalClose', '*');
+    });
+  </script>
 </body>
 </html>
