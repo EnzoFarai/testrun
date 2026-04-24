@@ -16,132 +16,981 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   
   <style>
-    /* ALL ORIGINAL STYLES - SAME AS YOUR EXISTING INDEX.HTML */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Atkinson Hyperlegible Next', sans-serif; background: linear-gradient(135deg, #F7F7F7 0%, #F7F7F7 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4B4B4B; padding: 1rem; }
-    .quiz-container { width: 100%; max-width: 700px; background: #FFFFFF; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1); position: relative; overflow: hidden; }
-    .streak-counter { text-align: center; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; color: #4285F4; min-height: 1.5rem; }
-    .header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.8rem; }
-    .header .ph-x { font-size: 1.5rem; color: #AFAFAF; cursor: pointer; }
-    .progress-bar-container { flex-grow: 1; height: 1rem; background-color: #E5E5E5; border-radius: 0.5rem; overflow: hidden; }
-    .progress-bar { height: 100%; background-color: #4285F4; border-radius: 0.5rem; transition: width 0.3s ease; }
-    .lives-container { display: flex; align-items: center; gap: 0.3rem; color: #EA4335; font-weight: 700; font-size: 1.2rem; }
-    .lives-container .ph-heart { font-size: 1.5rem; }
-    .quiz-title { text-align: center; font-size: 1.5rem; font-weight: 700; margin: 1.8rem 0; color: #4B4B4B; }
-    .question { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.2rem; color: #4B4B4B; line-height: 1.4; }
-    .options-container { display: flex; flex-direction: column; gap: 0.8rem; }
-    .option-button { width: 100%; padding: 1rem; font-size: 1rem; font-weight: 400; background-color: #FFFFFF; border: 2px solid #E5E5E5; border-radius: 0.75rem; cursor: pointer; text-align: left; transition: all 0.2s ease; display: flex; align-items: center; color: #4B4B4B; }
-    .option-button:hover { background-color: #F7F7F7; transform: translateY(-0.125rem); }
-    .option-button.selected { background-color: #E5F5FF; border-color: #1CB0F6; }
-    .option-button.correct { background-color: #D7FFB8; border-color: #34A853; color: #2E7D32; }
-    .option-button.incorrect { background-color: #FFDFE0; border-color: #EA4335; color: #C5221F; }
-    .question-container { display: flex; align-items: flex-end; gap: 1rem; margin: 1.5rem 0; max-width: 100%; }
-    .icon-container { color: #4285F4; font-size: clamp(3rem, 6vw, 4rem); margin-bottom: 0.8rem; flex-shrink: 0; }
-    [speech-bubble], [speech-bubble] * { box-sizing: border-box; }
-    [speech-bubble] { --bbColor: white; --bbArrowSize: clamp(0.8rem, 2vw, 1rem); --bbBorderRadius: 0.4rem; --bbPadding: clamp(1rem, 3vw, 1.5rem); background: var(--bbColor); border-radius: var(--bbBorderRadius); padding: var(--bbPadding); position: relative; border: 2px solid #E5E5E5; color: black; width: 100%; min-height: min-content; display: flex; flex-direction: column; justify-content: center; text-align: left; filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1)); }
-    [speech-bubble]::before, [speech-bubble]::after { content: ''; position: absolute; z-index: 1; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      background: linear-gradient(135deg, #F7F7F7 0%, #F7F7F7 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #4B4B4B;
+      padding: 1rem;
+    }
+    
+    .quiz-container {
+      width: 100%;
+      max-width: 700px;
+      background: #FFFFFF;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .streak-counter {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #4285F4;
+      min-height: 1.5rem;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    
+    .header .ph-x {
+      font-size: 1.5rem;
+      color: #AFAFAF;
+      cursor: pointer;
+    }
+    
+    .progress-bar-container {
+      flex-grow: 1;
+      height: 1rem;
+      background-color: #E5E5E5;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background-color: #4285F4;
+      border-radius: 0.5rem;
+      transition: width 0.3s ease;
+    }
+    
+    .lives-container {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: #EA4335;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    
+    .lives-container .ph-heart {
+      font-size: 1.5rem;
+    }
+    
+    .quiz-title {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 1.8rem 0;
+      color: #4B4B4B;
+    }
+    
+    .question {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      color: #4B4B4B;
+      line-height: 1.4;
+    }
+    
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    
+    .option-button {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 400;
+      background-color: #FFFFFF;
+      border: 2px solid #E5E5E5;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      color: #4B4B4B;
+    }
+    
+    .option-button:hover {
+      background-color: #F7F7F7;
+      transform: translateY(-0.125rem);
+    }
+    
+    .option-button.selected {
+      background-color: #E5F5FF;
+      border-color: #1CB0F6;
+    }
+    
+    .option-button.correct {
+      background-color: #D7FFB8;
+      border-color: #34A853;
+      color: #2E7D32;
+    }
+    
+    .option-button.incorrect {
+      background-color: #FFDFE0;
+      border-color: #EA4335;
+      color: #C5221F;
+    }
+    
+    .question-container {
+      display: flex;
+      align-items: flex-end;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      max-width: 100%;
+    }
+
+    .icon-container {
+      color: #4285F4;
+      font-size: clamp(3rem, 6vw, 4rem);
+      margin-bottom: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    [speech-bubble], [speech-bubble] * { 
+      box-sizing: border-box;
+    }
+
+    [speech-bubble] {
+      --bbColor: white;
+      --bbArrowSize: clamp(0.8rem, 2vw, 1rem);
+      --bbBorderRadius: 0.4rem;
+      --bbPadding: clamp(1rem, 3vw, 1.5rem);
+      background: var(--bbColor);
+      border-radius: var(--bbBorderRadius);
+      padding: var(--bbPadding);
+      position: relative;
+      border: 2px solid #E5E5E5;
+      color: black;
+      width: 100%;
+      min-height: min-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    [speech-bubble]::before,
+    [speech-bubble]::after {
+      content: ''; 
+      position: absolute;
+      z-index: 1;
+    }
+
     [speech-bubble][pleft] { margin-left: var(--bbArrowSize); }
-    [speech-bubble][pleft]::before { right: 100%; border: solid transparent; border-width: calc(var(--bbArrowSize) * 0.75) var(--bbArrowSize) calc(var(--bbArrowSize) * 0.75) 0; border-right-color: #E5E5E5; }
-    [speech-bubble][pleft]::after { right: calc(100% - 2px); border: solid transparent; border-width: calc(var(--bbArrowSize) * 0.75 - 2px) calc(var(--bbArrowSize) - 2px) calc(var(--bbArrowSize) * 0.75 - 2px) 0; border-right-color: var(--bbColor); }
-    [speech-bubble][pleft][abottom]::before, [speech-bubble][pleft][abottom]::after { bottom: clamp(1.2rem, 3vw, 1.8rem); }
-    [speech-bubble][pleft][acenter]::before, [speech-bubble][pleft][acenter]::after { top: 50%; transform: translateY(-50%); }
-    .bubble-text { font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.5; font-family: 'Atkinson Hyperlegible Next', sans-serif; font-weight: 600; color: #4B4B4B; display: inline; }
-    .blank { display: inline-block; min-width: 80px; width: auto; max-width: 150px; border-bottom: 2px solid #4285F4; margin: 0 0.3rem; padding: 0 0.3rem 2px 0.3rem; position: relative; font-family: 'Atkinson Hyperlegible Next', sans-serif; transition: all 0.3s ease; cursor: pointer; text-align: center; vertical-align: baseline; height: 1.5em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    .blank.filled { border: 2px solid #1CB0F6; border-radius: 0.75rem; background: #E5F5FF; color: #4B4B4B; font-weight: 600; padding: 0.25rem 0.75rem; min-width: 100px; max-width: 200px; height: auto; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; margin: 0 0.3rem; line-height: 1.4; white-space: normal; text-overflow: clip; }
-    .blank.correct { background-color: #D7FFB8; border-color: #34A853; color: #2E7D32; }
-    .blank.incorrect { background-color: #FFDFE0; border-color: #EA4335; color: #C5221F; }
-    .full-stop { color: #4B4B4B; }
-    .option-button.used-option { position: relative; background-color: #AFAFAF; border-color: #AFAFAF; cursor: default; color: transparent; }
-    .option-button.used-option::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #AFAFAF; border-radius: 0.75rem; z-index: 1; }
-    .response-container { margin: 2rem 0; text-align: center; }
-    .response-text { font-size: 1.25rem; font-weight: 600; color: #4B4B4B; line-height: 1.4; font-family: 'Atkinson Hyperlegible Next', sans-serif; margin-bottom: 1.5rem; }
-    .response-input-container { display: block; margin: 0 auto; max-width: 300px; width: 100%; }
-    .response-input { width: 100%; border: 3px solid #E5E5E5; border-radius: 0.75rem; padding: 1rem; font-size: 1.25rem; font-weight: 600; color: #4B4B4B; font-family: 'Atkinson Hyperlegible Next', sans-serif; background: white; text-align: center; outline: none; transition: all 0.3s ease; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06); }
-    .response-input::placeholder { color: #777777; font-weight: 400; }
-    .response-input:focus { border-color: #1CB0F6; background-color: rgba(229, 245, 255, 0.3); box-shadow: 0 4px 0 rgba(28, 176, 246, 0.2); transform: translateY(-2px); }
-    .response-input.correct { color: #2E7D32; border-color: #34A853; background-color: rgba(215, 255, 184, 0.3); box-shadow: 0 4px 0 rgba(52, 168, 83, 0.2); }
-    .response-input.incorrect { color: #C5221F; border-color: #EA4335; background-color: rgba(255, 223, 224, 0.3); box-shadow: 0 4px 0 rgba(234, 67, 53, 0.2); }
-    .response-input:disabled { color: #4B4B4B; cursor: default; background-color: #F7F7F7; border-color: #E5E5E5; transform: none; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06); }
-    .image-selection-container { margin: 2rem 0; }
-    .image-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1.5rem 0; }
-    .image-tile { position: relative; border-radius: 0.75rem; overflow: hidden; border: 3px solid #E5E5E5; cursor: pointer; transition: all 0.3s ease; background: white; aspect-ratio: 1 / 1; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
-    .image-tile:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); border-color: #AFAFAF; }
-    .image-tile.selected { border-color: #1CB0F6; box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2), 0 8px 20px rgba(0, 0, 0, 0.12); }
-    .image-tile.correct { border-color: #34A853; box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2), 0 8px 20px rgba(0, 0, 0, 0.12); }
-    .image-tile.incorrect { border-color: #EA4335; box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.2), 0 8px 20px rgba(0, 0, 0, 0.12); }
-    .image-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #F7F7F7; cursor: pointer; }
-    .image-container img { width: 100%; height: 100%; object-fit: contain; padding: 0.5rem; transition: transform 0.3s ease; }
-    .image-label { padding: 0.75rem; text-align: center; font-weight: 600; color: #4B4B4B; background: white; border-top: 1px solid #F7F7F7; }
-    .expand-hint { text-align: center; margin-top: 0.5rem; font-size: 0.9rem; color: #777777; font-style: italic; }
-    .image-zoom-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.9); display: none; justify-content: center; align-items: center; z-index: 1000; animation: fadeIn 0.3s ease; }
-    .image-zoom-modal.visible { display: flex; }
-    .zoom-content { position: relative; max-width: 90%; max-height: 90%; display: flex; flex-direction: column; align-items: center; }
-    .zoom-content img { max-width: 100%; max-height: 80vh; object-fit: contain; border-radius: 0.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
-    .zoom-close { position: absolute; top: -2.5rem; right: -0.5rem; color: white; background: none; border: none; font-size: 2rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: background-color 0.2s; }
-    .zoom-close:hover { background-color: rgba(255, 255, 255, 0.1); }
-    .zoom-label { color: white; margin-top: 1rem; font-size: 1.2rem; font-weight: 600; text-align: center; }
-    .zoom-instructions { color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic; }
-    #question6 { position: relative; }
-    #question6 .game-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 1rem; }
-    #question6 .column { display: flex; flex-direction: column; gap: 12px; }
-    #question6 .card { background: white; border: 2px solid #E5E5E5; border-radius: 16px; padding: 16px; text-align: center; font-size: 16px; cursor: pointer; transition: all 0.2s ease; height: 90px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06); user-select: none; color: #4B4B4B; }
-    #question6 .card:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0, 0, 0, 0.06); }
-    #question6 .card.selected { border-color: #1CB0F6; background-color: #E5F5FF; }
-    #question6 .card.correct { border-color: #34A853; background-color: #D7FFB8; color: #2E7D32; }
-    #question6 .card.matched { opacity: 0.7; background-color: #F7F7F7; border-color: #AFAFAF; color: #777777; cursor: default; }
-    #question6 .card.wrong { border-color: #EA4335; background-color: #FFDFE0; color: #C5221F; animation: shake 0.5s ease; }
-    @keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-5px); } 40%,80% { transform: translateX(5px); } }
-    .feedback-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: none; justify-content: center; align-items: center; z-index: 10; animation: fadeIn 0.3s ease; }
-    .feedback-overlay.visible { display: flex; }
-    #question6 .matching-feedback { display: flex; flex-direction: column; padding: 1.5rem; border-radius: 0.75rem; background-color: #FFDFE0; color: #C5221F; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); }
-    #question6 .result-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
-    #question6 .material-icon { font-size: 2.5rem; width: 1em; height: 1em; display: inline-flex; align-items: center; justify-content: center; }
-    #question6 .result-header { font-size: 1.5rem; font-weight: 700; text-align: center; flex-grow: 1; }
-    #question6 .feedback-subtitle { margin-bottom: 1.25rem; font-size: 1rem; color: #777777; text-align: center; }
-    #question6 .feedback-button { width: 100%; background: #EA4335; color: white; font-size: 1.1rem; font-weight: 700; padding: 1rem; border: none; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1); transition: all 0.2s; font-family: 'Atkinson Hyperlegible Next', sans-serif; }
-    #question6 .feedback-button:hover { background: #D3382C; transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1); }
-    #question6 .feedback-button:active { transform: translateY(0); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1); }
-    #question6 .matching-continue-btn { width: 100%; background: #4285F4; color: white; font-size: 1.25rem; font-weight: 700; padding: 1rem; border: none; border-bottom: 0.25rem solid #3A75D9; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-family: 'Atkinson Hyperlegible Next', sans-serif; margin-top: 1rem; }
-    #question6 .matching-continue-btn:hover { background: #3A75D9; border-bottom-color: #3166c4; transform: translateY(-2px); }
-    #question6 .matching-continue-btn:active { transform: translateY(0); border-bottom-width: 0.125rem; }
-    .footer { margin-top: 1.4rem; }
-    .check-button { width: 100%; padding: 1rem; font-size: 1.25rem; font-weight: 700; color: #FFFFFF; background-color: #4285F4; border: none; border-bottom: 0.25rem solid #3A75D9; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; font-family: 'Atkinson Hyperlegible Next', sans-serif; }
-    .check-button:hover { background-color: #3A75D9; border-bottom-color: #3166c4; transform: translateY(-0.125rem); }
-    .check-button:active { transform: translateY(0.0625rem); border-bottom-width: 0.125rem; }
-    .check-button:disabled { background-color: #E5E5E5; border-bottom: 0.25rem solid #AFAFAF; color: #AFAFAF; cursor: not-allowed; transform: none; }
-    .result-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: flex-end; z-index: 100; animation: fadeIn 0.3s ease; }
-    .result-overlay.visible { display: flex; }
-    .result-container { width: 100%; max-width: 700px; background: white; padding: 1.5rem; border-radius: 1rem 1rem 0 0; animation: slideUp 0.4s ease; max-height: 80vh; overflow-y: auto; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15); }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .result-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
-    .material-icon { font-size: 2.5rem; width: 1em; height: 1em; display: inline-flex; align-items: center; justify-content: center; }
-    .result-header { font-size: 1.5rem; font-weight: 700; text-align: center; flex-grow: 1; }
-    .explanation-content { padding: 0 0.3rem; font-size: 1rem; font-weight: 400; margin-bottom: 1.5rem; }
-    .correct-answer-section { margin: 0.94rem 0; }
-    .correct-text { font-weight: 700; margin-right: 0.5rem; }
-    .underlined { text-decoration: underline; }
-    .explanation-section { margin: 0.94rem 0; }
-    .explanation-label { font-weight: 700; margin-right: 0.5rem; }
-    .explanation-text { line-height: 1.5; }
-    .result-container.correct { background-color: #D7FFB8; color: #2E7D32; }
-    .result-container.incorrect { background-color: #FFDFE0; color: #C5221F; }
-    .result-continue-btn { width: 100%; padding: 1rem; font-size: 1.25rem; font-weight: 700; color: #FFFFFF; border: none; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; font-family: 'Atkinson Hyperlegible Next', sans-serif; margin-top: 1rem; border-bottom: 0.25rem solid transparent; }
-    .result-container.correct .result-continue-btn { background-color: #34A853; border-bottom-color: #2E7D32; }
-    .result-container.correct .result-continue-btn:hover { background-color: #2E7D32; border-bottom-color: #1B5E20; transform: translateY(-0.125rem); }
-    .result-container.incorrect .result-continue-btn { background-color: #EA4335; border-bottom-color: #D3382C; }
-    .result-container.incorrect .result-continue-btn:hover { background-color: #D3382C; border-bottom-color: #C5221F; transform: translateY(-0.125rem); }
-    .result-continue-btn:active { transform: translateY(0.0625rem); border-bottom-width: 0.125rem; }
-    .fullscreen-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10000; display: none; }
-    .fullscreen-modal-overlay.visible { display: block; }
-    .fullscreen-modal-overlay iframe { width: 100%; height: 100%; border: none; }
-    @media (max-width: 480px) { /* preserve */ }
-    @media (max-width: 320px) { /* preserve */ }
+    
+    [speech-bubble][pleft]::before {
+      right: 100%;
+      border: solid transparent;
+      border-width: calc(var(--bbArrowSize) * 0.75) var(--bbArrowSize) calc(var(--bbArrowSize) * 0.75) 0;
+      border-right-color: #E5E5E5;
+    }
+
+    [speech-bubble][pleft]::after {
+      right: calc(100% - 2px);
+      border: solid transparent;
+      border-width: calc(var(--bbArrowSize) * 0.75 - 2px) calc(var(--bbArrowSize) - 2px) calc(var(--bbArrowSize) * 0.75 - 2px) 0;
+      border-right-color: var(--bbColor);
+    }
+
+    [speech-bubble][pleft][abottom]::before,
+    [speech-bubble][pleft][abottom]::after {
+      bottom: clamp(1.2rem, 3vw, 1.8rem);
+    }
+    
+    [speech-bubble][pleft][acenter]::before,
+    [speech-bubble][pleft][acenter]::after {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .bubble-text {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      line-height: 1.5;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      font-weight: 600;
+      color: #4B4B4B;
+      display: inline;
+    }
+    
+    .blank {
+      display: inline-block;
+      min-width: 80px;
+      width: auto;
+      max-width: 150px;
+      border-bottom: 2px solid #4285F4;
+      margin: 0 0.3rem;
+      padding: 0 0.3rem 2px 0.3rem;
+      position: relative;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+      vertical-align: baseline;
+      height: 1.5em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    
+    .blank.filled {
+      border: 2px solid #1CB0F6;
+      border-radius: 0.75rem;
+      background: #E5F5FF;
+      color: #4B4B4B;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      min-width: 100px;
+      max-width: 200px;
+      height: auto;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0.3rem;
+      line-height: 1.4;
+      white-space: normal;
+      text-overflow: clip;
+    }
+    
+    .blank.correct {
+      background-color: #D7FFB8;
+      border-color: #34A853;
+      color: #2E7D32;
+    }
+    
+    .blank.incorrect {
+      background-color: #FFDFE0;
+      border-color: #EA4335;
+      color: #C5221F;
+    }
+    
+    .full-stop {
+      color: #4B4B4B;
+    }
+    
+    .option-button.used-option {
+      position: relative;
+      background-color: #AFAFAF;
+      border-color: #AFAFAF;
+      cursor: default;
+      color: transparent;
+    }
+    
+    .option-button.used-option::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #AFAFAF;
+      border-radius: 0.75rem;
+      z-index: 1;
+    }
+    
+    .response-container {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    
+    .response-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #4B4B4B;
+      line-height: 1.4;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      margin-bottom: 1.5rem;
+    }
+    
+    .response-input-container {
+      display: block;
+      margin: 0 auto;
+      max-width: 300px;
+      width: 100%;
+    }
+    
+    .response-input {
+      width: 100%;
+      border: 3px solid #E5E5E5;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #4B4B4B;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      background: white;
+      text-align: center;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06);
+    }
+    
+    .response-input::placeholder {
+      color: #777777;
+      font-weight: 400;
+    }
+    
+    .response-input:focus {
+      border-color: #1CB0F6;
+      background-color: rgba(229, 245, 255, 0.3);
+      box-shadow: 0 4px 0 rgba(28, 176, 246, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .response-input.correct {
+      color: #2E7D32;
+      border-color: #34A853;
+      background-color: rgba(215, 255, 184, 0.3);
+      box-shadow: 0 4px 0 rgba(52, 168, 83, 0.2);
+    }
+    
+    .response-input.incorrect {
+      color: #C5221F;
+      border-color: #EA4335;
+      background-color: rgba(255, 223, 224, 0.3);
+      box-shadow: 0 4px 0 rgba(234, 67, 53, 0.2);
+    }
+    
+    .response-input:disabled {
+      color: #4B4B4B;
+      cursor: default;
+      background-color: #F7F7F7;
+      border-color: #E5E5E5;
+      transform: none;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06);
+    }
+    
+    .image-selection-container {
+      margin: 2rem 0;
+    }
+    
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .image-tile {
+      position: relative;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 3px solid #E5E5E5;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .image-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      border-color: #AFAFAF;
+    }
+    
+    .image-tile.selected {
+      border-color: #1CB0F6;
+      box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2), 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    .image-tile.correct {
+      border-color: #34A853;
+      box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2), 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    .image-tile.incorrect {
+      border-color: #EA4335;
+      box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.2), 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+    
+    .image-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #F7F7F7;
+      cursor: pointer;
+    }
+    
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .image-tile:hover .image-container img {
+      transform: scale(1.05);
+    }
+    
+    .image-label {
+      padding: 0.75rem;
+      text-align: center;
+      font-weight: 600;
+      color: #4B4B4B;
+      background: white;
+      border-top: 1px solid #F7F7F7;
+    }
+    
+    .expand-hint {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #777777;
+      font-style: italic;
+    }
+    
+    .image-zoom-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .image-zoom-modal.visible {
+      display: flex;
+    }
+    
+    .zoom-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .zoom-content img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .zoom-close {
+      position: absolute;
+      top: -2.5rem;
+      right: -0.5rem;
+      color: white;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    
+    .zoom-close:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .zoom-label {
+      color: white;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    .zoom-instructions {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+    
+    #question6 {
+      position: relative;
+    }
+    
+    #question6 .game-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 1rem;
+    }
+    
+    #question6 .column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    #question6 .card {
+      background: white;
+      border: 2px solid #E5E5E5;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06);
+      user-select: none;
+      color: #4B4B4B;
+    }
+    
+    #question6 .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.06);
+    }
+    
+    #question6 .card.selected {
+      border-color: #1CB0F6;
+      background-color: #E5F5FF;
+    }
+    
+    #question6 .card.correct {
+      border-color: #34A853;
+      background-color: #D7FFB8;
+      color: #2E7D32;
+    }
+    
+    #question6 .card.matched {
+      opacity: 0.7;
+      background-color: #F7F7F7;
+      border-color: #AFAFAF;
+      color: #777777;
+      cursor: default;
+    }
+    
+    #question6 .card.wrong {
+      border-color: #EA4335;
+      background-color: #FFDFE0;
+      color: #C5221F;
+      animation: shake 0.5s ease;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    
+    .feedback-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .feedback-overlay.visible {
+      display: flex;
+    }
+    
+    #question6 .matching-feedback {
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      background-color: #FFDFE0;
+      color: #C5221F;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    #question6 .result-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    
+    #question6 .material-icon {
+      font-size: 2.5rem;
+      width: 1em;
+      height: 1em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #question6 .result-header {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      flex-grow: 1;
+    }
+    
+    #question6 .feedback-subtitle {
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      color: #777777;
+      text-align: center;
+    }
+    
+    #question6 .feedback-button {
+      width: 100%;
+      background: #EA4335;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 1rem;
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    }
+    
+    #question6 .feedback-button:hover {
+      background: #D3382C;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    #question6 .feedback-button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    #question6 .matching-continue-btn {
+      width: 100%;
+      background: #4285F4;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 700;
+      padding: 1rem;
+      border: none;
+      border-bottom: 0.25rem solid #3A75D9;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      margin-top: 1rem;
+    }
+    
+    #question6 .matching-continue-btn:hover {
+      background: #3A75D9;
+      border-bottom-color: #3166c4;
+      transform: translateY(-2px);
+    }
+    
+    #question6 .matching-continue-btn:active {
+      transform: translateY(0);
+      border-bottom-width: 0.125rem;
+    }
+    
+    .footer {
+      margin-top: 1.4rem;
+    }
+    
+    .check-button {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background-color: #4285F4;
+      border: none;
+      border-bottom: 0.25rem solid #3A75D9;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    }
+    
+    .check-button:hover {
+      background-color: #3A75D9;
+      border-bottom-color: #3166c4;
+      transform: translateY(-0.125rem);
+    }
+    
+    .check-button:active {
+      transform: translateY(0.0625rem);
+      border-bottom-width: 0.125rem;
+    }
+    
+    .check-button:disabled {
+      background-color: #E5E5E5;
+      border-bottom: 0.25rem solid #AFAFAF;
+      color: #AFAFAF;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .result-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 100;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .result-overlay.visible {
+      display: flex;
+    }
+    
+    .result-container {
+      width: 100%;
+      max-width: 700px;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem 1rem 0 0;
+      animation: slideUp 0.4s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    
+    .result-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    
+    .material-icon {
+      font-size: 2.5rem;
+      width: 1em;
+      height: 1em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .result-header {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      flex-grow: 1;
+    }
+    
+    .explanation-content {
+      padding: 0 0.3rem;
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+    }
+    
+    .correct-answer-section {
+      margin: 0.94rem 0;
+    }
+    
+    .correct-text {
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+    
+    .underlined {
+      text-decoration: underline;
+    }
+    
+    .explanation-section {
+      margin: 0.94rem 0;
+    }
+    
+    .explanation-label {
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+    
+    .explanation-text {
+      line-height: 1.5;
+    }
+    
+    .result-container.correct {
+      background-color: #D7FFB8;
+      color: #2E7D32;
+    }
+    
+    .result-container.incorrect {
+      background-color: #FFDFE0;
+      color: #C5221F;
+    }
+    
+    .result-continue-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      font-family: 'Atkinson Hyperlegible Next', sans-serif;
+      margin-top: 1rem;
+      border-bottom: 0.25rem solid transparent;
+    }
+    
+    .result-container.correct .result-continue-btn {
+      background-color: #34A853;
+      border-bottom-color: #2E7D32;
+    }
+    
+    .result-container.correct .result-continue-btn:hover {
+      background-color: #2E7D32;
+      border-bottom-color: #1B5E20;
+      transform: translateY(-0.125rem);
+    }
+    
+    .result-container.incorrect .result-continue-btn {
+      background-color: #EA4335;
+      border-bottom-color: #D3382C;
+    }
+    
+    .result-container.incorrect .result-continue-btn:hover {
+      background-color: #D3382C;
+      border-bottom-color: #C5221F;
+      transform: translateY(-0.125rem);
+    }
+    
+    .result-continue-btn:active {
+      transform: translateY(0.0625rem);
+      border-bottom-width: 0.125rem;
+    }
+    
+    .fullscreen-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 10000;
+      display: none;
+    }
+    
+    .fullscreen-modal-overlay.visible {
+      display: block;
+    }
+    
+    .fullscreen-modal-overlay iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    @media (max-width: 480px) {
+      .question-container { gap: 0.8rem; flex-wrap: nowrap; }
+      [speech-bubble] { max-width: 100%; --bbPadding: 1rem; }
+      .icon-container { margin-bottom: 0.5rem; }
+      .bubble-text { font-size: 1rem; line-height: 1.4; }
+      .blank { min-width: 60px; margin: 0 0.2rem; }
+      .blank.filled { min-width: 80px; padding: 0.2rem 0.5rem; font-size: 0.95rem; }
+      .response-text { font-size: 1.1rem; }
+      .response-input { padding: 0.8rem; font-size: 1.1rem; }
+      .response-input-container { max-width: 250px; }
+      .image-grid { gap: 0.8rem; margin: 1rem 0; }
+      .image-tile { border-width: 2px; }
+      .image-label { padding: 0.6rem; font-size: 0.9rem; }
+      .expand-hint { font-size: 0.8rem; }
+      #question6 .game-container { grid-template-columns: 1fr 1fr; gap: 12px; }
+      #question6 .card { padding: 14px 10px; font-size: 14px; height: 80px; }
+      .result-container { max-height: 85vh; padding: 1.2rem; }
+      .result-header { font-size: 1.3rem; }
+      .material-icon { font-size: 2rem; }
+      .zoom-content { max-width: 95%; }
+      .zoom-label { font-size: 1rem; }
+      .zoom-close { top: -2rem; right: 0; font-size: 1.5rem; }
+      .zoom-instructions { font-size: 0.8rem; }
+    }
+    
+    @media (max-width: 320px) {
+      .question-container { flex-direction: column; align-items: center; }
+      .icon-container { margin-bottom: 0; margin-right: 0; order: 1; }
+      [speech-bubble] { order: 2; margin-left: 0; margin-top: var(--bbArrowSize); --bbArrowSize: 0.8rem; }
+      [speech-bubble][pleft]::before { right: auto; left: 50%; bottom: 100%; transform: translateX(-50%); border-width: 0 calc(var(--bbArrowSize) * 0.75) var(--bbArrowSize); border-right-color: transparent; border-bottom-color: #E5E5E5; border-left-color: transparent; }
+      [speech-bubble][pleft]::after { right: auto; left: 50%; bottom: calc(100% - 2px); transform: translateX(-50%); border-width: 0 calc(var(--bbArrowSize) * 0.75 - 2px) calc(var(--bbArrowSize) - 2px); border-right-color: transparent; border-bottom-color: var(--bbColor); border-left-color: transparent; }
+      [speech-bubble][pleft][abottom]::before, [speech-bubble][pleft][abottom]::after { bottom: auto; left: 50%; }
+      [speech-bubble][pleft][acenter]::before, [speech-bubble][pleft][acenter]::after { top: auto; bottom: 100%; transform: translateX(-50%); }
+      .response-text { font-size: 1rem; }
+      .response-input { padding: 0.7rem; font-size: 1rem; }
+      .response-input-container { max-width: 220px; }
+      .image-grid { grid-template-columns: 1fr; gap: 0.8rem; }
+      .expand-hint { font-size: 0.75rem; }
+      #question6 .game-container { grid-template-columns: 1fr 1fr; gap: 10px; }
+      #question6 .card { padding: 12px 8px; font-size: 13px; height: 75px; }
+      #question6 .matching-feedback { padding: 1rem; }
+      #question6 .result-header { font-size: 1.3rem; }
+      .result-container { max-height: 90vh; padding: 1rem; }
+      .result-header { font-size: 1.2rem; }
+      .material-icon { font-size: 1.8rem; }
+      .result-continue-btn { font-size: 1.1rem; padding: 0.8rem; }
+    }
   </style>
 </head>
 <body>
-  <audio id="correctSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/correct.mp3" type="audio/mpeg"></audio>
-  <audio id="incorrectSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/incorrect.mp3" type="audio/mpeg"></audio>
+  <audio id="correctSound" preload="auto">
+    <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/correct.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="incorrectSound" preload="auto">
+    <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/incorrect.mp3" type="audio/mpeg">
+  </audio>
   
   <div id="fullscreenModalOverlay" class="fullscreen-modal-overlay">
     <iframe id="modalIframe" src="about:blank"></iframe>
@@ -151,29 +1000,111 @@
     <div class="streak-counter" id="streakCounter"></div>
     <div class="header">
       <i class="ph ph-x" id="close-btn"></i>
-      <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
-      <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="lives-container">
+        <i id="lives-icon" class="ph-fill ph-heart"></i>
+        <span id="lives-count">5</span>
+      </div>
     </div>
 
-    <!-- Question 1 -->
-    <div id="question1"><h2 class="quiz-title">Choose the correct option</h2><div class="question">Where is most of a cell's DNA located?</div><div class="options-container" id="options-container-1"><button class="option-button" data-value="Cytoplasm">Cytoplasm</button><button class="option-button" data-value="Ribosomes">Ribosomes</button><button class="option-button" data-value="Nucleus">Nucleus</button><button class="option-button" data-value="Nuclear membrane">Nuclear membrane</button></div><div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div></div>
-    
-    <!-- Question 2 -->
-    <div id="question2" style="display: none;"><h2 class="quiz-title">Select what is missing</h2><div class="question-container"><div class="icon-container"><i class="ph-fill ph-rabbit"></i></div><div speech-bubble pleft abottom style="--bbColor:#FFFFFF"><div class="bubble-text">The nucleus is a cell organelle that <span id="blank-2-1" class="blank" tabindex="0"></span> and <span id="blank-2-2" class="blank" tabindex="0"></span><span class="full-stop">.</span></div></div></div><div id="options-2" class="options-container"></div><div class="footer"><button id="check-button-2" class="check-button" disabled>Check</button></div></div>
-    
-    <!-- Question 3 -->
-    <div id="question3" style="display: none;"><h2 class="quiz-title">Complete the statement</h2><div class="question-container"><div class="icon-container"><i class="ph-fill ph-rabbit"></i></div><div speech-bubble pleft acenter style="--bbColor:#FFFFFF"><div class="bubble-text">The monomers that make up DNA and RNA are called __________.</div></div></div><div class="response-container"><div class="response-text">Type your answer below:</div><div class="response-input-container"><input type="text" id="nucleotide-answer-input" class="response-input" placeholder="Type your answer here" spellcheck="false"></div></div><div class="footer"><button class="check-button" id="check-button-3" disabled>Check</button></div></div>
-    
-    <!-- Question 4 -->
-    <div id="question4" style="display: none;"><h2 class="quiz-title">Choose the correct option</h2><div class="question">Which of the following is not a component of a nucleotide?</div><div class="options-container" id="options-container-4"><button class="option-button" data-value="Phosphate group">Phosphate group</button><button class="option-button" data-value="Amino acid">Amino acid</button><button class="option-button" data-value="Sugar molecule">Sugar molecule</button><button class="option-button" data-value="Nitrogenous base">Nitrogenous base</button></div><div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div></div>
-    
-    <!-- Question 5 -->
-    <div id="question5" style="display: none;"><h2 class="quiz-title">Pick the correct image</h2><div class="question" style="text-align: center;">Which image correctly shows a nucleotide?</div><div class="image-selection-container"><div class="image-grid" id="image-grid"><div class="image-tile" data-image="1"><div class="image-container" data-image="1"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb1.jpg" alt="Image 1" loading="lazy"></div><div class="image-label">Image 1</div></div><div class="image-tile" data-image="2"><div class="image-container" data-image="2"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb2.jpg" alt="Image 2" loading="lazy"></div><div class="image-label">Image 2</div></div><div class="image-tile" data-image="3"><div class="image-container" data-image="3"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb3.jpg" alt="Image 3" loading="lazy"></div><div class="image-label">Image 3</div></div><div class="image-tile" data-image="4"><div class="image-container" data-image="4"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb4.jpg" alt="Image 4" loading="lazy"></div><div class="image-label">Image 4</div></div></div><div class="expand-hint"><i>Tap any image to expand for a closer look</i></div></div><div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div></div>
-    
-    <!-- Question 6 -->
-    <div id="question6" style="display: none;"><h2 class="quiz-title">Match the pairs</h2><div class="game-container"><div class="column" id="leftColumn"></div><div class="column" id="rightColumn"></div></div><button class="matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button><div class="feedback-overlay" id="feedbackOverlay"><div class="matching-feedback"><div class="result-main"><span class="material-symbols-outlined material-icon">cancel</span><div class="result-header">Incorrect</div><span class="material-symbols-outlined material-icon">stylus_note</span></div><div class="feedback-subtitle">Let's try that again</div><button class="feedback-button" id="tryAgainBtn">Try Again</button></div></div></div>
+    <!-- Question 1 Content -->
+    <div id="question1">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question" id="question-text-1">Where is most of a cell's DNA located?</div>
+      <div class="options-container" id="options-container-1">
+        <button class="option-button" data-value="Cytoplasm">Cytoplasm</button>
+        <button class="option-button" data-value="Ribosomes">Ribosomes</button>
+        <button class="option-button" data-value="Nucleus">Nucleus</button>
+        <button class="option-button" data-value="Nuclear membrane">Nuclear membrane</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div>
+    </div>
 
-    <div class="image-zoom-modal" id="imageZoomModal"><div class="zoom-content"><button class="zoom-close" id="zoomCloseBtn"><span class="material-symbols-outlined">close</span></button><img id="zoomedImage" src="" alt="Zoomed Image"><div class="zoom-label" id="zoomImageLabel"></div><div class="zoom-instructions">Click outside or press ESC to close</div></div></div>
+    <!-- Question 2 Content -->
+    <div id="question2" style="display: none;">
+      <h2 class="quiz-title">Select what is missing</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft abottom style="--bbColor:#FFFFFF">
+          <div class="bubble-text">The nucleus is a cell organelle that <span id="blank-2-1" class="blank" tabindex="0"></span> and <span id="blank-2-2" class="blank" tabindex="0"></span><span class="full-stop">.</span></div>
+        </div>
+      </div>
+      <div id="options-2" class="options-container"></div>
+      <div class="footer"><button id="check-button-2" class="check-button" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 3 Content -->
+    <div id="question3" style="display: none;">
+      <h2 class="quiz-title">Complete the statement</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft acenter style="--bbColor:#FFFFFF">
+          <div class="bubble-text">The monomers that make up DNA and RNA are called __________.</div>
+        </div>
+      </div>
+      <div class="response-container">
+        <div class="response-text">Type your answer below:</div>
+        <div class="response-input-container"><input type="text" id="nucleotide-answer-input" class="response-input" placeholder="Type your answer here" spellcheck="false"></div>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-3" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 4 Content -->
+    <div id="question4" style="display: none;">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question" id="question-text-4">Which of the following is not a component of a nucleotide?</div>
+      <div class="options-container" id="options-container-4">
+        <button class="option-button" data-value="Phosphate group">Phosphate group</button>
+        <button class="option-button" data-value="Amino acid">Amino acid</button>
+        <button class="option-button" data-value="Sugar molecule">Sugar molecule</button>
+        <button class="option-button" data-value="Nitrogenous base">Nitrogenous base</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 5 - Image Selection -->
+    <div id="question5" style="display: none;">
+      <h2 class="quiz-title">Pick the correct image</h2>
+      <div class="question" style="text-align: center;">Which image correctly shows a nucleotide?</div>
+      <div class="image-selection-container">
+        <div class="image-grid" id="image-grid">
+          <div class="image-tile" data-image="1"><div class="image-container" data-image="1"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb1.jpg" alt="Image 1" loading="lazy"></div><div class="image-label">Image 1</div></div>
+          <div class="image-tile" data-image="2"><div class="image-container" data-image="2"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb2.jpg" alt="Image 2" loading="lazy"></div><div class="image-label">Image 2</div></div>
+          <div class="image-tile" data-image="3"><div class="image-container" data-image="3"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb3.jpg" alt="Image 3" loading="lazy"></div><div class="image-label">Image 3</div></div>
+          <div class="image-tile" data-image="4"><div class="image-container" data-image="4"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb4.jpg" alt="Image 4" loading="lazy"></div><div class="image-label">Image 4</div></div>
+        </div>
+        <div class="expand-hint"><i>Tap any image to expand for a closer look</i></div>
+      </div>
+      <div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 6 - Matching Pairs Game -->
+    <div id="question6" style="display: none;">
+      <h2 class="quiz-title">Match the pairs</h2>
+      <div class="game-container">
+        <div class="column" id="leftColumn"></div>
+        <div class="column" id="rightColumn"></div>
+      </div>
+      <button class="matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button>
+      <div class="feedback-overlay" id="feedbackOverlay">
+        <div class="matching-feedback" id="feedbackPanel">
+          <div class="result-main"><span class="material-symbols-outlined material-icon" id="cancelIcon">cancel</span><div class="result-header" id="feedbackTitle">Incorrect</div><span class="material-symbols-outlined material-icon" id="notesIcon">stylus_note</span></div>
+          <div class="feedback-subtitle" id="feedbackMessage">Let's try that again</div>
+          <button class="feedback-button" id="tryAgainBtn">Try Again</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="image-zoom-modal" id="imageZoomModal">
+      <div class="zoom-content">
+        <button class="zoom-close" id="zoomCloseBtn"><span class="material-symbols-outlined">close</span></button>
+        <img id="zoomedImage" src="" alt="Zoomed Image">
+        <div class="zoom-label" id="zoomImageLabel"></div>
+        <div class="zoom-instructions">Click outside or press ESC to close</div>
+      </div>
+    </div>
   </div>
 
   <!-- Result Overlays -->
@@ -184,17 +1115,18 @@
   <div class="result-overlay" id="resultOverlay-5"><div class="result-container" id="resultContainer-5"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-5"></span><div class="result-header" id="resultHeader-5"></div><span class="material-symbols-outlined material-icon" id="actionIcon-5"></span></div><div class="explanation-content" id="explanationContainer-5"></div><button class="result-continue-btn" id="resultContinueBtn-5">Continue</button></div></div>
 
   <script>
-    // ---------- QUESTION DATA ----------
+    // ---------- QUESTION DATA (PRESERVED EXACTLY) ----------
     const questions = [
-      { id: 1, type: "multiple-choice", correctAnswer: 'Nucleus', explanation: "The nucleus contains most of the cell's DNA within the chromatin network.", options: ['Cytoplasm', 'Ribosomes', 'Nucleus', 'Nuclear membrane'] },
-      { id: 2, type: "complete-sentence", options: [{ label: "is the site of protein synthesis", value: "protein_synthesis" }, { label: "contains DNA", value: "contains_dna" }, { label: "produces ribosomes", value: "produces_ribosomes" }, { label: "is the site of most metabolic reactions", value: "metabolic_reactions" }], correctAnswers: ["contains_dna", "produces_ribosomes"], explanation: "The nucleus contains DNA and produces ribosomes." },
-      { id: 3, type: "fill-blank", correctAnswer: 'nucleotides', acceptableAnswers: ['nucleotides', 'nucleotide'], explanation: "DNA and RNA are made of nucleotides." },
-      { id: 4, type: "multiple-choice", correctAnswer: 'Amino acid', explanation: "Amino acids are building blocks of proteins.", options: ['Phosphate group', 'Amino acid', 'Sugar molecule', 'Nitrogenous base'] },
-      { id: 5, type: "image-selection", correctAnswer: 4, explanation: "Image 4 correctly shows a nucleotide." }
+      { id: 1, type: "multiple-choice", correctAnswer: 'Nucleus', explanation: "The nucleus contains most of the cell's DNA within the chromatin network. The cytoplasm and ribosomes do not store DNA, and the nuclear membrane only encloses the nucleus.", options: ['Cytoplasm', 'Ribosomes', 'Nucleus', 'Nuclear membrane'] },
+      { id: 2, type: "complete-sentence", options: [{ label: "is the site of protein synthesis", value: "protein_synthesis" }, { label: "contains DNA", value: "contains_dna" }, { label: "produces ribosomes", value: "produces_ribosomes" }, { label: "is the site of most metabolic reactions", value: "metabolic_reactions" }], correctAnswers: ["contains_dna", "produces_ribosomes"], explanation: "The nucleus contains the cell's DNA and produces ribosomes in the nucleolus. Protein synthesis occurs at ribosomes, and most metabolic reactions take place in the cytoplasm, not the nucleus." },
+      { id: 3, type: "fill-blank", correctAnswer: 'nucleotides', acceptableAnswers: ['nucleotides', 'nucleotide', 'nucleotides (nucleotide)', 'nucleotide (nucleotides)'], explanation: "DNA and RNA are nucleic acids composed of repeating monomers called nucleotides, each consisting of a phosphate group, a sugar molecule and a nitrogenous base." },
+      { id: 4, type: "multiple-choice", correctAnswer: 'Amino acid', explanation: "Amino acids are building blocks of proteins, not nucleotides. Nucleotides consist of a phosphate group, a sugar (deoxyribose in DNA, ribose in RNA) and a nitrogenous base.", options: ['Phosphate group', 'Amino acid', 'Sugar molecule', 'Nitrogenous base'] },
+      { id: 5, type: "image-selection", correctAnswer: 4, explanation: "A nucleotide consists of three parts: a phosphate group, a sugar molecule (deoxyribose in DNA) and a nitrogenous base, all of which Image 4 correctly represents." }
     ];
+
     const pairs = [{ term: "DNA", meaning: "Deoxyribose" }, { term: "RNA", meaning: "Ribose" }];
 
-    // DOM elements
+    // ---------- DOM ELEMENTS ----------
     const progressBar = document.getElementById('progress-bar');
     const livesCountElement = document.getElementById('lives-count');
     const livesIconElement = document.getElementById('lives-icon');
@@ -206,7 +1138,7 @@
     const correctSound = document.getElementById('correctSound');
     const incorrectSound = document.getElementById('incorrectSound');
 
-    // Game state
+    // ---------- GAME STATE ----------
     let selectedOption = null;
     let lives = 5;
     let currentQuestion = 0;
@@ -218,7 +1150,7 @@
     let shouldShowCelebrationAfterExplanation = false;
     let pendingCelebrationStreak = null;
 
-    // Tracking
+    // Tracking variables for rewards
     let quizStartTime = Date.now();
     let quizCompleted = false;
     let totalAttempts = 0;
@@ -226,12 +1158,12 @@
 
     // Reward sequence variables
     let currentStreakDays = 1;
-    let isFirstLessonOfDay = true;
     let heartsAtCompletion = 5;
     let chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
     let chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
     let dailyQuestHandlerAttached = false;
 
+    // Helper functions
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -285,14 +1217,17 @@
       return currentStreakDays % 5 === 0;
     }
 
+    // FIXED: Check if first lesson of day using separate key
     function checkFirstLessonOfDay() {
-      const lastLessonDate = localStorage.getItem('lastLessonDate');
       const today = new Date().toISOString().slice(0, 10);
-      if (!lastLessonDate || lastLessonDate !== today) {
-        localStorage.setItem('lastLessonDate', today);
-        return true;
-      }
-      return false;
+      const firstLessonRewardGiven = localStorage.getItem('firstLessonRewardGiven');
+      return firstLessonRewardGiven !== today;
+    }
+
+    // FIXED: Mark that first lesson reward was given today
+    function markFirstLessonRewardGiven() {
+      const today = new Date().toISOString().slice(0, 10);
+      localStorage.setItem('firstLessonRewardGiven', today);
     }
 
     function loadStreakFromStorage() {
@@ -314,8 +1249,8 @@
       saveStreakToStorage();
     }
 
-    // Modal system - FIXED to not auto-close daily quest
-    function showModal(modalUrl, onClose, isDailyQuest = false) {
+    // Modal system
+    function showModal(modalUrl, onClose) {
       modalIframe.src = modalUrl;
       fullscreenOverlay.classList.add('visible');
       
@@ -324,8 +1259,7 @@
           window.removeEventListener('message', messageHandler);
           fullscreenOverlay.classList.remove('visible');
           modalIframe.src = 'about:blank';
-          // Only call onClose if this is NOT a daily quest modal
-          if (!isDailyQuest && onClose) onClose();
+          if (onClose) onClose();
         } else if (event.data === 'modalQuit') {
           window.removeEventListener('message', messageHandler);
           window.location.href = 'https://vulanet.vercel.app/lesson';
@@ -391,7 +1325,7 @@
       showModal('streak.html', onComplete);
     }
 
-    // Daily quest modal - uses separate handling
+    // Daily quest modal - separate handling
     function showDailyQuestModal(correctAttempts, totalAttempts) {
       modalIframe.src = `daily-quest.html?correctAttempts=${correctAttempts}&totalAttempts=${totalAttempts}&completed=true`;
       fullscreenOverlay.classList.add('visible');
@@ -501,7 +1435,7 @@
       }
     }
 
-    // ----- REWARD SEQUENCE -----
+    // ----- REWARD SEQUENCE (FULL CORRECT ORDER) -----
     function processRewardSequence(finalCorrect, totalAttemptsTotal) {
       showStreakModal(() => {
         if (isMilestoneDay()) {
@@ -511,14 +1445,18 @@
             showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           });
         } else {
-          isFirstLessonOfDay = checkFirstLessonOfDay();
-          if (isFirstLessonOfDay) {
+          // Check if this is the first lesson of the day AND no reward given yet
+          const isFirstLesson = checkFirstLessonOfDay();
+          
+          if (isFirstLesson) {
             const random = Math.random();
             const shouldShowBoost = (random < 0.5);
+            
             if (shouldShowBoost) {
               const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
               const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
               showBoostReward(chosen.mult, chosen.dur, () => {
+                markFirstLessonRewardGiven();
                 showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
               });
             } else {
@@ -527,15 +1465,18 @@
                 if (heartsAtCompletion === 1) heartsParam = '1';
                 else if (heartsAtCompletion === 2) heartsParam = '2';
                 showHeartReward(heartsParam, () => {
+                  markFirstLessonRewardGiven();
                   showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
                 });
               } else {
                 showBoostReward(1.5, 30, () => {
+                  markFirstLessonRewardGiven();
                   showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
                 });
               }
             }
           } else {
+            // Not first lesson today (reward already given or previous lessons done)
             showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           }
         }
@@ -546,7 +1487,6 @@
       chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
       chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
       
-      // Remove existing handler if any
       if (dailyQuestHandlerAttached) {
         window.removeEventListener('message', dailyQuestMessageHandler);
       }
@@ -561,7 +1501,6 @@
           window.removeEventListener('message', dailyQuestMessageHandler);
           dailyQuestHandlerAttached = false;
           
-          // Close the daily quest modal
           fullscreenOverlay.classList.remove('visible');
           modalIframe.src = 'about:blank';
           
@@ -591,7 +1530,6 @@
       window.addEventListener('message', dailyQuestMessageHandler);
       dailyQuestHandlerAttached = true;
       
-      // Show daily quest modal
       showDailyQuestModal(finalCorrect, totalAttemptsTotal);
     }
 
@@ -628,7 +1566,7 @@
       });
     }
 
-    // ---------- SHOW QUESTION (PRESERVED - WORKING) ----------
+    // ---------- SHOW QUESTION (FULL PRESERVED IMPLEMENTATION) ----------
     function showQuestion(questionIndex) {
       questionSections.forEach(section => { section.style.display = 'none'; });
       
@@ -647,33 +1585,64 @@
       selectedOption = null;
       updateStreakCounter();
       
-      // QUESTION 1
+      // QUESTION 1 - Multiple Choice
       if (actualQuestionIndex === 0) {
         const optionButtons1 = document.querySelectorAll('#options-container-1 .option-button');
         const checkButton1 = document.getElementById('check-button-1');
-        optionButtons1.forEach(button => { button.classList.remove('selected', 'correct', 'incorrect'); button.disabled = false; button.style.cursor = 'pointer'; });
-        checkButton1.disabled = true; checkButton1.textContent = 'Check';
+        
         optionButtons1.forEach(button => {
-          button.onclick = function() { if (answered) return; optionButtons1.forEach(btn => btn.classList.remove('selected')); this.classList.add('selected'); selectedOption = this.dataset.value; checkButton1.disabled = false; };
+          button.classList.remove('selected', 'correct', 'incorrect');
+          button.disabled = false;
+          button.style.cursor = 'pointer';
         });
+        
+        checkButton1.disabled = true;
+        checkButton1.textContent = 'Check';
+        
+        optionButtons1.forEach(button => {
+          button.onclick = function() {
+            if (answered) return;
+            optionButtons1.forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedOption = this.dataset.value;
+            checkButton1.disabled = false;
+          };
+        });
+        
         checkButton1.onclick = function() {
-          if (!selectedOption || answered) return; answered = true; totalAttempts++;
+          if (!selectedOption || answered) return;
+          answered = true;
+          totalAttempts++;
+          
           const correctButton = Array.from(optionButtons1).find(btn => btn.dataset.value === questions[0].correctAnswer);
           if (correctButton) correctButton.classList.add('correct');
+
           if (selectedOption === questions[0].correctAnswer) {
-            if (!questionFinalCorrect[0]) questionFinalCorrect[0] = true; playSound(true); handleCorrectAnswer();
+            if (!questionFinalCorrect[0]) questionFinalCorrect[0] = true;
+            playSound(true);
+            handleCorrectAnswer();
             showResultOverlay(1, true, 0, moveToNextQuestion);
           } else {
             playSound(false);
-            if (!retryQueue.includes(0)) retryQueue.push(0); else if (inRetryMode) retryQueue.push(0);
+            if (!retryQueue.includes(0)) retryQueue.push(0);
+            else if (inRetryMode) retryQueue.push(0);
             handleIncorrectAnswer();
             const selectedButton = Array.from(optionButtons1).find(btn => btn.dataset.value === selectedOption);
             if (selectedButton) selectedButton.classList.add('incorrect');
-            if (lives > 0) { lives--; livesCountElement.textContent = lives; updateHeartIcon();
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
               if (lives === 0) {
                 showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[0].explanation}</span></div>`, () => {
-                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
-                }); return;
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
               }
             }
             showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[0].explanation}</span></div>`, moveToNextQuestion);
@@ -681,57 +1650,97 @@
           optionButtons1.forEach(button => { button.disabled = true; button.style.cursor = 'not-allowed'; });
         };
       }
-      // QUESTION 2
+      
+      // QUESTION 2 - Complete Sentence
       else if (actualQuestionIndex === 1) {
-        const blank21 = document.getElementById('blank-2-1'); const blank22 = document.getElementById('blank-2-2');
-        const optionsContainer2 = document.getElementById('options-2'); const checkButton2 = document.getElementById('check-button-2');
-        blank21.textContent = ''; blank22.textContent = '';
-        blank21.classList.remove('filled', 'correct', 'incorrect'); blank22.classList.remove('filled', 'correct', 'incorrect');
-        checkButton2.disabled = true; checkButton2.textContent = 'Check';
-        optionsContainer2.innerHTML = ''; let filledBlanks2 = [null, null]; let optionButtons2 = [];
-        const shuffledOptions = [...questions[1].options]; shuffleArray(shuffledOptions);
+        const blank21 = document.getElementById('blank-2-1');
+        const blank22 = document.getElementById('blank-2-2');
+        const optionsContainer2 = document.getElementById('options-2');
+        const checkButton2 = document.getElementById('check-button-2');
+        
+        blank21.textContent = '';
+        blank22.textContent = '';
+        blank21.classList.remove('filled', 'correct', 'incorrect');
+        blank22.classList.remove('filled', 'correct', 'incorrect');
+        
+        checkButton2.disabled = true;
+        checkButton2.textContent = 'Check';
+        
+        optionsContainer2.innerHTML = '';
+        let filledBlanks2 = [null, null];
+        let optionButtons2 = [];
+        
+        const shuffledOptions = [...questions[1].options];
+        shuffleArray(shuffledOptions);
+        
         shuffledOptions.forEach((opt) => {
-          const button = document.createElement('button'); button.className = 'option-button'; button.dataset.value = opt.value;
-          const label = document.createElement('span'); label.textContent = opt.label; button.appendChild(label); optionButtons2.push(button);
+          const button = document.createElement('button');
+          button.className = 'option-button';
+          button.dataset.value = opt.value;
+          const label = document.createElement('span');
+          label.textContent = opt.label;
+          button.appendChild(label);
+          optionButtons2.push(button);
+          
           button.onclick = function() {
             if (answered) return;
             const isAlreadyUsed = filledBlanks2.some(blank => blank && blank.value === opt.value);
             if (isAlreadyUsed) return;
-            let blankIndex = -1; let targetBlank = null;
+            let blankIndex = -1;
+            let targetBlank = null;
             if (filledBlanks2[0] === null) { blankIndex = 0; targetBlank = blank21; }
             else if (filledBlanks2[1] === null) { blankIndex = 1; targetBlank = blank22; }
             if (blankIndex === -1) return;
             filledBlanks2[blankIndex] = { value: opt.value, label: opt.label };
-            targetBlank.textContent = opt.label; targetBlank.classList.add('filled');
+            targetBlank.textContent = opt.label;
+            targetBlank.classList.add('filled');
             button.classList.add('used-option');
             checkButton2.disabled = false;
           };
           optionsContainer2.appendChild(button);
         });
+        
         blank21.onclick = function() { if (answered || !filledBlanks2[0]) return; const button = optionButtons2.find(btn => btn.dataset.value === filledBlanks2[0].value); if (button) button.classList.remove('used-option'); blank21.textContent = ''; blank21.classList.remove('filled', 'correct', 'incorrect'); filledBlanks2[0] = null; checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null; };
         blank22.onclick = function() { if (answered || !filledBlanks2[1]) return; const button = optionButtons2.find(btn => btn.dataset.value === filledBlanks2[1].value); if (button) button.classList.remove('used-option'); blank22.textContent = ''; blank22.classList.remove('filled', 'correct', 'incorrect'); filledBlanks2[1] = null; checkButton2.disabled = filledBlanks2[0] === null && filledBlanks2[1] === null; };
+        
         checkButton2.onclick = function() {
           if (answered || !filledBlanks2[0] || !filledBlanks2[1]) return;
-          answered = true; totalAttempts++;
-          const userAnswer1 = filledBlanks2[0].value; const userAnswer2 = filledBlanks2[1].value;
+          answered = true;
+          totalAttempts++;
+          
+          const userAnswer1 = filledBlanks2[0].value;
+          const userAnswer2 = filledBlanks2[1].value;
           const isCorrect = (userAnswer1 === questions[1].correctAnswers[0] && userAnswer2 === questions[1].correctAnswers[1]) || (userAnswer1 === questions[1].correctAnswers[1] && userAnswer2 === questions[1].correctAnswers[0]);
           playSound(isCorrect);
           optionButtons2.forEach(btn => { btn.disabled = true; btn.style.cursor = 'not-allowed'; });
+          
           if (isCorrect) {
             if (!questionFinalCorrect[1]) questionFinalCorrect[1] = true;
-            blank21.classList.add('correct'); blank22.classList.add('correct');
+            blank21.classList.add('correct');
+            blank22.classList.add('correct');
             optionButtons2.forEach(btn => { if (btn.dataset.value === questions[1].correctAnswers[0] || btn.dataset.value === questions[1].correctAnswers[1]) btn.classList.add('correct'); });
             handleCorrectAnswer();
             showResultOverlay(2, true, 1, moveToNextQuestion);
           } else {
-            blank21.classList.add('incorrect'); blank22.classList.add('incorrect');
-            if (!retryQueue.includes(1)) retryQueue.push(1); else if (inRetryMode) retryQueue.push(1);
+            blank21.classList.add('incorrect');
+            blank22.classList.add('incorrect');
+            if (!retryQueue.includes(1)) retryQueue.push(1);
+            else if (inRetryMode) retryQueue.push(1);
             handleIncorrectAnswer();
-            if (lives > 0) { lives--; livesCountElement.textContent = lives; updateHeartIcon();
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
               if (lives === 0) {
                 showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[1].explanation}</span></div>`, () => {
-                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
-                }); return;
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
               }
             }
             optionButtons2.forEach(btn => { if (btn.dataset.value === questions[1].correctAnswers[0] || btn.dataset.value === questions[1].correctAnswers[1]) btn.classList.add('correct'); });
@@ -739,31 +1748,56 @@
           }
         };
       }
-      // QUESTION 3
+      
+      // QUESTION 3 - Fill in the blank
       else if (actualQuestionIndex === 2) {
         const nucleotideAnswerInput = document.getElementById('nucleotide-answer-input');
         const checkButton3 = document.getElementById('check-button-3');
-        nucleotideAnswerInput.value = ''; nucleotideAnswerInput.classList.remove('correct', 'incorrect');
-        nucleotideAnswerInput.disabled = false; checkButton3.disabled = true; checkButton3.textContent = 'Check';
-        nucleotideAnswerInput.oninput = function() { checkButton3.disabled = !nucleotideAnswerInput.value.trim(); if (answered) { nucleotideAnswerInput.classList.remove('correct', 'incorrect'); answered = false; } };
+        
+        nucleotideAnswerInput.value = '';
+        nucleotideAnswerInput.classList.remove('correct', 'incorrect');
+        nucleotideAnswerInput.disabled = false;
+        checkButton3.disabled = true;
+        checkButton3.textContent = 'Check';
+        
+        nucleotideAnswerInput.oninput = function() {
+          checkButton3.disabled = !nucleotideAnswerInput.value.trim();
+          if (answered) { nucleotideAnswerInput.classList.remove('correct', 'incorrect'); answered = false; }
+        };
+        
         nucleotideAnswerInput.onkeypress = function(e) { if (e.key === 'Enter' && !checkButton3.disabled) checkButton3.click(); };
+        
         checkButton3.onclick = function() {
-          answered = true; totalAttempts++;
+          answered = true;
+          totalAttempts++;
           const userAnswer = normalizeAnswer(nucleotideAnswerInput.value.trim());
           const isCorrect = questions[2].acceptableAnswers.some(acceptable => userAnswer === normalizeAnswer(acceptable));
           playSound(isCorrect);
+          
           if (isCorrect) {
             if (!questionFinalCorrect[2]) questionFinalCorrect[2] = true;
-            nucleotideAnswerInput.classList.add('correct'); handleCorrectAnswer();
+            nucleotideAnswerInput.classList.add('correct');
+            handleCorrectAnswer();
             showResultOverlay(3, true, 2, moveToNextQuestion);
           } else {
-            if (!retryQueue.includes(2)) retryQueue.push(2); else if (inRetryMode) retryQueue.push(2);
-            handleIncorrectAnswer(); nucleotideAnswerInput.classList.add('incorrect');
-            if (lives > 0) { lives--; livesCountElement.textContent = lives; updateHeartIcon();
+            if (!retryQueue.includes(2)) retryQueue.push(2);
+            else if (inRetryMode) retryQueue.push(2);
+            handleIncorrectAnswer();
+            nucleotideAnswerInput.classList.add('incorrect');
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
               if (lives === 0) {
                 showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`, () => {
-                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
-                }); return;
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
               }
             }
             showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`, moveToNextQuestion);
@@ -772,36 +1806,68 @@
         };
         nucleotideAnswerInput.focus();
       }
-      // QUESTION 4
+      
+      // QUESTION 4 - Multiple Choice
       else if (actualQuestionIndex === 3) {
-        const container4 = document.getElementById('options-container-4'); const checkButton4 = document.getElementById('check-button-4');
-        checkButton4.disabled = true; checkButton4.textContent = 'Check';
+        const container4 = document.getElementById('options-container-4');
+        const checkButton4 = document.getElementById('check-button-4');
+        
+        checkButton4.disabled = true;
+        checkButton4.textContent = 'Check';
+        
         const options4 = [{ label: 'Phosphate group', value: 'Phosphate group' }, { label: 'Amino acid', value: 'Amino acid' }, { label: 'Sugar molecule', value: 'Sugar molecule' }, { label: 'Nitrogenous base', value: 'Nitrogenous base' }];
-        shuffleArray(options4); container4.innerHTML = '';
+        shuffleArray(options4);
+        container4.innerHTML = '';
+        
         options4.forEach(opt => {
-          const button = document.createElement('button'); button.className = 'option-button'; button.dataset.value = opt.value; button.textContent = opt.label;
+          const button = document.createElement('button');
+          button.className = 'option-button';
+          button.dataset.value = opt.value;
+          button.textContent = opt.label;
           container4.appendChild(button);
-          button.onclick = function() { if (answered) return; document.querySelectorAll('#options-container-4 .option-button').forEach(btn => btn.classList.remove('selected')); this.classList.add('selected'); selectedOption = this.dataset.value; checkButton4.disabled = false; };
+          button.onclick = function() {
+            if (answered) return;
+            document.querySelectorAll('#options-container-4 .option-button').forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedOption = this.dataset.value;
+            checkButton4.disabled = false;
+          };
         });
+        
         checkButton4.onclick = function() {
-          if (!selectedOption) return; answered = true; totalAttempts++;
+          if (!selectedOption) return;
+          answered = true;
+          totalAttempts++;
           const optionButtons4 = document.querySelectorAll('#options-container-4 .option-button');
           const correctButton = Array.from(optionButtons4).find(btn => btn.dataset.value === questions[3].correctAnswer);
           if (correctButton) correctButton.classList.add('correct');
+
           if (selectedOption === questions[3].correctAnswer) {
-            if (!questionFinalCorrect[3]) questionFinalCorrect[3] = true; playSound(true); handleCorrectAnswer();
+            if (!questionFinalCorrect[3]) questionFinalCorrect[3] = true;
+            playSound(true);
+            handleCorrectAnswer();
             showResultOverlay(4, true, 3, moveToNextQuestion);
           } else {
             playSound(false);
-            if (!retryQueue.includes(3)) retryQueue.push(3); else if (inRetryMode) retryQueue.push(3);
+            if (!retryQueue.includes(3)) retryQueue.push(3);
+            else if (inRetryMode) retryQueue.push(3);
             handleIncorrectAnswer();
             const selectedButton = Array.from(optionButtons4).find(btn => btn.dataset.value === selectedOption);
             if (selectedButton) selectedButton.classList.add('incorrect');
-            if (lives > 0) { lives--; livesCountElement.textContent = lives; updateHeartIcon();
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
               if (lives === 0) {
                 showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`, () => {
-                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
-                }); return;
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
               }
             }
             showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`, moveToNextQuestion);
@@ -809,105 +1875,257 @@
           optionButtons4.forEach(button => { button.disabled = true; button.style.cursor = 'not-allowed'; });
         };
       }
-      // QUESTION 5
+      
+      // QUESTION 5 - Image Selection
       else if (actualQuestionIndex === 4) {
-        const imageTiles = document.querySelectorAll('#question5 .image-tile'); const imageContainers = document.querySelectorAll('#question5 .image-container');
-        const checkButton5 = document.getElementById('check-button-5'); const imageZoomModal = document.getElementById('imageZoomModal');
-        const zoomedImage = document.getElementById('zoomedImage'); const zoomImageLabel = document.getElementById('zoomImageLabel');
+        const imageTiles = document.querySelectorAll('#question5 .image-tile');
+        const imageContainers = document.querySelectorAll('#question5 .image-container');
+        const checkButton5 = document.getElementById('check-button-5');
+        const imageZoomModal = document.getElementById('imageZoomModal');
+        const zoomedImage = document.getElementById('zoomedImage');
+        const zoomImageLabel = document.getElementById('zoomImageLabel');
         const zoomCloseBtn = document.getElementById('zoomCloseBtn');
+        
         let imageSelectionState = { selectedImage: null, answered: false };
-        imageTiles.forEach(tile => { tile.classList.remove('selected', 'correct', 'incorrect'); tile.style.cursor = 'pointer'; });
-        checkButton5.disabled = true; checkButton5.textContent = 'Check';
+        
         imageTiles.forEach(tile => {
-          tile.onclick = function(e) { if (imageSelectionState.answered) return; if (e.target.closest('.image-container')) return; imageTiles.forEach(t => t.classList.remove('selected')); this.classList.add('selected'); imageSelectionState.selectedImage = parseInt(this.dataset.image); checkButton5.disabled = false; };
+          tile.classList.remove('selected', 'correct', 'incorrect');
+          tile.style.cursor = 'pointer';
         });
+        
+        checkButton5.disabled = true;
+        checkButton5.textContent = 'Check';
+        
+        imageTiles.forEach(tile => {
+          tile.onclick = function(e) {
+            if (imageSelectionState.answered) return;
+            if (e.target.closest('.image-container')) return;
+            imageTiles.forEach(t => t.classList.remove('selected'));
+            this.classList.add('selected');
+            imageSelectionState.selectedImage = parseInt(this.dataset.image);
+            checkButton5.disabled = false;
+          };
+        });
+        
         imageContainers.forEach(container => {
-          container.onclick = function(e) { e.stopPropagation(); const imageNumber = parseInt(this.dataset.image); const imgElement = this.querySelector('img'); if (imgElement && imgElement.src) { zoomedImage.src = imgElement.src; zoomImageLabel.textContent = `Image ${imageNumber}`; imageZoomModal.classList.add('visible'); document.addEventListener('keydown', function handleEscapeKey(e) { if (e.key === 'Escape') { imageZoomModal.classList.remove('visible'); zoomedImage.src = ''; document.removeEventListener('keydown', handleEscapeKey); } }); } };
+          container.onclick = function(e) {
+            e.stopPropagation();
+            const imageNumber = parseInt(this.dataset.image);
+            const imgElement = this.querySelector('img');
+            if (imgElement && imgElement.src) {
+              zoomedImage.src = imgElement.src;
+              zoomImageLabel.textContent = `Image ${imageNumber}`;
+              imageZoomModal.classList.add('visible');
+              document.addEventListener('keydown', function handleEscapeKey(e) {
+                if (e.key === 'Escape') { imageZoomModal.classList.remove('visible'); zoomedImage.src = ''; document.removeEventListener('keydown', handleEscapeKey); }
+              });
+            }
+          };
         });
+        
         function closeImageZoom() { imageZoomModal.classList.remove('visible'); zoomedImage.src = ''; }
         imageZoomModal.onclick = function(e) { if (e.target === imageZoomModal) closeImageZoom(); };
         zoomCloseBtn.onclick = closeImageZoom;
+        
         checkButton5.onclick = function() {
           if (imageSelectionState.selectedImage === null || imageSelectionState.answered) return;
-          imageSelectionState.answered = true; totalAttempts++;
+          imageSelectionState.answered = true;
+          totalAttempts++;
           imageTiles.forEach(tile => tile.style.cursor = 'default');
-          imageTiles.forEach(tile => { const imageNum = parseInt(tile.dataset.image); if (imageNum === questions[4].correctAnswer) tile.classList.add('correct'); else if (imageNum === imageSelectionState.selectedImage && imageSelectionState.selectedImage !== questions[4].correctAnswer) tile.classList.add('incorrect'); tile.classList.remove('selected'); });
+          imageTiles.forEach(tile => {
+            const imageNum = parseInt(tile.dataset.image);
+            if (imageNum === questions[4].correctAnswer) tile.classList.add('correct');
+            else if (imageNum === imageSelectionState.selectedImage && imageSelectionState.selectedImage !== questions[4].correctAnswer) tile.classList.add('incorrect');
+            tile.classList.remove('selected');
+          });
           const isCorrect = imageSelectionState.selectedImage === questions[4].correctAnswer;
           playSound(isCorrect);
+          
           if (isCorrect) {
-            if (!questionFinalCorrect[4]) questionFinalCorrect[4] = true; handleCorrectAnswer();
+            if (!questionFinalCorrect[4]) questionFinalCorrect[4] = true;
+            handleCorrectAnswer();
             showResultOverlay(5, true, `<div class="explanation-section"><span class="explanation-text">${questions[4].explanation}</span></div>`, moveToNextQuestion);
           } else {
-            if (!retryQueue.includes(4)) retryQueue.push(4); else if (inRetryMode) retryQueue.push(4);
+            if (!retryQueue.includes(4)) retryQueue.push(4);
+            else if (inRetryMode) retryQueue.push(4);
             handleIncorrectAnswer();
-            if (lives > 0) { lives--; livesCountElement.textContent = lives; updateHeartIcon();
+            if (lives > 0) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon();
               if (lives === 0) {
                 showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`, () => {
-                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
-                }); return;
+                  showRefillHeartsModal(() => {
+                    lives = 5;
+                    livesCountElement.textContent = lives;
+                    updateHeartIcon();
+                    resetCurrentQuestion();
+                  });
+                });
+                return;
               }
             }
             showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`, moveToNextQuestion);
           }
         };
       }
-      // QUESTION 6
+      
+      // QUESTION 6 - Matching Pairs Game
       else if (actualQuestionIndex === 5) {
-        const leftColumn = document.getElementById('leftColumn'); const rightColumn = document.getElementById('rightColumn');
-        const feedbackOverlay = document.getElementById('feedbackOverlay'); const tryAgainBtn = document.getElementById('tryAgainBtn');
-        const matchingContinueBtn = document.getElementById('matchingContinueBtn'); const cancelIcon = document.getElementById('cancelIcon');
-        const notesIcon = document.getElementById('notesIcon'); const feedbackTitle = document.getElementById('feedbackTitle');
+        const leftColumn = document.getElementById('leftColumn');
+        const rightColumn = document.getElementById('rightColumn');
+        const feedbackOverlay = document.getElementById('feedbackOverlay');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+        const matchingContinueBtn = document.getElementById('matchingContinueBtn');
+        const cancelIcon = document.getElementById('cancelIcon');
+        const notesIcon = document.getElementById('notesIcon');
+        const feedbackTitle = document.getElementById('feedbackTitle');
         const feedbackMessage = document.getElementById('feedbackMessage');
-        let selectedLeftCard = null; let selectedRightCard = null; let matchedPairs = 0;
-        let matchingGameActive = true; let matchingGameLifeLost = false; let matchingCompleted = false;
+        
+        let selectedLeftCard = null;
+        let selectedRightCard = null;
+        let matchedPairs = 0;
+        let matchingGameActive = true;
+        let matchingGameLifeLost = false;
+        let celebrationShownForMatching = false;
+        let matchingCompleted = false;
         const totalPairs = pairs.length;
-        leftColumn.innerHTML = ''; rightColumn.innerHTML = '';
+        
+        leftColumn.innerHTML = '';
+        rightColumn.innerHTML = '';
+        
         const shuffledPairs = shuffleArray([...pairs]);
+        
         shuffledPairs.forEach((pair, index) => {
-          const card = document.createElement('div'); card.className = 'card'; card.dataset.pair = index; card.dataset.type = 'term';
-          card.textContent = pair.term; leftColumn.appendChild(card);
-          card.onclick = function() { if (feedbackOverlay.classList.contains('visible')) { resetWrongSelections(); return; } if (!matchingGameActive || this.classList.contains('matched')) return; if (this.classList.contains('wrong')) { resetWrongSelections(); return; } document.querySelectorAll('#leftColumn .card.selected').forEach(card => card.classList.remove('selected')); this.classList.add('selected'); selectedLeftCard = this; if (selectedLeftCard && selectedRightCard) checkMatch(); };
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = index;
+          card.dataset.type = 'term';
+          card.textContent = pair.term;
+          leftColumn.appendChild(card);
+          card.onclick = function() {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrongSelections(); return; }
+            if (!matchingGameActive || this.classList.contains('matched')) return;
+            if (this.classList.contains('wrong')) { resetWrongSelections(); return; }
+            document.querySelectorAll('#leftColumn .card.selected').forEach(card => card.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedLeftCard = this;
+            if (selectedLeftCard && selectedRightCard) checkMatch();
+          };
         });
+        
         const shuffledMeanings = shuffleArray([...shuffledPairs]);
         shuffledMeanings.forEach((pair) => {
-          const card = document.createElement('div'); card.className = 'card'; card.dataset.pair = shuffledPairs.findIndex(p => p.meaning === pair.meaning); card.dataset.type = 'meaning';
-          card.textContent = pair.meaning; rightColumn.appendChild(card);
-          card.onclick = function() { if (feedbackOverlay.classList.contains('visible')) { resetWrongSelections(); return; } if (!matchingGameActive || this.classList.contains('matched')) return; if (this.classList.contains('wrong')) { resetWrongSelections(); return; } document.querySelectorAll('#rightColumn .card.selected').forEach(card => card.classList.remove('selected')); this.classList.add('selected'); selectedRightCard = this; if (selectedLeftCard && selectedRightCard) checkMatch(); };
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = shuffledPairs.findIndex(p => p.meaning === pair.meaning);
+          card.dataset.type = 'meaning';
+          card.textContent = pair.meaning;
+          rightColumn.appendChild(card);
+          card.onclick = function() {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrongSelections(); return; }
+            if (!matchingGameActive || this.classList.contains('matched')) return;
+            if (this.classList.contains('wrong')) { resetWrongSelections(); return; }
+            document.querySelectorAll('#rightColumn .card.selected').forEach(card => card.classList.remove('selected'));
+            this.classList.add('selected');
+            selectedRightCard = this;
+            if (selectedLeftCard && selectedRightCard) checkMatch();
+          };
         });
-        feedbackOverlay.classList.remove('visible'); matchingContinueBtn.style.display = 'none'; matchingCompleted = false;
+        
+        feedbackOverlay.classList.remove('visible');
+        matchingContinueBtn.style.display = 'none';
+        celebrationShownForMatching = false;
+        matchingCompleted = false;
+        
         function checkMatch() {
           if (!selectedLeftCard || !selectedRightCard || !matchingGameActive) return;
           if (selectedLeftCard.dataset.pair === selectedRightCard.dataset.pair) {
-            playSound(true); selectedLeftCard.classList.remove('selected'); selectedRightCard.classList.remove('selected');
-            selectedLeftCard.classList.add('correct'); selectedRightCard.classList.add('correct'); matchedPairs++;
-            setTimeout(() => { document.querySelectorAll('#question6 .card.correct').forEach(card => { card.classList.remove('correct'); card.classList.add('matched'); }); }, 800);
-            if (matchedPairs === totalPairs && !matchingCompleted) { matchingGameActive = false; matchingCompleted = true; totalAttempts++; if (!questionFinalCorrect[5]) questionFinalCorrect[5] = true; currentStreak++; updateStreakCounter();
-              if (currentStreak % 5 === 0 && currentStreak > 0) { showCelebrationModal(currentStreak, () => { moveToNextQuestion(); }); } else { setTimeout(() => { moveToNextQuestion(); }, 500); }
+            playSound(true);
+            selectedLeftCard.classList.remove('selected');
+            selectedRightCard.classList.remove('selected');
+            selectedLeftCard.classList.add('correct');
+            selectedRightCard.classList.add('correct');
+            matchedPairs++;
+            setTimeout(() => {
+              document.querySelectorAll('#question6 .card.correct').forEach(card => {
+                card.classList.remove('correct');
+                card.classList.add('matched');
+              });
+            }, 800);
+            if (matchedPairs === totalPairs && !matchingCompleted) {
+              matchingGameActive = false;
+              matchingCompleted = true;
+              totalAttempts++;
+              if (!questionFinalCorrect[5]) questionFinalCorrect[5] = true;
+              currentStreak++;
+              updateStreakCounter();
+              
+              if (currentStreak % 5 === 0 && currentStreak > 0) {
+                showCelebrationModal(currentStreak, () => {
+                  moveToNextQuestion();
+                });
+              } else {
+                setTimeout(() => { moveToNextQuestion(); }, 500);
+              }
             }
           } else {
-            playSound(false); selectedLeftCard.classList.add('wrong'); selectedRightCard.classList.add('wrong');
-            if (lives > 0 && !matchingGameLifeLost) { lives--; livesCountElement.textContent = lives; updateHeartIcon(); matchingGameLifeLost = true;
-              if (lives === 0) { feedbackTitle.textContent = 'Game Over'; feedbackMessage.textContent = 'You\'ve run out of lives! Try again from the beginning.'; feedbackOverlay.classList.add('visible'); matchingGameActive = false; return; }
+            playSound(false);
+            selectedLeftCard.classList.add('wrong');
+            selectedRightCard.classList.add('wrong');
+            if (lives > 0 && !matchingGameLifeLost) { 
+              lives--; 
+              livesCountElement.textContent = lives; 
+              updateHeartIcon(); 
+              matchingGameLifeLost = true;
+              if (lives === 0) {
+                feedbackTitle.textContent = 'Game Over';
+                feedbackMessage.textContent = 'You\'ve run out of lives! Try again from the beginning.';
+                feedbackOverlay.classList.add('visible');
+                matchingGameActive = false;
+                return;
+              }
             }
             handleIncorrectAnswer();
-            if (lives > 0) { feedbackTitle.textContent = 'Incorrect'; feedbackMessage.textContent = 'Let\'s try that again'; }
+            if (lives > 0) { 
+              feedbackTitle.textContent = 'Incorrect'; 
+              feedbackMessage.textContent = 'Let\'s try that again'; 
+            }
             feedbackOverlay.classList.add('visible');
           }
-          selectedLeftCard = null; selectedRightCard = null;
+          selectedLeftCard = null;
+          selectedRightCard = null;
         }
-        function resetWrongSelections() { document.querySelectorAll('#question6 .card.wrong').forEach(card => card.classList.remove('wrong')); document.querySelectorAll('#question6 .card.selected').forEach(card => card.classList.remove('selected')); selectedLeftCard = null; selectedRightCard = null; feedbackOverlay.classList.remove('visible'); }
-        tryAgainBtn.onclick = resetWrongSelections; feedbackOverlay.onclick = function(e) { if (e.target === feedbackOverlay) resetWrongSelections(); };
-        matchingContinueBtn.onclick = function() { moveToNextQuestion(); }; cancelIcon.onclick = resetWrongSelections; notesIcon.onclick = resetWrongSelections;
+        
+        function resetWrongSelections() {
+          document.querySelectorAll('#question6 .card.wrong').forEach(card => card.classList.remove('wrong'));
+          document.querySelectorAll('#question6 .card.selected').forEach(card => card.classList.remove('selected'));
+          selectedLeftCard = null;
+          selectedRightCard = null;
+          feedbackOverlay.classList.remove('visible');
+        }
+        
+        tryAgainBtn.onclick = resetWrongSelections;
+        feedbackOverlay.onclick = function(e) { if (e.target === feedbackOverlay) resetWrongSelections(); };
+        matchingContinueBtn.onclick = function() { moveToNextQuestion(); };
+        cancelIcon.onclick = resetWrongSelections;
+        notesIcon.onclick = resetWrongSelections;
       }
     }
 
-    // Event listeners
-    closeBtn.addEventListener('click', () => { showModal('quit-confirmation.html', () => {}); });
-    window.addEventListener('beforeunload', function(e) { e.preventDefault(); e.returnValue = ''; return ''; });
+    // ---------- EVENT LISTENERS ----------
+    closeBtn.addEventListener('click', () => {
+      showModal('quit-confirmation.html', () => {});
+    });
 
-    // Initialize
+    window.addEventListener('beforeunload', function(e) {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    });
+
+    // ---------- INITIALIZE ----------
     loadStreakFromStorage();
-    isFirstLessonOfDay = checkFirstLessonOfDay();
     showQuestion(currentQuestion);
     updateStreakCounter();
   </script>
