@@ -1419,25 +1419,23 @@
       }
     }
 
-    // ----- SIMPLE DIRECT REWARD SEQUENCE -----
+    // ----- REWARD SEQUENCE (WORKING) -----
     function processRewardSequence(finalCorrect, totalAttemptsTotal) {
       // Step 1: Show streak modal
       showStreakModal(() => {
-        // Step 2: For a 1-day streak (non-milestone), show Heart or Boost reward
-        // 50% chance of Heart or Boost
+        // Step 2: For a 1-day streak, show Heart or Boost reward
         const random = Math.random();
         const shouldShowBoost = (random < 0.5);
         
         if (shouldShowBoost) {
-          // Show boost reward
+          // Show boost reward (hearts > 2 so always boost or random boost)
           const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
           const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
           showBoostReward(chosen.mult, chosen.dur, () => {
-            // After boost, show daily quest
             showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
           });
         } else {
-          // Heart reward - only if hearts <= 2
+          // Heart reward - only if hearts <= 2, otherwise fallback to boost
           if (heartsAtCompletion <= 2) {
             let heartsParam = 'full';
             if (heartsAtCompletion === 1) heartsParam = '1';
@@ -1446,7 +1444,7 @@
               showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
             });
           } else {
-            // If hearts > 2, always show Boost instead
+            // Hearts > 2, show boost instead
             showBoostReward(1.5, 30, () => {
               showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
             });
