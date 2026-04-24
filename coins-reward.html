@@ -165,7 +165,6 @@
         document.getElementById('rewardTitle').innerText = `You have earned ${amount} coins!`;
         document.getElementById('claimButton').innerHTML = `Claim ${amount} <i class="ph-duotone ph-coins coin-icon"></i>`;
 
-        // PostMessage on continue
         document.getElementById('claimButton').addEventListener('click', () => {
             window.parent.postMessage('modalClose', '*');
         });
