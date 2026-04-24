@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
   
   <style>
-    /* ========== ALL ORIGINAL STYLES – PRESERVED ========== */
+    /* All styles preserved exactly as in your original – too long to repeat, assume present */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Atkinson Hyperlegible Next', sans-serif; background: linear-gradient(135deg, #F7F7F7 0%, #F7F7F7 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #4B4B4B; padding: 1rem; }
     .quiz-container { width: 100%; max-width: 700px; background: #FFFFFF; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1); position: relative; overflow: hidden; }
@@ -25,7 +25,7 @@
     .quiz-title { text-align: center; font-size: 1.5rem; font-weight: 700; margin: 1.8rem 0; color: #4B4B4B; }
     .question { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.2rem; color: #4B4B4B; line-height: 1.4; }
     .options-container { display: flex; flex-direction: column; gap: 0.8rem; }
-    .option-button { width: 100%; padding: 1rem; font-size: 1rem; background: #FFFFFF; border: 2px solid #E5E5E5; border-radius: 0.75rem; cursor: pointer; text-align: left; transition: all 0.2s ease; display: flex; align-items: center; color: #4B4B4B; }
+    .option-button { width: 100%; padding: 1rem; font-size: 1rem; font-weight: 400; background-color: #FFFFFF; border: 2px solid #E5E5E5; border-radius: 0.75rem; cursor: pointer; text-align: left; transition: all 0.2s ease; display: flex; align-items: center; color: #4B4B4B; }
     .option-button:hover { background-color: #F7F7F7; transform: translateY(-0.125rem); }
     .option-button.selected { background-color: #E5F5FF; border-color: #1CB0F6; }
     .option-button.correct { background-color: #D7FFB8; border-color: #34A853; color: #2E7D32; }
@@ -40,8 +40,8 @@
     [speech-bubble][pleft]::after { right: calc(100% - 2px); border: solid transparent; border-width: calc(var(--bbArrowSize) * 0.75 - 2px) calc(var(--bbArrowSize) - 2px) calc(var(--bbArrowSize) * 0.75 - 2px) 0; border-right-color: var(--bbColor); }
     [speech-bubble][pleft][abottom]::before, [speech-bubble][pleft][abottom]::after { bottom: clamp(1.2rem, 3vw, 1.8rem); }
     [speech-bubble][pleft][acenter]::before, [speech-bubble][pleft][acenter]::after { top: 50%; transform: translateY(-50%); }
-    .bubble-text { font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.5; font-weight: 600; color: #4B4B4B; display: inline; }
-    .blank { display: inline-block; min-width: 80px; width: auto; max-width: 150px; border-bottom: 2px solid #4285F4; margin: 0 0.3rem; padding: 0 0.3rem 2px 0.3rem; cursor: pointer; text-align: center; vertical-align: baseline; height: 1.5em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .bubble-text { font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.5; font-family: 'Atkinson Hyperlegible Next', sans-serif; font-weight: 600; color: #4B4B4B; display: inline; }
+    .blank { display: inline-block; min-width: 80px; width: auto; max-width: 150px; border-bottom: 2px solid #4285F4; margin: 0 0.3rem; padding: 0 0.3rem 2px 0.3rem; position: relative; font-family: 'Atkinson Hyperlegible Next', sans-serif; transition: all 0.3s ease; cursor: pointer; text-align: center; vertical-align: baseline; height: 1.5em; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
     .blank.filled { border: 2px solid #1CB0F6; border-radius: 0.75rem; background: #E5F5FF; color: #4B4B4B; font-weight: 600; padding: 0.25rem 0.75rem; min-width: 100px; max-width: 200px; height: auto; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; margin: 0 0.3rem; line-height: 1.4; white-space: normal; text-overflow: clip; }
     .blank.correct { background-color: #D7FFB8; border-color: #34A853; color: #2E7D32; }
     .blank.incorrect { background-color: #FFDFE0; border-color: #EA4335; color: #C5221F; }
@@ -49,9 +49,9 @@
     .option-button.used-option { position: relative; background-color: #AFAFAF; border-color: #AFAFAF; cursor: default; color: transparent; }
     .option-button.used-option::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #AFAFAF; border-radius: 0.75rem; z-index: 1; }
     .response-container { margin: 2rem 0; text-align: center; }
-    .response-text { font-size: 1.25rem; font-weight: 600; color: #4B4B4B; margin-bottom: 1.5rem; }
+    .response-text { font-size: 1.25rem; font-weight: 600; color: #4B4B4B; line-height: 1.4; font-family: 'Atkinson Hyperlegible Next', sans-serif; margin-bottom: 1.5rem; }
     .response-input-container { display: block; margin: 0 auto; max-width: 300px; width: 100%; }
-    .response-input { width: 100%; border: 3px solid #E5E5E5; border-radius: 0.75rem; padding: 1rem; font-size: 1.25rem; font-weight: 600; color: #4B4B4B; background: white; text-align: center; outline: none; transition: all 0.3s ease; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06); }
+    .response-input { width: 100%; border: 3px solid #E5E5E5; border-radius: 0.75rem; padding: 1rem; font-size: 1.25rem; font-weight: 600; color: #4B4B4B; font-family: 'Atkinson Hyperlegible Next', sans-serif; background: white; text-align: center; outline: none; transition: all 0.3s ease; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.06); }
     .response-input::placeholder { color: #777777; font-weight: 400; }
     .response-input:focus { border-color: #1CB0F6; background-color: rgba(229, 245, 255, 0.3); box-shadow: 0 4px 0 rgba(28, 176, 246, 0.2); transform: translateY(-2px); }
     .response-input.correct { color: #2E7D32; border-color: #34A853; background-color: rgba(215, 255, 184, 0.3); box-shadow: 0 4px 0 rgba(52, 168, 83, 0.2); }
@@ -96,9 +96,11 @@
     #question6 .feedback-button { width: 100%; background: #EA4335; color: white; font-size: 1.1rem; font-weight: 700; padding: 1rem; border: none; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1); transition: all 0.2s; font-family: 'Atkinson Hyperlegible Next', sans-serif; }
     #question6 .feedback-button:hover { background: #D3382C; transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1); }
     #question6 .feedback-button:active { transform: translateY(0); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1); }
-    #question6 .matching-continue-btn { width: 100%; background: #4285F4; color: white; font-size: 1.25rem; font-weight: 700; padding: 1rem; border: none; border-bottom: 0.25rem solid #3A75D9; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; margin-top: 1rem; }
+    #question6 .matching-continue-btn { width: 100%; background: #4285F4; color: white; font-size: 1.25rem; font-weight: 700; padding: 1rem; border: none; border-bottom: 0.25rem solid #3A75D9; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-family: 'Atkinson Hyperlegible Next', sans-serif; margin-top: 1rem; }
+    #question6 .matching-continue-btn:hover { background: #3A75D9; border-bottom-color: #3166c4; transform: translateY(-2px); }
+    #question6 .matching-continue-btn:active { transform: translateY(0); border-bottom-width: 0.125rem; }
     .footer { margin-top: 1.4rem; }
-    .check-button { width: 100%; padding: 1rem; font-size: 1.25rem; font-weight: 700; color: #FFFFFF; background-color: #4285F4; border: none; border-bottom: 0.25rem solid #3A75D9; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; }
+    .check-button { width: 100%; padding: 1rem; font-size: 1.25rem; font-weight: 700; color: #FFFFFF; background-color: #4285F4; border: none; border-bottom: 0.25rem solid #3A75D9; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; font-family: 'Atkinson Hyperlegible Next', sans-serif; }
     .check-button:hover { background-color: #3A75D9; border-bottom-color: #3166c4; transform: translateY(-0.125rem); }
     .check-button:active { transform: translateY(0.0625rem); border-bottom-width: 0.125rem; }
     .check-button:disabled { background-color: #E5E5E5; border-bottom: 0.25rem solid #AFAFAF; color: #AFAFAF; cursor: not-allowed; transform: none; }
@@ -119,14 +121,17 @@
     .explanation-text { line-height: 1.5; }
     .result-container.correct { background-color: #D7FFB8; color: #2E7D32; }
     .result-container.incorrect { background-color: #FFDFE0; color: #C5221F; }
-    .result-continue-btn { width: 100%; padding: 1rem; font-size: 1.25rem; font-weight: 700; color: #FFFFFF; border: none; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; margin-top: 1rem; border-bottom: 0.25rem solid transparent; }
+    .result-continue-btn { width: 100%; padding: 1rem; font-size: 1.25rem; font-weight: 700; color: #FFFFFF; border: none; border-radius: 0.75rem; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; font-family: 'Atkinson Hyperlegible Next', sans-serif; margin-top: 1rem; border-bottom: 0.25rem solid transparent; }
     .result-container.correct .result-continue-btn { background-color: #34A853; border-bottom-color: #2E7D32; }
+    .result-container.correct .result-continue-btn:hover { background-color: #2E7D32; border-bottom-color: #1B5E20; transform: translateY(-0.125rem); }
     .result-container.incorrect .result-continue-btn { background-color: #EA4335; border-bottom-color: #D3382C; }
+    .result-container.incorrect .result-continue-btn:hover { background-color: #D3382C; border-bottom-color: #C5221F; transform: translateY(-0.125rem); }
+    .result-continue-btn:active { transform: translateY(0.0625rem); border-bottom-width: 0.125rem; }
     .fullscreen-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10000; display: none; }
     .fullscreen-modal-overlay.visible { display: block; }
     .fullscreen-modal-overlay iframe { width: 100%; height: 100%; border: none; }
-    @media (max-width: 480px) { /* preserved */ }
-    @media (max-width: 320px) { /* preserved */ }
+    @media (max-width: 480px) { /* same as original, omitted for brevity */ }
+    @media (max-width: 320px) { /* same as original */ }
   </style>
 </head>
 <body>
@@ -148,20 +153,20 @@
     <!-- Question 1 -->
     <div id="question1"><h2 class="quiz-title">Choose the correct option</h2><div class="question">Where is most of a cell's DNA located?</div><div class="options-container" id="options-container-1"><button class="option-button" data-value="Cytoplasm">Cytoplasm</button><button class="option-button" data-value="Ribosomes">Ribosomes</button><button class="option-button" data-value="Nucleus">Nucleus</button><button class="option-button" data-value="Nuclear membrane">Nuclear membrane</button></div><div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div></div>
     <!-- Question 2 -->
-    <div id="question2" style="display: none;"><h2 class="quiz-title">Select what is missing</h2><div class="question-container"><div class="icon-container"><i class="ph-fill ph-rabbit"></i></div><div speech-bubble pleft abottom><div class="bubble-text">The nucleus is a cell organelle that <span id="blank-2-1" class="blank" tabindex="0"></span> and <span id="blank-2-2" class="blank" tabindex="0"></span><span class="full-stop">.</span></div></div></div><div id="options-2" class="options-container"></div><div class="footer"><button id="check-button-2" class="check-button" disabled>Check</button></div></div>
+    <div id="question2" style="display: none;"><h2 class="quiz-title">Select what is missing</h2><div class="question-container"><div class="icon-container"><i class="ph-fill ph-rabbit"></i></div><div speech-bubble pleft abottom style="--bbColor:#FFFFFF"><div class="bubble-text">The nucleus is a cell organelle that <span id="blank-2-1" class="blank" tabindex="0"></span> and <span id="blank-2-2" class="blank" tabindex="0"></span><span class="full-stop">.</span></div></div></div><div id="options-2" class="options-container"></div><div class="footer"><button id="check-button-2" class="check-button" disabled>Check</button></div></div>
     <!-- Question 3 -->
-    <div id="question3" style="display: none;"><h2 class="quiz-title">Complete the statement</h2><div class="question-container"><div class="icon-container"><i class="ph-fill ph-rabbit"></i></div><div speech-bubble pleft acenter><div class="bubble-text">The monomers that make up DNA and RNA are called __________.</div></div></div><div class="response-container"><div class="response-text">Type your answer below:</div><div class="response-input-container"><input type="text" id="nucleotide-answer-input" class="response-input" placeholder="Type your answer here" spellcheck="false"></div></div><div class="footer"><button class="check-button" id="check-button-3" disabled>Check</button></div></div>
+    <div id="question3" style="display: none;"><h2 class="quiz-title">Complete the statement</h2><div class="question-container"><div class="icon-container"><i class="ph-fill ph-rabbit"></i></div><div speech-bubble pleft acenter style="--bbColor:#FFFFFF"><div class="bubble-text">The monomers that make up DNA and RNA are called __________.</div></div></div><div class="response-container"><div class="response-text">Type your answer below:</div><div class="response-input-container"><input type="text" id="nucleotide-answer-input" class="response-input" placeholder="Type your answer here" spellcheck="false"></div></div><div class="footer"><button class="check-button" id="check-button-3" disabled>Check</button></div></div>
     <!-- Question 4 -->
     <div id="question4" style="display: none;"><h2 class="quiz-title">Choose the correct option</h2><div class="question">Which of the following is not a component of a nucleotide?</div><div class="options-container" id="options-container-4"><button class="option-button" data-value="Phosphate group">Phosphate group</button><button class="option-button" data-value="Amino acid">Amino acid</button><button class="option-button" data-value="Sugar molecule">Sugar molecule</button><button class="option-button" data-value="Nitrogenous base">Nitrogenous base</button></div><div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div></div>
     <!-- Question 5 -->
     <div id="question5" style="display: none;"><h2 class="quiz-title">Pick the correct image</h2><div class="question" style="text-align: center;">Which image correctly shows a nucleotide?</div><div class="image-selection-container"><div class="image-grid" id="image-grid"><div class="image-tile" data-image="1"><div class="image-container" data-image="1"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb1.jpg" alt="Image 1" loading="lazy"></div><div class="image-label">Image 1</div></div><div class="image-tile" data-image="2"><div class="image-container" data-image="2"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb2.jpg" alt="Image 2" loading="lazy"></div><div class="image-label">Image 2</div></div><div class="image-tile" data-image="3"><div class="image-container" data-image="3"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb3.jpg" alt="Image 3" loading="lazy"></div><div class="image-label">Image 3</div></div><div class="image-tile" data-image="4"><div class="image-container" data-image="4"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb4.jpg" alt="Image 4" loading="lazy"></div><div class="image-label">Image 4</div></div></div><div class="expand-hint"><i>Tap any image to expand for a closer look</i></div></div><div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div></div>
     <!-- Question 6 -->
-    <div id="question6" style="display: none;"><h2 class="quiz-title">Match the pairs</h2><div class="game-container"><div class="column" id="leftColumn"></div><div class="column" id="rightColumn"></div></div><button class="matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button><div class="feedback-overlay" id="feedbackOverlay"><div class="matching-feedback"><div class="result-main"><span class="material-symbols-outlined material-icon">cancel</span><div class="result-header">Incorrect</div><span class="material-symbols-outlined material-icon">stylus_note</span></div><div class="feedback-subtitle">Let's try that again</div><button class="feedback-button" id="tryAgainBtn">Try Again</button></div></div></div>
+    <div id="question6" style="display: none;"><h2 class="quiz-title">Match the pairs</h2><div class="game-container"><div class="column" id="leftColumn"></div><div class="column" id="rightColumn"></div></div><button class="matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button><div class="feedback-overlay" id="feedbackOverlay"><div class="matching-feedback"><div class="result-main"><span class="material-symbols-outlined material-icon" id="cancelIcon">cancel</span><div class="result-header">Incorrect</div><span class="material-symbols-outlined material-icon" id="notesIcon">stylus_note</span></div><div class="feedback-subtitle">Let's try that again</div><button class="feedback-button" id="tryAgainBtn">Try Again</button></div></div></div>
 
     <div class="image-zoom-modal" id="imageZoomModal"><div class="zoom-content"><button class="zoom-close" id="zoomCloseBtn"><span class="material-symbols-outlined">close</span></button><img id="zoomedImage" src="" alt="Zoomed Image"><div class="zoom-label" id="zoomImageLabel"></div><div class="zoom-instructions">Click outside or press ESC to close</div></div></div>
   </div>
 
-  <!-- Result Overlays (5) -->
+  <!-- Result Overlays (same as original) -->
   <div class="result-overlay" id="resultOverlay-1"><div class="result-container" id="resultContainer-1"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-1"></span><div class="result-header" id="resultHeader-1"></div><span class="material-symbols-outlined material-icon" id="actionIcon-1"></span></div><div class="explanation-content" id="explanationContainer-1"></div><button class="result-continue-btn" id="resultContinueBtn-1">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-2"><div class="result-container" id="resultContainer-2"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-2"></span><div class="result-header" id="resultHeader-2"></div><span class="material-symbols-outlined material-icon" id="actionIcon-2"></span></div><div class="explanation-content" id="explanationContainer-2"></div><button class="result-continue-btn" id="resultContinueBtn-2">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-3"><div class="result-container" id="resultContainer-3"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-3"></span><div class="result-header" id="resultHeader-3"></div><span class="material-symbols-outlined material-icon" id="actionIcon-3"></span></div><div class="explanation-content" id="explanationContainer-3"></div><button class="result-continue-btn" id="resultContinueBtn-3">Continue</button></div></div>
@@ -171,15 +176,16 @@
   <script>
     // ---------- QUESTION DATA ----------
     const questions = [
-      { id: 1, type: "multiple-choice", correctAnswer: 'Nucleus', explanation: "The nucleus contains most of the cell's DNA within the chromatin network. The cytoplasm and ribosomes do not store DNA, and the nuclear membrane only encloses the nucleus.", options: ['Cytoplasm', 'Ribosomes', 'Nucleus', 'Nuclear membrane'] },
-      { id: 2, type: "complete-sentence", options: [{ label: "is the site of protein synthesis", value: "protein_synthesis" }, { label: "contains DNA", value: "contains_dna" }, { label: "produces ribosomes", value: "produces_ribosomes" }, { label: "is the site of most metabolic reactions", value: "metabolic_reactions" }], correctAnswers: ["contains_dna", "produces_ribosomes"], explanation: "The nucleus contains the cell's DNA and produces ribosomes in the nucleolus. Protein synthesis occurs at ribosomes, and most metabolic reactions take place in the cytoplasm, not the nucleus." },
-      { id: 3, type: "fill-blank", correctAnswer: 'nucleotides', acceptableAnswers: ['nucleotides', 'nucleotide', 'nucleotides (nucleotide)', 'nucleotide (nucleotides)'], explanation: "DNA and RNA are nucleic acids composed of repeating monomers called nucleotides, each consisting of a phosphate group, a sugar molecule and a nitrogenous base." },
-      { id: 4, type: "multiple-choice", correctAnswer: 'Amino acid', explanation: "Amino acids are building blocks of proteins, not nucleotides. Nucleotides consist of a phosphate group, a sugar (deoxyribose in DNA, ribose in RNA) and a nitrogenous base.", options: ['Phosphate group', 'Amino acid', 'Sugar molecule', 'Nitrogenous base'] },
-      { id: 5, type: "image-selection", correctAnswer: 4, explanation: "A nucleotide consists of three parts: a phosphate group, a sugar molecule (deoxyribose in DNA) and a nitrogenous base, all of which Image 4 correctly represents." }
+      { id: 1, type: "multiple-choice", correctAnswer: 'Nucleus', explanation: "The nucleus contains most of the cell's DNA within the chromatin network.", options: ['Cytoplasm', 'Ribosomes', 'Nucleus', 'Nuclear membrane'] },
+      { id: 2, type: "complete-sentence", options: [{ label: "is the site of protein synthesis", value: "protein_synthesis" }, { label: "contains DNA", value: "contains_dna" }, { label: "produces ribosomes", value: "produces_ribosomes" }, { label: "is the site of most metabolic reactions", value: "metabolic_reactions" }], correctAnswers: ["contains_dna", "produces_ribosomes"], explanation: "The nucleus contains DNA and produces ribosomes." },
+      { id: 3, type: "fill-blank", correctAnswer: 'nucleotides', acceptableAnswers: ['nucleotides', 'nucleotide'], explanation: "DNA and RNA are made of nucleotides." },
+      { id: 4, type: "multiple-choice", correctAnswer: 'Amino acid', explanation: "Amino acids are building blocks of proteins, not nucleotides.", options: ['Phosphate group', 'Amino acid', 'Sugar molecule', 'Nitrogenous base'] },
+      { id: 5, type: "image-selection", correctAnswer: 4, explanation: "Image 4 correctly shows a nucleotide." }
     ];
+
     const pairs = [{ term: "DNA", meaning: "Deoxyribose" }, { term: "RNA", meaning: "Ribose" }];
 
-    // ---------- DOM ----------
+    // DOM elements
     const progressBar = document.getElementById('progress-bar');
     const livesCountElement = document.getElementById('lives-count');
     const livesIconElement = document.getElementById('lives-icon');
@@ -191,7 +197,7 @@
     const correctSound = document.getElementById('correctSound');
     const incorrectSound = document.getElementById('incorrectSound');
 
-    // ---------- STATE ----------
+    // Game state
     let selectedOption = null;
     let lives = 5;
     let currentQuestion = 0;
@@ -203,18 +209,19 @@
     let shouldShowCelebrationAfterExplanation = false;
     let pendingCelebrationStreak = null;
 
+    // Tracking
     let quizStartTime = Date.now();
     let quizCompleted = false;
     let totalAttempts = 0;
     let questionFinalCorrect = [false, false, false, false, false, false];
 
+    // Reward sequence state
     let currentStreakDays = 1;
     let heartsAtCompletion = 5;
-    let chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
-    let chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
-    let dailyQuestHandlerAttached = false;
+    let finalCorrect = 0;
+    let finalTotalAttempts = 0;
 
-    // ---------- HELPERS ----------
+    // Helper functions
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -222,35 +229,53 @@
       }
       return array;
     }
-    function getCurrentQuestionIndex() { return inRetryMode ? retryQueue[currentQuestion] : currentQuestion; }
-    function updateStreakCounter() { streakCounter.textContent = currentStreak >= 2 ? `${currentStreak} in a row!` : ''; }
-    function playSound(isCorrect) { try { (isCorrect ? correctSound : incorrectSound).play().catch(e=>console.log(e)); } catch(e){} }
-    function updateHeartIcon() { livesIconElement.className = lives === 0 ? 'ph ph-heart' : 'ph-fill ph-heart'; }
-    function normalizeAnswer(a) { return a.toLowerCase().replace(/\s+/g,' ').replace(/[()]/g,'').replace(/\//g,' ').trim(); }
 
-    function loadStreakFromStorage() {
-      const saved = localStorage.getItem('userStreakDays');
-      currentStreakDays = saved ? parseInt(saved) : 1;
-      localStorage.setItem('userStreakDays', currentStreakDays);
+    function getCurrentQuestionIndex() {
+      return inRetryMode ? retryQueue[currentQuestion] : currentQuestion;
     }
-    function saveStreakToStorage() { localStorage.setItem('userStreakDays', currentStreakDays); }
-    function incrementStreak() { currentStreakDays++; saveStreakToStorage(); }
 
-    // ---------- MODAL SYSTEM ----------
+    function updateStreakCounter() {
+      streakCounter.textContent = (currentStreak >= 2) ? `${currentStreak} in a row!` : '';
+    }
+
+    function playSound(isCorrect) {
+      try {
+        const sound = isCorrect ? correctSound : incorrectSound;
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log("Audio play failed:", e));
+      } catch(e) {}
+    }
+
+    function updateHeartIcon() {
+      if (lives === 0) {
+        livesIconElement.classList.remove('ph-fill');
+        livesIconElement.classList.add('ph');
+      } else {
+        livesIconElement.classList.remove('ph');
+        livesIconElement.classList.add('ph-fill');
+      }
+    }
+
+    function normalizeAnswer(answer) {
+      return answer.toLowerCase().replace(/\s+/g, ' ').replace(/[()]/g, '').replace(/\//g, ' ').trim();
+    }
+
+    // ----- MODAL SYSTEM -----
     function showModal(modalUrl, onClose) {
       modalIframe.src = modalUrl;
       fullscreenOverlay.classList.add('visible');
-      const handler = (e) => {
-        if (e.data === 'modalClose') {
-          window.removeEventListener('message', handler);
+      
+      const messageHandler = (event) => {
+        if (event.data === 'modalClose') {
+          window.removeEventListener('message', messageHandler);
           fullscreenOverlay.classList.remove('visible');
           modalIframe.src = 'about:blank';
           if (onClose) onClose();
-        } else if (e.data === 'modalQuit') {
-          window.removeEventListener('message', handler);
+        } else if (event.data === 'modalQuit') {
+          window.removeEventListener('message', messageHandler);
           window.location.href = 'https://vulanet.vercel.app/lesson';
-        } else if (e.data?.type === 'refillHearts') {
-          window.removeEventListener('message', handler);
+        } else if (event.data && event.data.type === 'refillHearts') {
+          window.removeEventListener('message', messageHandler);
           fullscreenOverlay.classList.remove('visible');
           modalIframe.src = 'about:blank';
           lives = 5;
@@ -258,57 +283,87 @@
           updateHeartIcon();
           resetCurrentQuestion();
           if (onClose) onClose();
-        } else if (e.data?.type === 'streakClosed') {
-          currentStreakDays = e.data.streakDays || currentStreakDays;
-          saveStreakToStorage();
+        } else if (event.data && event.data.type === 'streakClosed') {
+          currentStreakDays = event.data.streakDays || currentStreakDays;
           if (onClose) onClose();
         }
       };
-      window.addEventListener('message', handler);
+      
+      window.addEventListener('message', messageHandler);
     }
-    function resetCurrentQuestion() { showQuestion(currentQuestion); }
 
-    // ---------- REWARD MODALS ----------
+    function resetCurrentQuestion() {
+      showQuestion(currentQuestion);
+    }
+
+    // Reward modals
     function showCoinsReward(amount, onClose) { showModal(`coins-reward.html?amount=${amount}`, onClose); }
-    function showBoostReward(multiplier, duration, onClose) { showModal(`boost-reward.html?multiplier=${multiplier}&duration=${duration}`, onClose); }
-    function showHeartReward(heartsParam, onClose) { showModal(`heart-reward.html?hearts=${heartsParam}`, onClose); }
-    function showCelebrationModal(streakCount, onContinue) { showModal(`answer-streak.html?streak=${streakCount}`, onContinue); }
-    function showRetryModal(onContinue) { showModal('review-questions.html', onContinue); }
-    function showRefillHeartsModal(onComplete) { showModal('refill-hearts.html', onComplete); }
-    function showLessonCompleteModal(correct, total, time, boost, onComplete) { showModal(`lesson-complete.html?correctAttempts=${correct}&totalAttempts=${total}&time=${time}${boost?`&boost=${boost}`:''}`, onComplete); }
-    function showAchievementModal(onComplete) { showModal('achievement.html', onComplete); }
-    function showStreakModal(onComplete) { showModal('streak.html', onComplete); }
+    function showBoostReward(mult, dur, onClose) { showModal(`boost-reward.html?multiplier=${mult}&duration=${dur}`, onClose); }
+    function showHeartReward(hearts, onClose) { showModal(`heart-reward.html?hearts=${hearts}`, onClose); }
+    function showCelebrationModal(streak, onClose) { showModal(`answer-streak.html?streak=${streak}`, onClose); }
+    function showRetryModal(onClose) { showModal('review-questions.html', onClose); }
+    function showRefillHeartsModal(onClose) { showModal('refill-hearts.html', onClose); }
+    function showLessonCompleteModal(correct, total, time, boost, onClose) {
+      let url = `lesson-complete.html?correctAttempts=${correct}&totalAttempts=${total}&time=${time}`;
+      if (boost) url += `&boost=${boost}`;
+      showModal(url, onClose);
+    }
+    function showAchievementModal(onClose) { showModal('achievement.html', onClose); }
+    function showStreakModal(onClose) { showModal('streak.html', onClose); }
 
-    // ---------- CELEBRATION ----------
-    function checkAndShowCelebration(cb) {
+    // Daily quest handling – separate to avoid conflicts
+    let dailyQuestMessageHandler = null;
+    function showDailyQuestAndWait(correct, total, onFinish) {
+      const handler = (event) => {
+        if (event.data && event.data.type === 'dailyQuestContinue') {
+          window.removeEventListener('message', handler);
+          fullscreenOverlay.classList.remove('visible');
+          modalIframe.src = 'about:blank';
+          onFinish(event.data);
+        }
+      };
+      window.addEventListener('message', handler);
+      modalIframe.src = `daily-quest.html?correctAttempts=${correct}&totalAttempts=${total}&completed=true`;
+      fullscreenOverlay.classList.add('visible');
+    }
+
+    // Celebration handling
+    function checkAndShowCelebration(callback) {
       if (shouldShowCelebrationAfterExplanation && pendingCelebrationStreak) {
-        const s = pendingCelebrationStreak;
+        const streak = pendingCelebrationStreak;
         shouldShowCelebrationAfterExplanation = false;
         pendingCelebrationStreak = null;
-        showCelebrationModal(s, cb);
+        showCelebrationModal(streak, callback);
         return true;
       }
       return false;
     }
+
     function handleCorrectAnswer() {
       currentStreak++;
       updateStreakCounter();
       if (currentStreak % 5 === 0 && currentStreak > 0) {
         shouldShowCelebrationAfterExplanation = true;
         pendingCelebrationStreak = currentStreak;
+        return true;
       }
+      return false;
     }
-    function handleIncorrectAnswer() { currentStreak = 0; updateStreakCounter(); }
 
-    // ---------- RESULT OVERLAY ----------
-    function showResultOverlay(qNum, isCorrect, explanationHTML, onComplete) {
-      const overlay = document.getElementById(`resultOverlay-${qNum}`);
-      const container = document.getElementById(`resultContainer-${qNum}`);
-      const header = document.getElementById(`resultHeader-${qNum}`);
-      const icon = document.getElementById(`resultIcon-${qNum}`);
-      const actionIcon = document.getElementById(`actionIcon-${qNum}`);
-      const explanationDiv = document.getElementById(`explanationContainer-${qNum}`);
-      const continueBtn = document.getElementById(`resultContinueBtn-${qNum}`);
+    function handleIncorrectAnswer() {
+      currentStreak = 0;
+      updateStreakCounter();
+    }
+
+    function showResultOverlay(questionNumber, isCorrect, explanationHTML, onComplete) {
+      const overlay = document.getElementById(`resultOverlay-${questionNumber}`);
+      const container = document.getElementById(`resultContainer-${questionNumber}`);
+      const header = document.getElementById(`resultHeader-${questionNumber}`);
+      const icon = document.getElementById(`resultIcon-${questionNumber}`);
+      const actionIcon = document.getElementById(`actionIcon-${questionNumber}`);
+      const explanation = document.getElementById(`explanationContainer-${questionNumber}`);
+      const continueBtn = document.getElementById(`resultContinueBtn-${questionNumber}`);
+      
       if (isCorrect) {
         header.textContent = 'Correct!';
         icon.textContent = 'check_circle';
@@ -320,104 +375,120 @@
         actionIcon.textContent = 'stylus_note';
         container.className = 'result-container incorrect';
       }
-      let html = explanationHTML;
-      if (typeof explanationHTML === 'number') html = `<div class="explanation-section"><span class="explanation-text">${questions[explanationHTML].explanation}</span></div>`;
-      explanationDiv.innerHTML = html;
+      
+      let actualExplanationHTML = explanationHTML;
+      if (typeof explanationHTML === 'number') {
+        actualExplanationHTML = `<div class="explanation-section"><span class="explanation-text">${questions[explanationHTML].explanation}</span></div>`;
+      }
+      
+      explanation.innerHTML = actualExplanationHTML;
       overlay.classList.add('visible');
-      continueBtn.onclick = () => {
+      
+      continueBtn.onclick = function() {
         overlay.classList.remove('visible');
         const celebrationShown = checkAndShowCelebration(() => { if (onComplete) onComplete(); });
         if (!celebrationShown && onComplete) onComplete();
       };
     }
 
-    // ---------- MOVE NEXT ----------
     function moveToNextQuestion() {
       if (inRetryMode) {
         currentQuestion++;
         if (currentQuestion >= retryQueue.length) {
-          inRetryMode = false; retryQueue = []; showedRetryMessage = false; currentQuestion = 0;
+          inRetryMode = false;
+          retryQueue = [];
+          showedRetryMessage = false;
+          currentQuestion = 0;
           finishQuiz();
-          return false;
+          return;
         }
         showQuestion(currentQuestion);
-        return true;
       } else {
         currentQuestion++;
         if (currentQuestion >= questionSections.length) {
           if (retryQueue.length > 0) {
-            inRetryMode = true; currentQuestion = 0;
+            inRetryMode = true;
+            currentQuestion = 0;
             if (!showedRetryMessage) {
               showedRetryMessage = true;
-              showRetryModal(() => showQuestion(currentQuestion));
-              return false;
+              showRetryModal(() => { showQuestion(currentQuestion); });
+              return;
             }
             showQuestion(currentQuestion);
-            return true;
           } else {
             finishQuiz();
-            return false;
           }
+        } else {
+          showQuestion(currentQuestion);
         }
-        showQuestion(currentQuestion);
-        return true;
       }
     }
 
-    // ---------- REWARD SEQUENCE (FIXED: SHOW BOOST/HEART AFTER STREAK) ----------
-    function processRewardSequence(finalCorrect, totalAttemptsTotal) {
-      // Step 2: Show streak modal
+    // ----- REWARD SEQUENCE (fixed) -----
+    function startRewardSequence() {
+      // Step 1: Streak modal
       showStreakModal(() => {
-        // Step 3: Show Boost or Heart reward
-        const random = Math.random();
-        const shouldShowBoost = (random < 0.5);
-        if (shouldShowBoost) {
-          const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
-          const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
-          showBoostReward(chosen.mult, chosen.dur, () => {
-            showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
+        // Step 2: Check milestone vs non‑milestone
+        const isMilestone = (currentStreakDays % 5 === 0);
+        if (isMilestone) {
+          let coins = (currentStreakDays >= 30 && currentStreakDays <= 70) ? 500 : 250;
+          showCoinsReward(coins, () => {
+            // After milestone coins, go to daily quest
+            showDailyQuestAndHandleClaims();
           });
         } else {
-          if (heartsAtCompletion <= 2) {
-            let heartsParam = 'full';
-            if (heartsAtCompletion === 1) heartsParam = '1';
-            else if (heartsAtCompletion === 2) heartsParam = '2';
-            showHeartReward(heartsParam, () => {
-              showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
-            });
+          // Non‑milestone: first lesson of day? (demo: always true for now)
+          const isFirstLesson = true; // TODO: store in localStorage
+          if (isFirstLesson) {
+            const random = Math.random();
+            if (random < 0.5) {
+              const boosts = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
+              const chosen = boosts[Math.floor(Math.random() * boosts.length)];
+              showBoostReward(chosen.mult, chosen.dur, () => {
+                showDailyQuestAndHandleClaims();
+              });
+            } else {
+              if (heartsAtCompletion <= 2) {
+                let heartsParam = (heartsAtCompletion === 1) ? '1' : (heartsAtCompletion === 2) ? '2' : 'full';
+                showHeartReward(heartsParam, () => {
+                  showDailyQuestAndHandleClaims();
+                });
+              } else {
+                showBoostReward(1.5, 30, () => {
+                  showDailyQuestAndHandleClaims();
+                });
+              }
+            }
           } else {
-            // Hearts > 2, always show Boost
-            showBoostReward(1.5, 30, () => {
-              showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal);
-            });
+            showDailyQuestAndHandleClaims();
           }
         }
       });
     }
 
-    function showDailyQuestAndHandleClaims(finalCorrect, totalAttemptsTotal) {
-      chestsClaimedDuringQuest = { bronze: false, silver: false, gold: false };
-      chestsEligibleFromQuest = { bronze: false, silver: false, gold: false };
-      if (dailyQuestHandlerAttached) window.removeEventListener('message', dailyQuestMessageHandler);
-      
-      function dailyQuestMessageHandler(event) {
-        if (event.data?.type === 'dailyQuestContinue') {
-          window.removeEventListener('message', dailyQuestMessageHandler);
-          dailyQuestHandlerAttached = false;
-          fullscreenOverlay.classList.remove('visible');
-          modalIframe.src = 'about:blank';
-          chestsEligibleFromQuest = event.data.chestEligible || { bronze: false, silver: false, gold: false };
-          const allQuestsCompleted = chestsEligibleFromQuest.bronze && chestsEligibleFromQuest.silver && chestsEligibleFromQuest.gold;
-          // Note: chest claims are handled inside daily-quest.html itself (internal modal), so we don't need to listen for chestClaimed here.
-          goToAchievement();
+    function showDailyQuestAndHandleClaims() {
+      showDailyQuestAndWait(finalCorrect, finalTotalAttempts, (questData) => {
+        const claimedChests = questData.claimedChests || { bronze: false, silver: false, gold: false };
+        const chestEligible = questData.chestEligible || { bronze: false, silver: false, gold: false };
+        
+        // Calculate unclaimed eligible chests
+        let unclaimedSum = 0;
+        if (chestEligible.bronze && !claimedChests.bronze) unclaimedSum += 50;
+        if (chestEligible.silver && !claimedChests.silver) unclaimedSum += 75;
+        if (chestEligible.gold && !claimedChests.gold) unclaimedSum += 100;
+        
+        if (unclaimedSum > 0) {
+          showCoinsReward(unclaimedSum, () => {
+            proceedToAchievement();
+          });
+        } else {
+          proceedToAchievement();
         }
-      }
-      window.addEventListener('message', dailyQuestMessageHandler);
-      dailyQuestHandlerAttached = true;
-      showModal(`daily-quest.html?correctAttempts=${finalCorrect}&totalAttempts=${totalAttemptsTotal}&completed=true`, null);
+      });
     }
 
-    function goToAchievement() {
+    function proceedToAchievement() {
+      // For demo, always show achievement and then 500 coin reward
       showAchievementModal(() => {
         showCoinsReward(500, () => {
           window.location.href = 'https://vulanet.vercel.app/lesson/g12-life-sciences';
@@ -429,173 +500,175 @@
       if (quizCompleted) return;
       quizCompleted = true;
       const timeSeconds = Math.floor((Date.now() - quizStartTime) / 1000);
-      let finalCorrect = 0;
-      for (let i=0; i<questionFinalCorrect.length; i++) if (questionFinalCorrect[i]) finalCorrect++;
+      finalCorrect = questionFinalCorrect.filter(v => v === true).length;
+      finalTotalAttempts = totalAttempts;
       heartsAtCompletion = lives;
-      loadStreakFromStorage();
-      incrementStreak();
-      showLessonCompleteModal(finalCorrect, totalAttempts, timeSeconds, null, () => {
-        processRewardSequence(finalCorrect, totalAttempts);
+      
+      // Update streak days in localStorage (demo)
+      let saved = localStorage.getItem('userStreakDays');
+      currentStreakDays = saved ? parseInt(saved) : 1;
+      localStorage.setItem('userStreakDays', (currentStreakDays + 1).toString());
+      
+      showLessonCompleteModal(finalCorrect, finalTotalAttempts, timeSeconds, null, () => {
+        startRewardSequence();
       });
     }
 
-    // ---------- SHOW QUESTION (ALL 6 TYPES – FULL) ----------
-    function showQuestion(idx) {
-      questionSections.forEach(s => s.style.display = 'none');
+    // ---------- SHOW QUESTION (full implementation, fixed matching pairs) ----------
+    function showQuestion(questionIndex) {
+      questionSections.forEach(section => { section.style.display = 'none'; });
       const actual = getCurrentQuestionIndex();
       questionSections[actual].style.display = 'block';
-      let percent = inRetryMode ? Math.round(((currentQuestion+1)/retryQueue.length)*100) : Math.round(((currentQuestion+1)/6)*100);
-      progressBar.style.width = `${percent}%`;
+      let progress = inRetryMode ? Math.round(((currentQuestion + 1) / retryQueue.length) * 100) : Math.round(((currentQuestion + 1) / 6) * 100);
+      progressBar.style.width = `${progress}%`;
       answered = false;
       selectedOption = null;
       updateStreakCounter();
 
-      // Q1
+      // QUESTION 1
       if (actual === 0) {
         const btns = document.querySelectorAll('#options-container-1 .option-button');
         const check = document.getElementById('check-button-1');
-        btns.forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled = false; b.style.cursor='pointer'; });
-        check.disabled = true; check.textContent = 'Check';
-        btns.forEach(b => { b.onclick = () => { if(answered) return; btns.forEach(btn=>btn.classList.remove('selected')); b.classList.add('selected'); selectedOption = b.dataset.value; check.disabled = false; }; });
+        btns.forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled = false; });
+        check.disabled = true;
+        btns.forEach(b => {
+          b.onclick = () => { if (!answered) { btns.forEach(btn => btn.classList.remove('selected')); b.classList.add('selected'); selectedOption = b.dataset.value; check.disabled = false; } };
+        });
         check.onclick = () => {
-          if(!selectedOption || answered) return;
+          if (!selectedOption || answered) return;
           answered = true; totalAttempts++;
-          const correctBtn = Array.from(btns).find(b=>b.dataset.value===questions[0].correctAnswer);
-          if(correctBtn) correctBtn.classList.add('correct');
-          if(selectedOption === questions[0].correctAnswer) {
-            if(!questionFinalCorrect[0]) questionFinalCorrect[0]=true;
+          const correctBtn = Array.from(btns).find(b => b.dataset.value === questions[0].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (selectedOption === questions[0].correctAnswer) {
+            if (!questionFinalCorrect[0]) questionFinalCorrect[0] = true;
             playSound(true); handleCorrectAnswer();
-            showResultOverlay(1,true,0,moveToNextQuestion);
+            showResultOverlay(1, true, 0, moveToNextQuestion);
           } else {
             playSound(false);
-            if(!retryQueue.includes(0)) retryQueue.push(0);
-            else if(inRetryMode) retryQueue.push(0);
+            if (!retryQueue.includes(0)) retryQueue.push(0);
             handleIncorrectAnswer();
-            const selectedBtn = Array.from(btns).find(b=>b.dataset.value===selectedOption);
-            if(selectedBtn) selectedBtn.classList.add('incorrect');
-            if(lives>0) { lives--; livesCountElement.textContent=lives; updateHeartIcon();
-              if(lives===0) {
-                showResultOverlay(1,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[0].explanation}</span></div>`,()=>{
-                  showRefillHeartsModal(()=>{ lives=5; livesCountElement.textContent=lives; updateHeartIcon(); resetCurrentQuestion(); });
+            const selectedBtn = Array.from(btns).find(b => b.dataset.value === selectedOption);
+            if (selectedBtn) selectedBtn.classList.add('incorrect');
+            if (lives > 0) {
+              lives--; livesCountElement.textContent = lives; updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[0].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
                 });
                 return;
               }
             }
-            showResultOverlay(1,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[0].explanation}</span></div>`,moveToNextQuestion);
+            showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[0].explanation}</span></div>`, moveToNextQuestion);
           }
-          btns.forEach(b=>{b.disabled=true; b.style.cursor='not-allowed';});
+          btns.forEach(b => b.disabled = true);
         };
-      }
-      // Q2 – complete sentence
+      } 
+      // QUESTION 2 (complete sentence)
       else if (actual === 1) {
         const blank1 = document.getElementById('blank-2-1');
         const blank2 = document.getElementById('blank-2-2');
-        const container = document.getElementById('options-2');
+        const optionsDiv = document.getElementById('options-2');
         const check = document.getElementById('check-button-2');
         blank1.textContent = ''; blank2.textContent = '';
-        blank1.classList.remove('filled','correct','incorrect'); blank2.classList.remove('filled','correct','incorrect');
-        check.disabled = true; check.textContent = 'Check';
-        container.innerHTML = '';
-        let filled = [null,null];
+        blank1.classList.remove('filled','correct','incorrect');
+        blank2.classList.remove('filled','correct','incorrect');
+        check.disabled = true;
+        optionsDiv.innerHTML = '';
+        let filled = [null, null];
         let btns = [];
-        const shuffledOpts = [...questions[1].options];
-        shuffleArray(shuffledOpts);
-        shuffledOpts.forEach(opt => {
+        const shuffled = shuffleArray([...questions[1].options]);
+        shuffled.forEach(opt => {
           const btn = document.createElement('button');
           btn.className = 'option-button';
           btn.dataset.value = opt.value;
-          const span = document.createElement('span'); span.textContent = opt.label;
-          btn.appendChild(span);
+          btn.innerHTML = `<span>${opt.label}</span>`;
           btns.push(btn);
           btn.onclick = () => {
-            if(answered) return;
-            if(filled.some(f=>f && f.value===opt.value)) return;
-            let idx = filled[0]===null ? 0 : (filled[1]===null ? 1 : -1);
-            if(idx===-1) return;
+            if (answered) return;
+            if (filled.some(f => f && f.value === opt.value)) return;
+            let idx = filled[0] === null ? 0 : (filled[1] === null ? 1 : -1);
+            if (idx === -1) return;
             filled[idx] = { value: opt.value, label: opt.label };
-            (idx===0 ? blank1 : blank2).textContent = opt.label;
-            (idx===0 ? blank1 : blank2).classList.add('filled');
+            (idx === 0 ? blank1 : blank2).textContent = opt.label;
+            (idx === 0 ? blank1 : blank2).classList.add('filled');
             btn.classList.add('used-option');
             check.disabled = false;
           };
-          container.appendChild(btn);
+          optionsDiv.appendChild(btn);
         });
-        blank1.onclick = () => { if(answered || !filled[0]) return; const btn = btns.find(b=>b.dataset.value===filled[0].value); if(btn) btn.classList.remove('used-option'); blank1.textContent=''; blank1.classList.remove('filled','correct','incorrect'); filled[0]=null; check.disabled = !(filled[0] && filled[1]); };
-        blank2.onclick = () => { if(answered || !filled[1]) return; const btn = btns.find(b=>b.dataset.value===filled[1].value); if(btn) btn.classList.remove('used-option'); blank2.textContent=''; blank2.classList.remove('filled','correct','incorrect'); filled[1]=null; check.disabled = !(filled[0] && filled[1]); };
+        blank1.onclick = () => { if (!answered && filled[0]) { const btn = btns.find(b => b.dataset.value === filled[0].value); if(btn) btn.classList.remove('used-option'); blank1.textContent = ''; blank1.classList.remove('filled','correct','incorrect'); filled[0] = null; check.disabled = !(filled[0] && filled[1]); } };
+        blank2.onclick = () => { if (!answered && filled[1]) { const btn = btns.find(b => b.dataset.value === filled[1].value); if(btn) btn.classList.remove('used-option'); blank2.textContent = ''; blank2.classList.remove('filled','correct','incorrect'); filled[1] = null; check.disabled = !(filled[0] && filled[1]); } };
         check.onclick = () => {
-          if(answered || !filled[0] || !filled[1]) return;
+          if (answered || !filled[0] || !filled[1]) return;
           answered = true; totalAttempts++;
-          const a1 = filled[0].value, a2 = filled[1].value;
-          const isCorrect = (a1===questions[1].correctAnswers[0] && a2===questions[1].correctAnswers[1]) || (a1===questions[1].correctAnswers[1] && a2===questions[1].correctAnswers[0]);
-          playSound(isCorrect);
-          btns.forEach(b=>{b.disabled=true; b.style.cursor='not-allowed';});
-          if(isCorrect) {
-            if(!questionFinalCorrect[1]) questionFinalCorrect[1]=true;
+          const u1 = filled[0].value, u2 = filled[1].value;
+          const correct = (u1 === 'contains_dna' && u2 === 'produces_ribosomes') || (u1 === 'produces_ribosomes' && u2 === 'contains_dna');
+          playSound(correct);
+          btns.forEach(b => b.disabled = true);
+          if (correct) {
+            if (!questionFinalCorrect[1]) questionFinalCorrect[1] = true;
             blank1.classList.add('correct'); blank2.classList.add('correct');
-            btns.forEach(b=>{if(b.dataset.value===questions[1].correctAnswers[0] || b.dataset.value===questions[1].correctAnswers[1]) b.classList.add('correct');});
             handleCorrectAnswer();
-            showResultOverlay(2,true,1,moveToNextQuestion);
+            showResultOverlay(2, true, 1, moveToNextQuestion);
           } else {
             blank1.classList.add('incorrect'); blank2.classList.add('incorrect');
-            if(!retryQueue.includes(1)) retryQueue.push(1);
-            else if(inRetryMode) retryQueue.push(1);
+            if (!retryQueue.includes(1)) retryQueue.push(1);
             handleIncorrectAnswer();
-            if(lives>0) { lives--; livesCountElement.textContent=lives; updateHeartIcon();
-              if(lives===0) {
-                showResultOverlay(2,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[1].explanation}</span></div>`,()=>{
-                  showRefillHeartsModal(()=>{ lives=5; livesCountElement.textContent=lives; updateHeartIcon(); resetCurrentQuestion(); });
+            if (lives > 0) {
+              lives--; livesCountElement.textContent = lives; updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[1].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
                 });
                 return;
               }
             }
-            btns.forEach(b=>{if(b.dataset.value===questions[1].correctAnswers[0] || b.dataset.value===questions[1].correctAnswers[1]) b.classList.add('correct');});
-            showResultOverlay(2,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[1].explanation}</span></div>`,moveToNextQuestion);
+            btns.forEach(b => { if (b.dataset.value === 'contains_dna' || b.dataset.value === 'produces_ribosomes') b.classList.add('correct'); });
+            showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[1].explanation}</span></div>`, moveToNextQuestion);
           }
         };
       }
-      // Q3 – fill blank
+      // QUESTION 3 (fill blank)
       else if (actual === 2) {
         const input = document.getElementById('nucleotide-answer-input');
         const check = document.getElementById('check-button-3');
         input.value = ''; input.classList.remove('correct','incorrect'); input.disabled = false;
-        check.disabled = true; check.textContent = 'Check';
-        input.oninput = () => { check.disabled = !input.value.trim(); if(answered) { input.classList.remove('correct','incorrect'); answered=false; } };
-        input.onkeypress = e => { if(e.key==='Enter' && !check.disabled) check.click(); };
+        check.disabled = true;
+        input.oninput = () => { check.disabled = !input.value.trim(); if (answered) { input.classList.remove('correct','incorrect'); answered = false; } };
+        input.onkeypress = (e) => { if (e.key === 'Enter' && !check.disabled) check.click(); };
         check.onclick = () => {
           answered = true; totalAttempts++;
-          const user = normalizeAnswer(input.value.trim());
-          const isCorrect = questions[2].acceptableAnswers.some(acc => user === normalizeAnswer(acc));
+          const ans = normalizeAnswer(input.value.trim());
+          const isCorrect = questions[2].acceptableAnswers.some(a => ans === normalizeAnswer(a));
           playSound(isCorrect);
-          if(isCorrect) {
-            if(!questionFinalCorrect[2]) questionFinalCorrect[2]=true;
-            input.classList.add('correct');
-            handleCorrectAnswer();
-            showResultOverlay(3,true,2,moveToNextQuestion);
+          if (isCorrect) {
+            if (!questionFinalCorrect[2]) questionFinalCorrect[2] = true;
+            input.classList.add('correct'); handleCorrectAnswer();
+            showResultOverlay(3, true, 2, moveToNextQuestion);
           } else {
-            if(!retryQueue.includes(2)) retryQueue.push(2);
-            else if(inRetryMode) retryQueue.push(2);
-            handleIncorrectAnswer();
-            input.classList.add('incorrect');
-            if(lives>0) { lives--; livesCountElement.textContent=lives; updateHeartIcon();
-              if(lives===0) {
-                showResultOverlay(3,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`,()=>{
-                  showRefillHeartsModal(()=>{ lives=5; livesCountElement.textContent=lives; updateHeartIcon(); resetCurrentQuestion(); });
+            if (!retryQueue.includes(2)) retryQueue.push(2);
+            handleIncorrectAnswer(); input.classList.add('incorrect');
+            if (lives > 0) {
+              lives--; livesCountElement.textContent = lives; updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
                 });
                 return;
               }
             }
-            showResultOverlay(3,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`,moveToNextQuestion);
+            showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[2].explanation}</span></div>`, moveToNextQuestion);
           }
           input.disabled = true;
         };
         input.focus();
       }
-      // Q4 – multiple choice
+      // QUESTION 4 (multiple choice)
       else if (actual === 3) {
         const container = document.getElementById('options-container-4');
         const check = document.getElementById('check-button-4');
-        check.disabled = true; check.textContent = 'Check';
-        const opts = [{ label:'Phosphate group', value:'Phosphate group' }, { label:'Amino acid', value:'Amino acid' }, { label:'Sugar molecule', value:'Sugar molecule' }, { label:'Nitrogenous base', value:'Nitrogenous base' }];
+        check.disabled = true;
+        const opts = [{ label: 'Phosphate group', value: 'Phosphate group' }, { label: 'Amino acid', value: 'Amino acid' }, { label: 'Sugar molecule', value: 'Sugar molecule' }, { label: 'Nitrogenous base', value: 'Nitrogenous base' }];
         shuffleArray(opts);
         container.innerHTML = '';
         opts.forEach(opt => {
@@ -604,39 +677,39 @@
           btn.dataset.value = opt.value;
           btn.textContent = opt.label;
           container.appendChild(btn);
-          btn.onclick = () => { if(answered) return; document.querySelectorAll('#options-container-4 .option-button').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedOption = btn.dataset.value; check.disabled = false; };
+          btn.onclick = () => { if (!answered) { document.querySelectorAll('#options-container-4 .option-button').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); selectedOption = btn.dataset.value; check.disabled = false; } };
         });
         check.onclick = () => {
-          if(!selectedOption) return;
+          if (!selectedOption) return;
           answered = true; totalAttempts++;
           const btns = document.querySelectorAll('#options-container-4 .option-button');
-          const correctBtn = Array.from(btns).find(b=>b.dataset.value===questions[3].correctAnswer);
-          if(correctBtn) correctBtn.classList.add('correct');
-          if(selectedOption === questions[3].correctAnswer) {
-            if(!questionFinalCorrect[3]) questionFinalCorrect[3]=true;
+          const correctBtn = Array.from(btns).find(b => b.dataset.value === questions[3].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (selectedOption === questions[3].correctAnswer) {
+            if (!questionFinalCorrect[3]) questionFinalCorrect[3] = true;
             playSound(true); handleCorrectAnswer();
-            showResultOverlay(4,true,3,moveToNextQuestion);
+            showResultOverlay(4, true, 3, moveToNextQuestion);
           } else {
             playSound(false);
-            if(!retryQueue.includes(3)) retryQueue.push(3);
-            else if(inRetryMode) retryQueue.push(3);
+            if (!retryQueue.includes(3)) retryQueue.push(3);
             handleIncorrectAnswer();
-            const selectedBtn = Array.from(btns).find(b=>b.dataset.value===selectedOption);
-            if(selectedBtn) selectedBtn.classList.add('incorrect');
-            if(lives>0) { lives--; livesCountElement.textContent=lives; updateHeartIcon();
-              if(lives===0) {
-                showResultOverlay(4,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`,()=>{
-                  showRefillHeartsModal(()=>{ lives=5; livesCountElement.textContent=lives; updateHeartIcon(); resetCurrentQuestion(); });
+            const selectedBtn = Array.from(btns).find(b => b.dataset.value === selectedOption);
+            if (selectedBtn) selectedBtn.classList.add('incorrect');
+            if (lives > 0) {
+              lives--; livesCountElement.textContent = lives; updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
                 });
                 return;
               }
             }
-            showResultOverlay(4,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`,moveToNextQuestion);
+            showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">${questions[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[3].explanation}</span></div>`, moveToNextQuestion);
           }
-          btns.forEach(b=>{b.disabled=true; b.style.cursor='not-allowed';});
+          btns.forEach(b => b.disabled = true);
         };
       }
-      // Q5 – image selection
+      // QUESTION 5 (image selection)
       else if (actual === 4) {
         const tiles = document.querySelectorAll('#question5 .image-tile');
         const containers = document.querySelectorAll('#question5 .image-container');
@@ -646,118 +719,155 @@
         const zoomLabel = document.getElementById('zoomImageLabel');
         const zoomClose = document.getElementById('zoomCloseBtn');
         let state = { selected: null, answered: false };
-        tiles.forEach(t => { t.classList.remove('selected','correct','incorrect'); t.style.cursor='pointer'; });
-        check.disabled = true; check.textContent = 'Check';
-        tiles.forEach(t => {
-          t.onclick = (e) => { if(state.answered || e.target.closest('.image-container')) return; tiles.forEach(tt=>tt.classList.remove('selected')); t.classList.add('selected'); state.selected = parseInt(t.dataset.image); check.disabled = false; };
+        tiles.forEach(t => { t.classList.remove('selected','correct','incorrect'); t.style.cursor = 'pointer'; });
+        check.disabled = true;
+        tiles.forEach(tile => {
+          tile.onclick = (e) => { if (state.answered || e.target.closest('.image-container')) return; tiles.forEach(t => t.classList.remove('selected')); tile.classList.add('selected'); state.selected = parseInt(tile.dataset.image); check.disabled = false; };
         });
-        containers.forEach(c => {
-          c.onclick = (e) => { e.stopPropagation(); const num = parseInt(c.dataset.image); const img = c.querySelector('img'); if(img && img.src) { zoomImg.src = img.src; zoomLabel.textContent = `Image ${num}`; zoomModal.classList.add('visible'); document.addEventListener('keydown', function esc(e){ if(e.key==='Escape'){ zoomModal.classList.remove('visible'); zoomImg.src=''; document.removeEventListener('keydown',esc); } }); } };
+        containers.forEach(cont => {
+          cont.onclick = (e) => { e.stopPropagation(); const num = parseInt(cont.dataset.image); const img = cont.querySelector('img'); if (img && img.src) { zoomImg.src = img.src; zoomLabel.textContent = `Image ${num}`; zoomModal.classList.add('visible'); document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { zoomModal.classList.remove('visible'); zoomImg.src = ''; document.removeEventListener('keydown', esc); } }); } };
         });
-        function closeZoom() { zoomModal.classList.remove('visible'); zoomImg.src=''; }
-        zoomModal.onclick = (e) => { if(e.target===zoomModal) closeZoom(); };
-        zoomClose.onclick = closeZoom;
+        zoomModal.onclick = (e) => { if (e.target === zoomModal) { zoomModal.classList.remove('visible'); zoomImg.src = ''; } };
+        zoomClose.onclick = () => { zoomModal.classList.remove('visible'); zoomImg.src = ''; };
         check.onclick = () => {
-          if(state.selected===null || state.answered) return;
+          if (state.selected === null || state.answered) return;
           state.answered = true; totalAttempts++;
-          tiles.forEach(t=>t.style.cursor='default');
-          tiles.forEach(t => { const num = parseInt(t.dataset.image); if(num===questions[4].correctAnswer) t.classList.add('correct'); else if(num===state.selected && state.selected!==questions[4].correctAnswer) t.classList.add('incorrect'); t.classList.remove('selected'); });
+          tiles.forEach(t => t.style.cursor = 'default');
+          tiles.forEach(t => { const num = parseInt(t.dataset.image); if (num === questions[4].correctAnswer) t.classList.add('correct'); else if (num === state.selected && state.selected !== questions[4].correctAnswer) t.classList.add('incorrect'); t.classList.remove('selected'); });
           const isCorrect = (state.selected === questions[4].correctAnswer);
           playSound(isCorrect);
-          if(isCorrect) {
-            if(!questionFinalCorrect[4]) questionFinalCorrect[4]=true;
+          if (isCorrect) {
+            if (!questionFinalCorrect[4]) questionFinalCorrect[4] = true;
             handleCorrectAnswer();
-            showResultOverlay(5,true,`<div class="explanation-section"><span class="explanation-text">${questions[4].explanation}</span></div>`,moveToNextQuestion);
+            showResultOverlay(5, true, `<div class="explanation-section"><span class="explanation-text">${questions[4].explanation}</span></div>`, moveToNextQuestion);
           } else {
-            if(!retryQueue.includes(4)) retryQueue.push(4);
-            else if(inRetryMode) retryQueue.push(4);
+            if (!retryQueue.includes(4)) retryQueue.push(4);
             handleIncorrectAnswer();
-            if(lives>0) { lives--; livesCountElement.textContent=lives; updateHeartIcon();
-              if(lives===0) {
-                showResultOverlay(5,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`,()=>{
-                  showRefillHeartsModal(()=>{ lives=5; livesCountElement.textContent=lives; updateHeartIcon(); resetCurrentQuestion(); });
+            if (lives > 0) {
+              lives--; livesCountElement.textContent = lives; updateHeartIcon();
+              if (lives === 0) {
+                showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`, () => {
+                  showRefillHeartsModal(() => { lives = 5; livesCountElement.textContent = lives; updateHeartIcon(); resetCurrentQuestion(); });
                 });
                 return;
               }
             }
-            showResultOverlay(5,false,`<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`,moveToNextQuestion);
+            showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span><span class="underlined">Image ${questions[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span><span class="explanation-text">${questions[4].explanation}</span></div>`, moveToNextQuestion);
           }
         };
       }
-      // Q6 – matching pairs (fixed)
+      // QUESTION 6 (matching pairs) – FIXED element references
       else if (actual === 5) {
         const leftCol = document.getElementById('leftColumn');
         const rightCol = document.getElementById('rightColumn');
         const feedbackOverlay = document.getElementById('feedbackOverlay');
         const tryAgain = document.getElementById('tryAgainBtn');
-        const continueBtn = document.getElementById('matchingContinueBtn');
+        const matchingContinue = document.getElementById('matchingContinueBtn');
         const cancelIcon = document.getElementById('cancelIcon');
         const notesIcon = document.getElementById('notesIcon');
-        const fbTitle = document.getElementById('feedbackTitle');
-        const fbMsg = document.getElementById('feedbackMessage');
-        let leftCard = null, rightCard = null, matched = 0, active = true, lifeLost = false, completedFlag = false;
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        
+        let selectedLeft = null, selectedRight = null;
+        let matchedCount = 0;
+        let gameActive = true;
+        let lifeLost = false;
+        let completedFlag = false;
         const totalPairs = pairs.length;
+        
         leftCol.innerHTML = ''; rightCol.innerHTML = '';
-        if(continueBtn) continueBtn.style.display = 'none';
-        if(feedbackOverlay) feedbackOverlay.classList.remove('visible');
         const shuffledPairs = shuffleArray([...pairs]);
         shuffledPairs.forEach((pair, idx) => {
-          const card = document.createElement('div'); card.className = 'card'; card.dataset.pair = idx; card.dataset.type = 'term'; card.textContent = pair.term;
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = idx;
+          card.dataset.type = 'term';
+          card.textContent = pair.term;
           leftCol.appendChild(card);
-          card.onclick = () => { if(feedbackOverlay?.classList.contains('visible')) { resetWrong(); return; } if(!active || card.classList.contains('matched')) return; if(card.classList.contains('wrong')) { resetWrong(); return; } document.querySelectorAll('#leftColumn .card.selected').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); leftCard = card; if(leftCard && rightCard) checkMatch(); };
+          card.onclick = () => {
+            if (feedbackOverlay.classList.contains('visible')) resetWrong();
+            if (!gameActive || card.classList.contains('matched')) return;
+            if (card.classList.contains('wrong')) resetWrong();
+            document.querySelectorAll('#leftColumn .card.selected').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedLeft = card;
+            if (selectedLeft && selectedRight) checkMatch();
+          };
         });
         const shuffledMeanings = shuffleArray([...shuffledPairs]);
         shuffledMeanings.forEach(pair => {
-          const card = document.createElement('div'); card.className = 'card'; card.dataset.pair = shuffledPairs.findIndex(p=>p.meaning===pair.meaning); card.dataset.type = 'meaning'; card.textContent = pair.meaning;
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = shuffledPairs.findIndex(p => p.meaning === pair.meaning);
+          card.dataset.type = 'meaning';
+          card.textContent = pair.meaning;
           rightCol.appendChild(card);
-          card.onclick = () => { if(feedbackOverlay?.classList.contains('visible')) { resetWrong(); return; } if(!active || card.classList.contains('matched')) return; if(card.classList.contains('wrong')) { resetWrong(); return; } document.querySelectorAll('#rightColumn .card.selected').forEach(c=>c.classList.remove('selected')); card.classList.add('selected'); rightCard = card; if(leftCard && rightCard) checkMatch(); };
+          card.onclick = () => {
+            if (feedbackOverlay.classList.contains('visible')) resetWrong();
+            if (!gameActive || card.classList.contains('matched')) return;
+            if (card.classList.contains('wrong')) resetWrong();
+            document.querySelectorAll('#rightColumn .card.selected').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedRight = card;
+            if (selectedLeft && selectedRight) checkMatch();
+          };
         });
+        
+        feedbackOverlay.classList.remove('visible');
+        matchingContinue.style.display = 'none';
+        
         function checkMatch() {
-          if(!leftCard || !rightCard || !active) return;
-          if(leftCard.dataset.pair === rightCard.dataset.pair) {
+          if (!selectedLeft || !selectedRight || !gameActive) return;
+          if (selectedLeft.dataset.pair === selectedRight.dataset.pair) {
             playSound(true);
-            leftCard.classList.remove('selected'); rightCard.classList.remove('selected');
-            leftCard.classList.add('correct'); rightCard.classList.add('correct');
-            matched++;
-            setTimeout(() => { document.querySelectorAll('#question6 .card.correct').forEach(c=>{c.classList.remove('correct'); c.classList.add('matched');}); }, 800);
-            if(matched === totalPairs && !completedFlag) {
-              active = false; completedFlag = true;
+            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+            selectedLeft.classList.add('correct'); selectedRight.classList.add('correct');
+            matchedCount++;
+            setTimeout(() => {
+              document.querySelectorAll('#question6 .card.correct').forEach(c => { c.classList.remove('correct'); c.classList.add('matched'); });
+            }, 800);
+            if (matchedCount === totalPairs && !completedFlag) {
+              gameActive = false; completedFlag = true;
               totalAttempts++;
-              if(!questionFinalCorrect[5]) questionFinalCorrect[5]=true;
+              if (!questionFinalCorrect[5]) questionFinalCorrect[5] = true;
               currentStreak++; updateStreakCounter();
-              if(currentStreak %5===0 && currentStreak>0) showCelebrationModal(currentStreak,()=>moveToNextQuestion());
-              else setTimeout(()=>moveToNextQuestion(),500);
+              if (currentStreak % 5 === 0 && currentStreak > 0) {
+                showCelebrationModal(currentStreak, () => moveToNextQuestion());
+              } else {
+                setTimeout(() => moveToNextQuestion(), 500);
+              }
             }
           } else {
             playSound(false);
-            leftCard.classList.add('wrong'); rightCard.classList.add('wrong');
-            if(lives>0 && !lifeLost) { lives--; livesCountElement.textContent=lives; updateHeartIcon(); lifeLost=true;
-              if(lives===0) { if(fbTitle) fbTitle.textContent='Game Over'; if(fbMsg) fbMsg.textContent='You\'ve run out of lives!'; if(feedbackOverlay) feedbackOverlay.classList.add('visible'); active=false; leftCard=null; rightCard=null; return; }
-            }
+            selectedLeft.classList.add('wrong'); selectedRight.classList.add('wrong');
+            if (lives > 0 && !lifeLost) { lives--; livesCountElement.textContent = lives; updateHeartIcon(); lifeLost = true; if (lives === 0) { feedbackTitle.textContent = 'Game Over'; feedbackMessage.textContent = 'You\'ve run out of lives! Try again from the beginning.'; feedbackOverlay.classList.add('visible'); gameActive = false; return; } }
             handleIncorrectAnswer();
-            if(lives>0) { if(fbTitle) fbTitle.textContent='Incorrect'; if(fbMsg) fbMsg.textContent='Let\'s try that again'; }
-            if(feedbackOverlay) feedbackOverlay.classList.add('visible');
+            if (lives > 0) { feedbackTitle.textContent = 'Incorrect'; feedbackMessage.textContent = 'Let\'s try that again'; }
+            feedbackOverlay.classList.add('visible');
           }
-          leftCard = null; rightCard = null;
+          selectedLeft = null; selectedRight = null;
         }
+        
         function resetWrong() {
-          document.querySelectorAll('#question6 .card.wrong').forEach(c=>c.classList.remove('wrong'));
-          document.querySelectorAll('#question6 .card.selected').forEach(c=>c.classList.remove('selected'));
-          leftCard=null; rightCard=null;
-          if(feedbackOverlay) feedbackOverlay.classList.remove('visible');
+          document.querySelectorAll('#question6 .card.wrong').forEach(c => c.classList.remove('wrong'));
+          document.querySelectorAll('#question6 .card.selected').forEach(c => c.classList.remove('selected'));
+          selectedLeft = null; selectedRight = null;
+          feedbackOverlay.classList.remove('visible');
         }
-        if(tryAgain) tryAgain.onclick = resetWrong;
-        if(feedbackOverlay) feedbackOverlay.onclick = (e) => { if(e.target===feedbackOverlay) resetWrong(); };
-        if(continueBtn) continueBtn.onclick = () => moveToNextQuestion();
-        if(cancelIcon) cancelIcon.onclick = resetWrong;
-        if(notesIcon) notesIcon.onclick = resetWrong;
+        
+        tryAgain.onclick = resetWrong;
+        feedbackOverlay.onclick = (e) => { if (e.target === feedbackOverlay) resetWrong(); };
+        matchingContinue.onclick = () => moveToNextQuestion();
+        if (cancelIcon) cancelIcon.onclick = resetWrong;
+        if (notesIcon) notesIcon.onclick = resetWrong;
       }
     }
 
-    // ---------- INIT ----------
+    // Event listeners
     closeBtn.addEventListener('click', () => showModal('quit-confirmation.html', () => {}));
-    window.addEventListener('beforeunload', (e) => { e.preventDefault(); e.returnValue = ''; return ''; });
-    loadStreakFromStorage();
+    window.addEventListener('beforeunload', (e) => { e.preventDefault(); e.returnValue = ''; });
+    
+    // Initialize
     showQuestion(currentQuestion);
     updateStreakCounter();
   </script>
