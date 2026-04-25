@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNA & RNA Biology Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <link rel="stylesheet" href="quiz-common.css">
+</head>
+<body>
+  <audio id="correctSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/correct.mp3" type="audio/mpeg"></audio>
+  <audio id="incorrectSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/incorrect.mp3" type="audio/mpeg"></audio>
+  
+  <div id="fullscreenModalOverlay" class="fullscreen-modal-overlay"><iframe id="modalIframe" src="about:blank"></iframe></div>
+  
+  <div class="quiz-container">
+    <div class="streak-counter" id="streakCounter"></div>
+    <div class="header">
+      <i class="ph ph-x" id="close-btn"></i>
+      <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
+    </div>
+
+    <!-- Question 1 -->
+    <div id="question1">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question">Where is most of a cell's DNA located?</div>
+      <div class="options-container" id="options-container-1">
+        <button class="option-button" data-value="Cytoplasm">Cytoplasm</button>
+        <button class="option-button" data-value="Ribosomes">Ribosomes</button>
+        <button class="option-button" data-value="Nucleus">Nucleus</button>
+        <button class="option-button" data-value="Nuclear membrane">Nuclear membrane</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 2 -->
+    <div id="question2" style="display: none;">
+      <h2 class="quiz-title">Select what is missing</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft abottom style="--bbColor:#FFFFFF">
+          <div class="bubble-text">The nucleus is a cell organelle that <span id="blank-2-1" class="blank" tabindex="0"></span> and <span id="blank-2-2" class="blank" tabindex="0"></span><span class="full-stop">.</span></div>
+        </div>
+      </div>
+      <div id="options-2" class="options-container"></div>
+      <div class="footer"><button id="check-button-2" class="check-button" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 3 -->
+    <div id="question3" style="display: none;">
+      <h2 class="quiz-title">Complete the statement</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft acenter style="--bbColor:#FFFFFF">
+          <div class="bubble-text">The monomers that make up DNA and RNA are called __________.</div>
+        </div>
+      </div>
+      <div class="response-container">
+        <div class="response-text">Type your answer below:</div>
+        <div class="response-input-container"><input type="text" id="nucleotide-answer-input" class="response-input" placeholder="Type your answer here" spellcheck="false"></div>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-3" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 4 -->
+    <div id="question4" style="display: none;">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question">Which of the following is not a component of a nucleotide?</div>
+      <div class="options-container" id="options-container-4">
+        <button class="option-button" data-value="Phosphate group">Phosphate group</button>
+        <button class="option-button" data-value="Amino acid">Amino acid</button>
+        <button class="option-button" data-value="Sugar molecule">Sugar molecule</button>
+        <button class="option-button" data-value="Nitrogenous base">Nitrogenous base</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 5 - Image selection -->
+    <div id="question5" style="display: none;">
+      <h2 class="quiz-title">Pick the correct image</h2>
+      <div class="question" style="text-align: center;">Which image correctly shows a nucleotide?</div>
+      <div class="image-selection-container">
+        <div class="image-grid" id="image-grid">
+          <div class="image-tile" data-image="1"><div class="image-container" data-image="1"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb1.jpg" alt="Image 1" loading="lazy"></div><div class="image-label">Image 1</div></div>
+          <div class="image-tile" data-image="2"><div class="image-container" data-image="2"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb2.jpg" alt="Image 2" loading="lazy"></div><div class="image-label">Image 2</div></div>
+          <div class="image-tile" data-image="3"><div class="image-container" data-image="3"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb3.jpg" alt="Image 3" loading="lazy"></div><div class="image-label">Image 3</div></div>
+          <div class="image-tile" data-image="4"><div class="image-container" data-image="4"><img src="https://raw.githubusercontent.com/EnzoFarai/RsLib/main/images/lessons/fitb4.jpg" alt="Image 4" loading="lazy"></div><div class="image-label">Image 4</div></div>
+        </div>
+        <div class="expand-hint"><i>Tap any image to expand for a closer look</i></div>
+      </div>
+      <div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 6 - Matching pairs -->
+    <div id="question6" style="display: none;">
+      <h2 class="quiz-title">Match the pairs</h2>
+      <div class="game-container">
+        <div class="column" id="leftColumn"></div>
+        <div class="column" id="rightColumn"></div>
+      </div>
+      <button class="matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button>
+      <div class="feedback-overlay" id="feedbackOverlay">
+        <div class="matching-feedback" id="feedbackPanel">
+          <div class="result-main"><span class="material-symbols-outlined material-icon" id="cancelIcon">cancel</span><div class="result-header" id="feedbackTitle">Incorrect</div><span class="material-symbols-outlined material-icon" id="notesIcon">stylus_note</span></div>
+          <div class="feedback-subtitle" id="feedbackMessage">Let's try that again</div>
+          <button class="feedback-button" id="tryAgainBtn">Try Again</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="image-zoom-modal" id="imageZoomModal">
+      <div class="zoom-content">
+        <button class="zoom-close" id="zoomCloseBtn"><span class="material-symbols-outlined">close</span></button>
+        <img id="zoomedImage" src="" alt="Zoomed Image">
+        <div class="zoom-label" id="zoomImageLabel"></div>
+        <div class="zoom-instructions">Click outside or press ESC to close</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Overlays 1–6 -->
+  <div class="result-overlay" id="resultOverlay-1"><div class="result-container" id="resultContainer-1"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-1"></span><div class="result-header" id="resultHeader-1"></div><span class="material-symbols-outlined material-icon" id="actionIcon-1"></span></div><div class="explanation-content" id="explanationContainer-1"></div><button class="result-continue-btn" id="resultContinueBtn-1">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-2"><div class="result-container" id="resultContainer-2"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-2"></span><div class="result-header" id="resultHeader-2"></div><span class="material-symbols-outlined material-icon" id="actionIcon-2"></span></div><div class="explanation-content" id="explanationContainer-2"></div><button class="result-continue-btn" id="resultContinueBtn-2">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-3"><div class="result-container" id="resultContainer-3"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-3"></span><div class="result-header" id="resultHeader-3"></div><span class="material-symbols-outlined material-icon" id="actionIcon-3"></span></div><div class="explanation-content" id="explanationContainer-3"></div><button class="result-continue-btn" id="resultContinueBtn-3">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-4"><div class="result-container" id="resultContainer-4"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-4"></span><div class="result-header" id="resultHeader-4"></div><span class="material-symbols-outlined material-icon" id="actionIcon-4"></span></div><div class="explanation-content" id="explanationContainer-4"></div><button class="result-continue-btn" id="resultContinueBtn-4">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-5"><div class="result-container" id="resultContainer-5"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-5"></span><div class="result-header" id="resultHeader-5"></div><span class="material-symbols-outlined material-icon" id="actionIcon-5"></span></div><div class="explanation-content" id="explanationContainer-5"></div><button class="result-continue-btn" id="resultContinueBtn-5">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-6"><div class="result-container" id="resultContainer-6"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-6"></span><div class="result-header" id="resultHeader-6"></div><span class="material-symbols-outlined material-icon" id="actionIcon-6"></span></div><div class="explanation-content" id="explanationContainer-6"></div><button class="result-continue-btn" id="resultContinueBtn-6">Continue</button></div></div>
+
+  <script src="quiz-common.js"></script>
+  <script>
+    // DNA quiz data
+    const questionsData = [
+      { id:1, type:"multiple-choice", correctAnswer:'Nucleus', explanation:"The nucleus contains most of the cell's DNA within the chromatin network. The cytoplasm and ribosomes do not store DNA, and the nuclear membrane only encloses the nucleus.", options:['Cytoplasm','Ribosomes','Nucleus','Nuclear membrane'] },
+      { id:2, type:"complete-sentence", options:[{label:"is the site of protein synthesis",value:"protein_synthesis"},{label:"contains DNA",value:"contains_dna"},{label:"produces ribosomes",value:"produces_ribosomes"},{label:"is the site of most metabolic reactions",value:"metabolic_reactions"}], correctAnswers:["contains_dna","produces_ribosomes"], explanation:"The nucleus contains the cell's DNA and produces ribosomes in the nucleolus. Protein synthesis occurs at ribosomes, and most metabolic reactions take place in the cytoplasm, not the nucleus." },
+      { id:3, type:"fill-blank", correctAnswer:'nucleotides', acceptableAnswers:['nucleotides','nucleotide','nucleotides (nucleotide)','nucleotide (nucleotides)'], explanation:"DNA and RNA are nucleic acids composed of repeating monomers called nucleotides, each consisting of a phosphate group, a sugar molecule and a nitrogenous base." },
+      { id:4, type:"multiple-choice", correctAnswer:'Amino acid', explanation:"Amino acids are building blocks of proteins, not nucleotides. Nucleotides consist of a phosphate group, a sugar (deoxyribose in DNA, ribose in RNA) and a nitrogenous base.", options:['Phosphate group','Amino acid','Sugar molecule','Nitrogenous base'] },
+      { id:5, type:"image-selection", correctAnswer:4, explanation:"A nucleotide consists of three parts: a phosphate group, a sugar molecule (deoxyribose in DNA) and a nitrogenous base, all of which Image 4 correctly represents." }
+    ];
+    const pairsData = [{ term: "DNA", meaning: "Deoxyribose" }, { term: "RNA", meaning: "Ribose" }];
+
+    const engine = new QuizEngine({
+      totalQuestions: 6,
+      redirectUrl: 'https://vulanet.vercel.app/lesson/g12-life-sciences',
+      streakStorageKey: 'dnaStreak'
+    });
+    engine.questionsData = questionsData;
+    engine.pairsData = pairsData;
+
+    // showQuestion implementation for DNA quiz
+    engine.showQuestion = function(questionIndex) {
+      this.questionSections.forEach(section => { if (section) section.style.display = 'none'; });
+      const actualIdx = this.inRetryMode ? this.retryQueue[this.currentQuestion] : this.currentQuestion;
+      if (this.questionSections[actualIdx]) this.questionSections[actualIdx].style.display = 'block';
+      
+      let percent = this.inRetryMode 
+        ? Math.round(((this.currentQuestion + 1) / this.retryQueue.length) * 100)
+        : Math.round(((this.currentQuestion + 1) / this.totalQuestions) * 100);
+      this.progressBar.style.width = `${percent}%`;
+      this.updateStreakCounter();
+      this.answered = false;
+      this.selectedOption = null;
+
+      // Question 1: multiple-choice
+      if (actualIdx === 0) {
+        const btns = document.querySelectorAll('#options-container-1 .option-button');
+        const checkBtn = document.getElementById('check-button-1');
+        btns.forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled = false; b.style.cursor = 'pointer'; });
+        checkBtn.disabled = true;
+        let selected = null;
+        btns.forEach(b => {
+          b.onclick = () => {
+            if (this.answered) return;
+            btns.forEach(btn => btn.classList.remove('selected'));
+            b.classList.add('selected');
+            selected = b.dataset.value;
+            checkBtn.disabled = false;
+          };
+        });
+        checkBtn.onclick = () => {
+          if (!selected || this.answered) return;
+          this.answered = true;
+          this.totalAttempts++;
+          const correctBtn = Array.from(btns).find(btn => btn.dataset.value === this.questionsData[0].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          const isCorrect = (selected === this.questionsData[0].correctAnswer);
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[0]) this.questionFinalCorrect[0] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(1, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[0].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(0)) this.retryQueue.push(0);
+            else if (this.inRetryMode) this.retryQueue.push(0);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selectedBtn = Array.from(btns).find(b => b.dataset.value === selected);
+            if (selectedBtn) selectedBtn.classList.add('incorrect');
+            this.showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[0].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[0].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          btns.forEach(b => { b.disabled = true; b.style.cursor = 'not-allowed'; });
+        };
+      }
+      // Question 2: complete sentence
+      else if (actualIdx === 1) {
+        const blank1 = document.getElementById('blank-2-1'), blank2 = document.getElementById('blank-2-2');
+        const optsContainer = document.getElementById('options-2');
+        const btn = document.getElementById('check-button-2');
+        blank1.textContent = ''; blank2.textContent = '';
+        blank1.classList.remove('filled','correct','incorrect');
+        blank2.classList.remove('filled','correct','incorrect');
+        optsContainer.innerHTML = '';
+        let filled = [null, null];
+        let optionBtns = [];
+        const shuffledOpts = this.shuffleArray([...this.questionsData[1].options]);
+        shuffledOpts.forEach(opt => {
+          const button = document.createElement('button');
+          button.className = 'option-button';
+          button.dataset.value = opt.value;
+          button.innerHTML = `<span>${opt.label}</span>`;
+          optionBtns.push(button);
+          button.onclick = () => {
+            if (this.answered) return;
+            if (filled.some(f => f && f.value === opt.value)) return;
+            let idx = filled[0] === null ? 0 : (filled[1] === null ? 1 : -1);
+            if (idx === -1) return;
+            const target = idx === 0 ? blank1 : blank2;
+            filled[idx] = { value: opt.value, label: opt.label };
+            target.textContent = opt.label;
+            target.classList.add('filled');
+            button.classList.add('used-option');
+            btn.disabled = !(filled[0] && filled[1]);
+          };
+          optsContainer.appendChild(button);
+        });
+        blank1.onclick = () => { if (filled[0]) { const b = optionBtns.find(btn => btn.dataset.value === filled[0].value); if (b) b.classList.remove('used-option'); blank1.textContent = ''; blank1.classList.remove('filled','correct','incorrect'); filled[0] = null; btn.disabled = !(filled[0] && filled[1]); } };
+        blank2.onclick = () => { if (filled[1]) { const b = optionBtns.find(btn => btn.dataset.value === filled[1].value); if (b) b.classList.remove('used-option'); blank2.textContent = ''; blank2.classList.remove('filled','correct','incorrect'); filled[1] = null; btn.disabled = !(filled[0] && filled[1]); } };
+        btn.disabled = true;
+        btn.onclick = () => {
+          if (!filled[0] || !filled[1]) return;
+          this.answered = true;
+          this.totalAttempts++;
+          const u1 = filled[0].value, u2 = filled[1].value;
+          const isCorrect = (u1 === this.questionsData[1].correctAnswers[0] && u2 === this.questionsData[1].correctAnswers[1]) || (u1 === this.questionsData[1].correctAnswers[1] && u2 === this.questionsData[1].correctAnswers[0]);
+          this.playSound(isCorrect);
+          optionBtns.forEach(b => { b.disabled = true; });
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[1]) this.questionFinalCorrect[1] = true;
+            blank1.classList.add('correct');
+            blank2.classList.add('correct');
+            optionBtns.forEach(b => { if (b.dataset.value === 'contains_dna' || b.dataset.value === 'produces_ribosomes') b.classList.add('correct'); });
+            this.handleCorrectAnswer();
+            this.showResultOverlay(2, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[1].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            blank1.classList.add('incorrect');
+            blank2.classList.add('incorrect');
+            if (!this.retryQueue.includes(1)) this.retryQueue.push(1);
+            else if (this.inRetryMode) this.retryQueue.push(1);
+            this.handleIncorrectAnswer();
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            optionBtns.forEach(b => { if (b.dataset.value === 'contains_dna' || b.dataset.value === 'produces_ribosomes') b.classList.add('correct'); });
+            this.showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span><span class="underlined">contains DNA</span> and <span class="underlined">produces ribosomes</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[1].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Question 3: fill-blank
+      else if (actualIdx === 2) {
+        const input = document.getElementById('nucleotide-answer-input');
+        const btn = document.getElementById('check-button-3');
+        input.value = '';
+        input.classList.remove('correct','incorrect');
+        input.disabled = false;
+        btn.disabled = true;
+        input.oninput = () => { btn.disabled = !input.value.trim(); if (this.answered) { input.classList.remove('correct','incorrect'); this.answered = false; } };
+        input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
+        btn.onclick = () => {
+          this.answered = true;
+          this.totalAttempts++;
+          const user = this.normalizeAnswer(input.value.trim());
+          const isCorrect = this.questionsData[2].acceptableAnswers.some(a => user === this.normalizeAnswer(a));
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[2]) this.questionFinalCorrect[2] = true;
+            input.classList.add('correct');
+            this.handleCorrectAnswer();
+            this.showResultOverlay(3, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[2].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            if (!this.retryQueue.includes(2)) this.retryQueue.push(2);
+            else if (this.inRetryMode) this.retryQueue.push(2);
+            this.handleIncorrectAnswer();
+            input.classList.add('incorrect');
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">Nucleotides (or nucleotide)</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[2].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          input.disabled = true;
+        };
+        input.focus();
+      }
+      // Question 4: multiple-choice
+      else if (actualIdx === 3) {
+        const container = document.getElementById('options-container-4');
+        const btn = document.getElementById('check-button-4');
+        const opts = ['Phosphate group', 'Amino acid', 'Sugar molecule', 'Nitrogenous base'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => { const b = document.createElement('button'); b.className='option-button'; b.dataset.value=opt; b.textContent=opt; container.appendChild(b); });
+        let selected = null;
+        document.querySelectorAll('#options-container-4 .option-button').forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled=false; b.onclick=()=>{ document.querySelectorAll('#options-container-4 .option-button').forEach(bb=>bb.classList.remove('selected')); b.classList.add('selected'); selected=b.dataset.value; btn.disabled=false; }; });
+        btn.disabled=true;
+        btn.onclick = () => {
+          if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
+          const isCorrect = (selected === this.questionsData[3].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(document.querySelectorAll('#options-container-4 .option-button')).find(b=>b.dataset.value===this.questionsData[3].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[3]) this.questionFinalCorrect[3] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(4, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[3].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(3)) this.retryQueue.push(3);
+            else if (this.inRetryMode) this.retryQueue.push(3);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(document.querySelectorAll('#options-container-4 .option-button')).find(b=>b.dataset.value===selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[3].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          document.querySelectorAll('#options-container-4 .option-button').forEach(b=>{b.disabled=true;});
+        };
+      }
+      // Question 5: image selection
+      else if (actualIdx === 4) {
+        const tiles = document.querySelectorAll('#question5 .image-tile');
+        const containers = document.querySelectorAll('#question5 .image-container');
+        const btn = document.getElementById('check-button-5');
+        const zoomModal = document.getElementById('imageZoomModal');
+        const zoomImg = document.getElementById('zoomedImage');
+        const zoomLabel = document.getElementById('zoomImageLabel');
+        const zoomClose = document.getElementById('zoomCloseBtn');
+        let state = { selected: null, answered: false };
+        tiles.forEach(t => { t.classList.remove('selected','correct','incorrect'); t.style.cursor = 'pointer'; });
+        btn.disabled = true;
+        tiles.forEach(t => {
+          t.onclick = (e) => {
+            if (state.answered) return;
+            if (e.target.closest('.image-container')) return;
+            tiles.forEach(tt => tt.classList.remove('selected'));
+            t.classList.add('selected');
+            state.selected = parseInt(t.dataset.image);
+            btn.disabled = false;
+          };
+        });
+        containers.forEach(c => {
+          c.onclick = (e) => {
+            e.stopPropagation();
+            const num = parseInt(c.dataset.image);
+            const img = c.querySelector('img');
+            if (img && img.src) {
+              zoomImg.src = img.src;
+              zoomLabel.textContent = `Image ${num}`;
+              zoomModal.classList.add('visible');
+              const escHandler = (e) => { if (e.key === 'Escape') { zoomModal.classList.remove('visible'); zoomImg.src = ''; document.removeEventListener('keydown', escHandler); } };
+              document.addEventListener('keydown', escHandler);
+            }
+          };
+        });
+        const closeZoom = () => { zoomModal.classList.remove('visible'); zoomImg.src = ''; };
+        zoomModal.onclick = (e) => { if (e.target === zoomModal) closeZoom(); };
+        zoomClose.onclick = closeZoom;
+        btn.onclick = () => {
+          if (state.selected === null || state.answered) return;
+          state.answered = true;
+          this.totalAttempts++;
+          tiles.forEach(t => t.style.cursor = 'default');
+          tiles.forEach(t => {
+            const num = parseInt(t.dataset.image);
+            if (num === this.questionsData[4].correctAnswer) t.classList.add('correct');
+            else if (num === state.selected && num !== this.questionsData[4].correctAnswer) t.classList.add('incorrect');
+            t.classList.remove('selected');
+          });
+          const isCorrect = (state.selected === this.questionsData[4].correctAnswer);
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[4]) this.questionFinalCorrect[4] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(5, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[4].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            if (!this.retryQueue.includes(4)) this.retryQueue.push(4);
+            else if (this.inRetryMode) this.retryQueue.push(4);
+            this.handleIncorrectAnswer();
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">Image ${this.questionsData[4].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[4].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Question 6: matching pairs
+      else if (actualIdx === 5) {
+        const leftCol = document.getElementById('leftColumn');
+        const rightCol = document.getElementById('rightColumn');
+        const feedbackOverlay = document.getElementById('feedbackOverlay');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+        const matchingContinueBtn = document.getElementById('matchingContinueBtn');
+        const cancelIcon = document.getElementById('cancelIcon');
+        const notesIcon = document.getElementById('notesIcon');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackMsg = document.getElementById('feedbackMessage');
+        
+        let selectedLeft = null, selectedRight = null, matched = 0, gameActive = true, lifeLost = false, completed = false;
+        leftCol.innerHTML = ''; rightCol.innerHTML = '';
+        const shuffledPairs = this.shuffleArray([...this.pairsData]);
+        shuffledPairs.forEach((pair, idx) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = idx;
+          card.dataset.type = 'term';
+          card.textContent = pair.term;
+          leftCol.appendChild(card);
+          card.onclick = () => {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrong(); return; }
+            if (!gameActive || card.classList.contains('matched')) return;
+            if (card.classList.contains('wrong')) { resetWrong(); return; }
+            document.querySelectorAll('#leftColumn .card.selected').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedLeft = card;
+            if (selectedLeft && selectedRight) checkMatch();
+          };
+        });
+        const shuffledMeanings = this.shuffleArray([...shuffledPairs]);
+        shuffledMeanings.forEach(pair => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = shuffledPairs.findIndex(p => p.meaning === pair.meaning);
+          card.dataset.type = 'meaning';
+          card.textContent = pair.meaning;
+          rightCol.appendChild(card);
+          card.onclick = () => {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrong(); return; }
+            if (!gameActive || card.classList.contains('matched')) return;
+            if (card.classList.contains('wrong')) { resetWrong(); return; }
+            document.querySelectorAll('#rightColumn .card.selected').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedRight = card;
+            if (selectedLeft && selectedRight) checkMatch();
+          };
+        });
+        feedbackOverlay.classList.remove('visible');
+        matchingContinueBtn.style.display = 'none';
+        
+        const checkMatch = () => {
+          if (!selectedLeft || !selectedRight || !gameActive) return;
+          if (selectedLeft.dataset.pair === selectedRight.dataset.pair) {
+            this.playSound(true);
+            selectedLeft.classList.remove('selected');
+            selectedRight.classList.remove('selected');
+            selectedLeft.classList.add('correct');
+            selectedRight.classList.add('correct');
+            matched++;
+            setTimeout(() => {
+              document.querySelectorAll('#question6 .card.correct').forEach(c => {
+                c.classList.remove('correct');
+                c.classList.add('matched');
+              });
+            }, 800);
+            if (matched === this.pairsData.length && !completed) {
+              gameActive = false;
+              completed = true;
+              this.totalAttempts++;
+              if (!this.questionFinalCorrect[5]) this.questionFinalCorrect[5] = true;
+              this.currentStreak++;
+              this.updateStreakCounter();
+              if (this.currentStreak % 5 === 0 && this.currentStreak > 0) {
+                this.showModal(`answer-streak.html?streak=${this.currentStreak}`, () => this.moveToNextQuestion());
+              } else {
+                setTimeout(() => this.moveToNextQuestion(), 500);
+              }
+            }
+          } else {
+            this.playSound(false);
+            selectedLeft.classList.add('wrong');
+            selectedRight.classList.add('wrong');
+            if (this.lives > 0 && !lifeLost) {
+              this.lives--;
+              this.livesCountSpan.textContent = this.lives;
+              this.updateHeartIcon();
+              lifeLost = true;
+              if (this.lives === 0) {
+                feedbackTitle.textContent = 'Game Over';
+                feedbackMsg.textContent = 'You\'ve run out of lives! Try again from the beginning.';
+                feedbackOverlay.classList.add('visible');
+                gameActive = false;
+                return;
+              }
+            }
+            this.handleIncorrectAnswer();
+            if (this.lives > 0) { feedbackTitle.textContent = 'Incorrect'; feedbackMsg.textContent = 'Let\'s try that again'; }
+            feedbackOverlay.classList.add('visible');
+          }
+          selectedLeft = null;
+          selectedRight = null;
+        };
+        
+        const resetWrong = () => {
+          document.querySelectorAll('#question6 .card.wrong').forEach(c => c.classList.remove('wrong'));
+          document.querySelectorAll('#question6 .card.selected').forEach(c => c.classList.remove('selected'));
+          selectedLeft = null;
+          selectedRight = null;
+          feedbackOverlay.classList.remove('visible');
+        };
+        tryAgainBtn.onclick = resetWrong;
+        feedbackOverlay.onclick = (e) => { if (e.target === feedbackOverlay) resetWrong(); };
+        matchingContinueBtn.onclick = () => this.moveToNextQuestion();
+        if (cancelIcon) cancelIcon.onclick = resetWrong;
+        if (notesIcon) notesIcon.onclick = resetWrong;
+      }
+    };
+
+    engine.shuffleArray = function(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+
+    engine.showQuestion(engine.currentQuestion);
+  </script>
+</body>
+</html>

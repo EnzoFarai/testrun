@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anticoagulants Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <link rel="stylesheet" href="quiz-common.css">
+</head>
+<body>
+  <audio id="correctSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/correct.mp3" type="audio/mpeg"></audio>
+  <audio id="incorrectSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/incorrect.mp3" type="audio/mpeg"></audio>
+  
+  <div id="fullscreenModalOverlay" class="fullscreen-modal-overlay"><iframe id="modalIframe" src="about:blank"></iframe></div>
+  
+  <div class="quiz-container">
+    <div class="streak-counter" id="streakCounter"></div>
+    <div class="header">
+      <i class="ph ph-x" id="close-btn"></i>
+      <div class="progress-bar-container"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
+    </div>
+
+    <!-- Question 1 -->
+    <div id="question1">
+      <h2 class="quiz-title">Give the correct term</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft acenter style="--bbColor:#FFFFFF">
+          <div class="bubble-text">Drugs that prevent or reduce the coagulability of blood.</div>
+        </div>
+      </div>
+      <div class="response-container">
+        <div class="response-text">Type your answer below:</div>
+        <div class="response-input-container"><input type="text" id="answer-input-1" class="response-input" placeholder="Type your answer here" spellcheck="false"></div>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 2 -->
+    <div id="question2" style="display: none;">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question" id="question-text-2">Anticoagulants are primarily used in the prevention and treatment of which of the following conditions?</div>
+      <div class="options-container" id="options-container-2">
+        <button class="option-button" data-value="Hypertension and angina">Hypertension and angina</button>
+        <button class="option-button" data-value="Thrombotic disorders such as deep vein thrombosis, pulmonary embolism and stroke">Thrombotic disorders such as deep vein thrombosis, pulmonary embolism and stroke</button>
+        <button class="option-button" data-value="Bacterial infections">Bacterial infections</button>
+        <button class="option-button" data-value="Bronchial asthma">Bronchial asthma</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-2" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 3 -->
+    <div id="question3" style="display: none;">
+      <h2 class="quiz-title">Select what is missing</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft abottom style="--bbColor:#FFFFFF">
+          <div class="bubble-text">Anticoagulants can be classified based on their use as <span id="blank-3-1" class="blank" tabindex="0"></span> and <span id="blank-3-2" class="blank" tabindex="0"></span><span class="full-stop">.</span></div>
+        </div>
+      </div>
+      <div id="options-3" class="options-container"></div>
+      <div class="footer"><button id="check-button-3" class="check-button" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 4 -->
+    <div id="question4" style="display: none;">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question" id="question-text-4">Which of the following anticoagulants is commonly used in blood banks for the storage of blood?</div>
+      <div class="options-container" id="options-container-4">
+        <button class="option-button" data-value="Heparin">Heparin</button>
+        <button class="option-button" data-value="Sodium citrate">Sodium citrate</button>
+        <button class="option-button" data-value="Warfarin">Warfarin</button>
+        <button class="option-button" data-value="Dabigatran">Dabigatran</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 5 - Arrange in order -->
+    <div id="question5" style="display: none;">
+      <h2 class="quiz-title">Arrange in Order</h2>
+      <div class="question">Arrange the following terms from the broadest category to the most specific example.</div>
+      <div class="ordering-section">
+        <div class="ordering-container">
+          <div class="order-item"><div class="order-number">1.</div><div class="order-blank" id="order-blank-1"><div class="blank-text"></div></div></div>
+          <div class="order-item"><div class="order-number">2.</div><div class="order-blank" id="order-blank-2"><div class="blank-text"></div></div></div>
+          <div class="order-item"><div class="order-number">3.</div><div class="order-blank" id="order-blank-3"><div class="blank-text"></div></div></div>
+          <div class="order-item"><div class="order-number">4.</div><div class="order-blank" id="order-blank-4"><div class="blank-text"></div></div></div>
+        </div>
+      </div>
+      <div class="ordering-options-container" id="ordering-options-container"></div>
+      <div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 6 -->
+    <div id="question6" style="display: none;">
+      <h2 class="quiz-title">Read and respond</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft acenter style="--bbColor:#FFFFFF">
+          <div class="bubble-text">A patient is admitted with an acute deep vein thrombosis (DVT). The treatment protocol calls for immediate initiation of a parenteral anticoagulant to rapidly achieve therapeutic anticoagulation. The chosen agent works by activating antithrombin III to inhibit thrombin and Factor Xa.</div>
+        </div>
+      </div>
+      <div class="question" style="margin-top: 1.5rem;">Which of the following agents from the classification best fits this description?</div>
+      <div class="options-container" id="options-container-6">
+        <button class="option-button" data-value="Warfarin">Warfarin</button>
+        <button class="option-button" data-value="Heparin (UFH)">Heparin (UFH)</button>
+        <button class="option-button" data-value="Dabigatran">Dabigatran</button>
+        <button class="option-button" data-value="Rivaroxaban">Rivaroxaban</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-6" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 7 -->
+    <div id="question7" style="display: none;">
+      <h2 class="quiz-title">Complete the statement</h2>
+      <div class="question-container">
+        <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
+        <div speech-bubble pleft acenter style="--bbColor:#FFFFFF">
+          <div class="bubble-text">Excluding enoxaparin, dalteparin, ardeparin, what other, what is another example of a low-molecular-weight heparin?</div>
+        </div>
+      </div>
+      <div class="response-container">
+        <div class="response-text">Low-molecular-weight heparins include enoxaparin, dalteparin, ardeparin, and <input type="text" id="lmwh-answer-input" class="inline-response-input" placeholder="______" spellcheck="false">.</div>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-7" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 8 -->
+    <div id="question8" style="display: none;">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question" id="question-text-8">Fondaparinux is best classified as which of the following?</div>
+      <div class="options-container" id="options-container-8">
+        <button class="option-button" data-value="Direct thrombin inhibitor">Direct thrombin inhibitor</button>
+        <button class="option-button" data-value="Synthetic indirect thrombin inhibitor">Synthetic indirect thrombin inhibitor</button>
+        <button class="option-button" data-value="Coumarin derivative">Coumarin derivative</button>
+        <button class="option-button" data-value="Oral anticoagulant">Oral anticoagulant</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-8" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 9 -->
+    <div id="question9" style="display: none;">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question" id="question-text-9">Which of the following drugs is a <strong>direct thrombin inhibitor</strong> used parenterally?</div>
+      <div class="options-container" id="options-container-9">
+        <button class="option-button" data-value="Bivalirudin">Bivalirudin</button>
+        <button class="option-button" data-value="Warfarin">Warfarin</button>
+        <button class="option-button" data-value="Acenocoumarol">Acenocoumarol</button>
+        <button class="option-button" data-value="Apixaban">Apixaban</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-9" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 10 -->
+    <div id="question10" style="display: none;">
+      <h2 class="quiz-title">Choose the correct option</h2>
+      <div class="question" id="question-text-10">Which of the following oral anticoagulants acts by inhibiting Factor Xa?</div>
+      <div class="options-container" id="options-container-10">
+        <button class="option-button" data-value="Dabigatran">Dabigatran</button>
+        <button class="option-button" data-value="Warfarin">Warfarin</button>
+        <button class="option-button" data-value="Apixaban">Apixaban</button>
+        <button class="option-button" data-value="Dicumarol">Dicumarol</button>
+      </div>
+      <div class="footer"><button class="check-button" id="check-button-10" disabled>Check</button></div>
+    </div>
+
+    <!-- Question 11 - Matching Pairs -->
+    <div id="question11" style="display: none;">
+      <h2 class="quiz-title">Match the pairs</h2>
+      <div class="game-container">
+        <div class="column" id="leftColumn"></div>
+        <div class="column" id="rightColumn"></div>
+      </div>
+      <button class="matching-continue-btn" id="matchingContinueBtn" style="display: none;">Continue</button>
+      <div class="feedback-overlay" id="feedbackOverlay">
+        <div class="matching-feedback" id="feedbackPanel">
+          <div class="result-main"><span class="material-symbols-outlined material-icon" id="cancelIcon">cancel</span><div class="result-header" id="feedbackTitle">Incorrect</div><span class="material-symbols-outlined material-icon" id="notesIcon">stylus_note</span></div>
+          <div class="feedback-subtitle" id="feedbackMessage">Let's try that again</div>
+          <button class="feedback-button" id="tryAgainBtn">Try Again</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="image-zoom-modal" id="imageZoomModal">
+      <div class="zoom-content">
+        <button class="zoom-close" id="zoomCloseBtn"><span class="material-symbols-outlined">close</span></button>
+        <img id="zoomedImage" src="" alt="Zoomed Image">
+        <div class="zoom-label" id="zoomImageLabel"></div>
+        <div class="zoom-instructions">Click outside or press ESC to close</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Overlays 1–11 (identical to original, but with corrected IDs) -->
+  <div class="result-overlay" id="resultOverlay-1"><div class="result-container" id="resultContainer-1"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-1"></span><div class="result-header" id="resultHeader-1"></div><span class="material-symbols-outlined material-icon" id="actionIcon-1"></span></div><div class="explanation-content" id="explanationContainer-1"></div><button class="result-continue-btn" id="resultContinueBtn-1">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-2"><div class="result-container" id="resultContainer-2"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-2"></span><div class="result-header" id="resultHeader-2"></div><span class="material-symbols-outlined material-icon" id="actionIcon-2"></span></div><div class="explanation-content" id="explanationContainer-2"></div><button class="result-continue-btn" id="resultContinueBtn-2">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-3"><div class="result-container" id="resultContainer-3"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-3"></span><div class="result-header" id="resultHeader-3"></div><span class="material-symbols-outlined material-icon" id="actionIcon-3"></span></div><div class="explanation-content" id="explanationContainer-3"></div><button class="result-continue-btn" id="resultContinueBtn-3">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-4"><div class="result-container" id="resultContainer-4"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-4"></span><div class="result-header" id="resultHeader-4"></div><span class="material-symbols-outlined material-icon" id="actionIcon-4"></span></div><div class="explanation-content" id="explanationContainer-4"></div><button class="result-continue-btn" id="resultContinueBtn-4">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-5"><div class="result-container" id="resultContainer-5"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-5"></span><div class="result-header" id="resultHeader-5"></div><span class="material-symbols-outlined material-icon" id="actionIcon-5"></span></div><div class="explanation-content" id="explanationContainer-5"></div><button class="result-continue-btn" id="resultContinueBtn-5">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-6"><div class="result-container" id="resultContainer-6"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-6"></span><div class="result-header" id="resultHeader-6"></div><span class="material-symbols-outlined material-icon" id="actionIcon-6"></span></div><div class="explanation-content" id="explanationContainer-6"></div><button class="result-continue-btn" id="resultContinueBtn-6">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-7"><div class="result-container" id="resultContainer-7"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-7"></span><div class="result-header" id="resultHeader-7"></div><span class="material-symbols-outlined material-icon" id="actionIcon-7"></span></div><div class="explanation-content" id="explanationContainer-7"></div><button class="result-continue-btn" id="resultContinueBtn-7">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-8"><div class="result-container" id="resultContainer-8"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-8"></span><div class="result-header" id="resultHeader-8"></div><span class="material-symbols-outlined material-icon" id="actionIcon-8"></span></div><div class="explanation-content" id="explanationContainer-8"></div><button class="result-continue-btn" id="resultContinueBtn-8">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-9"><div class="result-container" id="resultContainer-9"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-9"></span><div class="result-header" id="resultHeader-9"></div><span class="material-symbols-outlined material-icon" id="actionIcon-9"></span></div><div class="explanation-content" id="explanationContainer-9"></div><button class="result-continue-btn" id="resultContinueBtn-9">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-10"><div class="result-container" id="resultContainer-10"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-10"></span><div class="result-header" id="resultHeader-10"></div><span class="material-symbols-outlined material-icon" id="actionIcon-10"></span></div><div class="explanation-content" id="explanationContainer-10"></div><button class="result-continue-btn" id="resultContinueBtn-10">Continue</button></div></div>
+  <div class="result-overlay" id="resultOverlay-11"><div class="result-container" id="resultContainer-11"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-11"></span><div class="result-header" id="resultHeader-11"></div><span class="material-symbols-outlined material-icon" id="actionIcon-11"></span></div><div class="explanation-content" id="explanationContainer-11"></div><button class="result-continue-btn" id="resultContinueBtn-11">Continue</button></div></div>
+
+  <script src="quiz-common.js"></script>
+  <script>
+    // Question data for anticoagulants
+    const questionsData = [
+      { id:1, type:"fill-blank", correctAnswer:'Anticoagulants', acceptableAnswers:['anticoagulants','anticoagulant'], explanation:"Anticoagulants reduce blood coagulability and are primarily used to prevent and treat thrombotic disorders such as DVT, pulmonary embolism, and stroke." },
+      { id:2, type:"multiple-choice", correctAnswer:'Thrombotic disorders such as deep vein thrombosis, pulmonary embolism and stroke', explanation:"Anticoagulants are essential in preventing and treating thrombotic conditions caused by abnormal blood clot formation." },
+      { id:3, type:"complete-sentence", options:[{label:"in vitro",value:"in vitro"},{label:"in vivo",value:"in vivo"},{label:"parenteral",value:"parenteral"},{label:"oral",value:"oral"}], correctAnswers:["in vitro","in vivo"], explanation:"Anticoagulants are broadly classified according to whether they are used outside the body (in vitro) or within the body (in vivo)." },
+      { id:4, type:"multiple-choice", correctAnswer:'Sodium citrate', explanation:"Sodium citrate is used in blood banks because it chelates calcium ions, preventing clotting during blood storage." },
+      { id:5, type:"arrange-order", options:["In vivo anticoagulants","Oral anticoagulants","Factor Xa inhibitors","Rivaroxaban"], correctOrder:["In vivo anticoagulants","Oral anticoagulants","Factor Xa inhibitors","Rivaroxaban"], explanation:'"In vivo anticoagulants" is the top-level category. "Oral anticoagulants" is a primary subdivision. "Factor Xa inhibitors" is a subclass of oral anticoagulants, and "Rivaroxaban" is a specific drug in that subclass.' },
+      { id:6, type:"multiple-choice", correctAnswer:'Heparin (UFH)', explanation:"Unfractionated heparin (UFH) is a classic parenteral, indirect thrombin inhibitor. It works by binding to and activating antithrombin III, which then inactivates thrombin and Factor Xa." },
+      { id:7, type:"fill-blank", correctAnswer:'reviparin', acceptableAnswers:['reviparin','Reviparin'], explanation:"Reviparin is one of the low-molecular-weight heparins listed along with enoxaparin, dalteparin, and ardeparin." },
+      { id:8, type:"multiple-choice", correctAnswer:'Synthetic indirect thrombin inhibitor', explanation:"Fondaparinux is a synthetic indirect anticoagulant that selectively inhibits Factor Xa via antithrombin III." },
+      { id:9, type:"multiple-choice", correctAnswer:'Bivalirudin', explanation:"Bivalirudin directly inhibits thrombin and is administered parenterally." },
+      { id:10, type:"multiple-choice", correctAnswer:'Apixaban', explanation:"Apixaban is an oral Factor Xa inhibitor, along with rivaroxaban and edoxaban." }
+    ];
+
+    const pairsData = [
+      { term: "Warfarin", meaning: "Coumarin derivative" },
+      { term: "Phenindione", meaning: "Indandione derivative" },
+      { term: "Dabigatran", meaning: "Direct thrombin inhibitor" },
+      { term: "Rivaroxaban", meaning: "Factor Xa inhibitor" },
+      { term: "Sodium oxalate, Sodium acetate", meaning: "Laboratory anticoagulants" },
+      { term: "Heparin", meaning: "Used in vitro and in vivo" }
+    ];
+
+    // Initialize engine
+    const engine = new QuizEngine({
+      totalQuestions: 11,
+      redirectUrl: 'https://vulanet.vercel.app/lesson/pharmacology-ii',
+      streakStorageKey: 'anticoagulantStreak'
+    });
+    engine.questionsData = questionsData;
+    engine.pairsData = pairsData;
+
+    // ========== SHOW QUESTION IMPLEMENTATION (FULL) ==========
+    engine.showQuestion = function(questionIndex) {
+      // Hide all sections
+      this.questionSections.forEach(section => { if (section) section.style.display = 'none'; });
+      const actualIdx = this.inRetryMode ? this.retryQueue[this.currentQuestion] : this.currentQuestion;
+      if (this.questionSections[actualIdx]) this.questionSections[actualIdx].style.display = 'block';
+      
+      let percent = this.inRetryMode 
+        ? Math.round(((this.currentQuestion + 1) / this.retryQueue.length) * 100)
+        : Math.round(((this.currentQuestion + 1) / this.totalQuestions) * 100);
+      this.progressBar.style.width = `${percent}%`;
+      this.updateStreakCounter();
+
+      // Question 1: fill-blank
+      if (actualIdx === 0) {
+        const input = document.getElementById('answer-input-1');
+        const btn = document.getElementById('check-button-1');
+        input.value = '';
+        input.classList.remove('correct','incorrect');
+        input.disabled = false;
+        btn.disabled = true;
+        input.oninput = () => { btn.disabled = !input.value.trim(); };
+        input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
+        btn.onclick = () => {
+          const isCorrect = this.questionsData[0].acceptableAnswers.some(a => this.normalizeAnswer(input.value) === this.normalizeAnswer(a));
+          if (isCorrect) input.classList.add('correct');
+          else input.classList.add('incorrect');
+          input.disabled = true;
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[0]) this.questionFinalCorrect[0] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(1, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[0].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(0)) this.retryQueue.push(0);
+            else if (this.inRetryMode) this.retryQueue.push(0);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">Anticoagulants</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[0].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+        input.focus();
+      }
+      // Question 2: multiple-choice
+      else if (actualIdx === 1) {
+        const container = document.getElementById('options-container-2');
+        const btn = document.getElementById('check-button-2');
+        const opts = ['Hypertension and angina', 'Thrombotic disorders such as deep vein thrombosis, pulmonary embolism and stroke', 'Bacterial infections', 'Bronchial asthma'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => { const b = document.createElement('button'); b.className='option-button'; b.dataset.value=opt; b.textContent=opt; container.appendChild(b); });
+        let selected = null;
+        document.querySelectorAll('#options-container-2 .option-button').forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled=false; b.onclick=()=>{ document.querySelectorAll('#options-container-2 .option-button').forEach(bb=>bb.classList.remove('selected')); b.classList.add('selected'); selected=b.dataset.value; btn.disabled=false; }; });
+        btn.disabled=true;
+        btn.onclick = () => {
+          if (!selected) return;
+          const isCorrect = (selected === this.questionsData[1].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(document.querySelectorAll('#options-container-2 .option-button')).find(b=>b.dataset.value===this.questionsData[1].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[1]) this.questionFinalCorrect[1] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(2, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[1].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(1)) this.retryQueue.push(1);
+            else if (this.inRetryMode) this.retryQueue.push(1);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(document.querySelectorAll('#options-container-2 .option-button')).find(b=>b.dataset.value===selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[1].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[1].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          document.querySelectorAll('#options-container-2 .option-button').forEach(b=>{b.disabled=true;});
+        };
+      }
+      // Question 3: complete sentence (two blanks)
+      else if (actualIdx === 2) {
+        const blank1 = document.getElementById('blank-3-1'), blank2 = document.getElementById('blank-3-2');
+        const optsContainer = document.getElementById('options-3');
+        const btn = document.getElementById('check-button-3');
+        blank1.textContent = ''; blank2.textContent = '';
+        blank1.classList.remove('filled','correct','incorrect');
+        blank2.classList.remove('filled','correct','incorrect');
+        optsContainer.innerHTML = '';
+        let filled = [null, null];
+        let optionBtns = [];
+        const shuffledOpts = this.shuffleArray([...this.questionsData[2].options]);
+        shuffledOpts.forEach(opt => {
+          const button = document.createElement('button');
+          button.className = 'option-button';
+          button.dataset.value = opt.value;
+          button.innerHTML = `<span>${opt.label}</span>`;
+          optionBtns.push(button);
+          button.onclick = () => {
+            if (filled.some(f => f && f.value === opt.value)) return;
+            let idx = filled[0] === null ? 0 : (filled[1] === null ? 1 : -1);
+            if (idx === -1) return;
+            const target = idx === 0 ? blank1 : blank2;
+            filled[idx] = { value: opt.value, label: opt.label };
+            target.textContent = opt.label;
+            target.classList.add('filled');
+            button.classList.add('used-option');
+            btn.disabled = !(filled[0] && filled[1]);
+          };
+          optsContainer.appendChild(button);
+        });
+        blank1.onclick = () => { if (filled[0]) { const b = optionBtns.find(btn => btn.dataset.value === filled[0].value); if (b) b.classList.remove('used-option'); blank1.textContent = ''; blank1.classList.remove('filled','correct','incorrect'); filled[0] = null; btn.disabled = !(filled[0] && filled[1]); } };
+        blank2.onclick = () => { if (filled[1]) { const b = optionBtns.find(btn => btn.dataset.value === filled[1].value); if (b) b.classList.remove('used-option'); blank2.textContent = ''; blank2.classList.remove('filled','correct','incorrect'); filled[1] = null; btn.disabled = !(filled[0] && filled[1]); } };
+        btn.disabled = true;
+        btn.onclick = () => {
+          if (!filled[0] || !filled[1]) return;
+          const u1 = filled[0].value, u2 = filled[1].value;
+          const isCorrect = (u1 === 'in vitro' && u2 === 'in vivo') || (u1 === 'in vivo' && u2 === 'in vitro');
+          this.playSound(isCorrect);
+          optionBtns.forEach(b => { b.disabled = true; });
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[2]) this.questionFinalCorrect[2] = true;
+            blank1.classList.add('correct');
+            blank2.classList.add('correct');
+            optionBtns.forEach(b => { if (b.dataset.value === 'in vitro' || b.dataset.value === 'in vivo') b.classList.add('correct'); });
+            this.handleCorrectAnswer();
+            this.showResultOverlay(3, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[2].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            blank1.classList.add('incorrect');
+            blank2.classList.add('incorrect');
+            if (!this.retryQueue.includes(2)) this.retryQueue.push(2);
+            else if (this.inRetryMode) this.retryQueue.push(2);
+            this.handleIncorrectAnswer();
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            optionBtns.forEach(b => { if (b.dataset.value === 'in vitro' || b.dataset.value === 'in vivo') b.classList.add('correct'); });
+            this.showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span><span class="underlined">in vitro</span> and <span class="underlined">in vivo</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[2].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Question 4: multiple-choice
+      else if (actualIdx === 3) {
+        const container = document.getElementById('options-container-4');
+        const btn = document.getElementById('check-button-4');
+        const opts = ['Heparin', 'Sodium citrate', 'Warfarin', 'Dabigatran'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => { const b = document.createElement('button'); b.className='option-button'; b.dataset.value=opt; b.textContent=opt; container.appendChild(b); });
+        let selected = null;
+        document.querySelectorAll('#options-container-4 .option-button').forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled=false; b.onclick=()=>{ document.querySelectorAll('#options-container-4 .option-button').forEach(bb=>bb.classList.remove('selected')); b.classList.add('selected'); selected=b.dataset.value; btn.disabled=false; }; });
+        btn.disabled=true;
+        btn.onclick = () => {
+          if (!selected) return;
+          const isCorrect = (selected === this.questionsData[3].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(document.querySelectorAll('#options-container-4 .option-button')).find(b=>b.dataset.value===this.questionsData[3].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[3]) this.questionFinalCorrect[3] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(4, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[3].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(3)) this.retryQueue.push(3);
+            else if (this.inRetryMode) this.retryQueue.push(3);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(document.querySelectorAll('#options-container-4 .option-button')).find(b=>b.dataset.value===selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[3].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[3].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          document.querySelectorAll('#options-container-4 .option-button').forEach(b=>{b.disabled=true;});
+        };
+      }
+      // Question 5: arrange order
+      else if (actualIdx === 4) {
+        const blanks = [document.getElementById('order-blank-1'), document.getElementById('order-blank-2'), document.getElementById('order-blank-3'), document.getElementById('order-blank-4')];
+        const optionsContainer = document.getElementById('ordering-options-container');
+        const btn = document.getElementById('check-button-5');
+        blanks.forEach(blank => { blank.querySelector('.blank-text').innerHTML = ''; blank.classList.remove('filled','correct','incorrect'); });
+        optionsContainer.innerHTML = '';
+        let filled = [null,null,null,null];
+        let optionBtns = [];
+        const shuffledOpts = this.shuffleArray([...this.questionsData[4].options]);
+        shuffledOpts.forEach(opt => {
+          const button = document.createElement('button');
+          button.className = 'ordering-option-button';
+          button.innerHTML = `<span>${opt}</span>`;
+          optionBtns.push(button);
+          button.onclick = () => {
+            if (filled.some(f => f && f.value === opt)) return;
+            const idx = filled.findIndex(f => f === null);
+            if (idx === -1) return;
+            filled[idx] = { value: opt, element: button };
+            blanks[idx].querySelector('.blank-text').innerHTML = opt;
+            blanks[idx].classList.add('filled');
+            button.classList.add('used-option');
+            btn.disabled = !filled.every(f => f !== null);
+          };
+          optionsContainer.appendChild(button);
+        });
+        btn.disabled = true;
+        btn.onclick = () => {
+          if (!filled.every(f => f !== null)) return;
+          const userOrder = filled.map(f => f.value);
+          const correctOrder = this.questionsData[4].correctOrder;
+          const isCorrect = userOrder.every((val, i) => val === correctOrder[i]);
+          this.playSound(isCorrect);
+          optionBtns.forEach(b => b.disabled = true);
+          for (let i = 0; i < correctOrder.length; i++) {
+            if (filled[i].value === correctOrder[i]) blanks[i].classList.add('correct');
+            else blanks[i].classList.add('incorrect');
+            blanks[i].classList.remove('filled');
+          }
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[4]) this.questionFinalCorrect[4] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(5, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[4].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(4)) this.retryQueue.push(4);
+            else if (this.inRetryMode) this.retryQueue.push(4);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct order:</span> <span class="underlined">${correctOrder.join(' → ')}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[4].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Question 6: multiple-choice
+      else if (actualIdx === 5) {
+        const container = document.getElementById('options-container-6');
+        const btn = document.getElementById('check-button-6');
+        const opts = ['Warfarin', 'Heparin (UFH)', 'Dabigatran', 'Rivaroxaban'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => { const b = document.createElement('button'); b.className='option-button'; b.dataset.value=opt; b.textContent=opt; container.appendChild(b); });
+        let selected = null;
+        document.querySelectorAll('#options-container-6 .option-button').forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled=false; b.onclick=()=>{ document.querySelectorAll('#options-container-6 .option-button').forEach(bb=>bb.classList.remove('selected')); b.classList.add('selected'); selected=b.dataset.value; btn.disabled=false; }; });
+        btn.disabled=true;
+        btn.onclick = () => {
+          if (!selected) return;
+          const isCorrect = (selected === this.questionsData[5].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(document.querySelectorAll('#options-container-6 .option-button')).find(b=>b.dataset.value===this.questionsData[5].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[5]) this.questionFinalCorrect[5] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(6, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[5].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(5)) this.retryQueue.push(5);
+            else if (this.inRetryMode) this.retryQueue.push(5);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(document.querySelectorAll('#options-container-6 .option-button')).find(b=>b.dataset.value===selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(6, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[5].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[5].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          document.querySelectorAll('#options-container-6 .option-button').forEach(b=>{b.disabled=true;});
+        };
+      }
+      // Question 7: fill-blank (inline)
+      else if (actualIdx === 6) {
+        const input = document.getElementById('lmwh-answer-input');
+        const btn = document.getElementById('check-button-7');
+        input.value = '';
+        input.classList.remove('correct','incorrect');
+        input.disabled = false;
+        btn.disabled = true;
+        input.oninput = () => { btn.disabled = !input.value.trim(); };
+        input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
+        btn.onclick = () => {
+          const isCorrect = this.questionsData[6].acceptableAnswers.some(a => input.value.trim().toLowerCase() === a.toLowerCase());
+          if (isCorrect) input.classList.add('correct');
+          else input.classList.add('incorrect');
+          input.disabled = true;
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[6]) this.questionFinalCorrect[6] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(7, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[6].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(6)) this.retryQueue.push(6);
+            else if (this.inRetryMode) this.retryQueue.push(6);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(7, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">Reviparin</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[6].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Question 8: multiple-choice
+      else if (actualIdx === 7) {
+        const container = document.getElementById('options-container-8');
+        const btn = document.getElementById('check-button-8');
+        const opts = ['Direct thrombin inhibitor', 'Synthetic indirect thrombin inhibitor', 'Coumarin derivative', 'Oral anticoagulant'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => { const b = document.createElement('button'); b.className='option-button'; b.dataset.value=opt; b.textContent=opt; container.appendChild(b); });
+        let selected = null;
+        document.querySelectorAll('#options-container-8 .option-button').forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled=false; b.onclick=()=>{ document.querySelectorAll('#options-container-8 .option-button').forEach(bb=>bb.classList.remove('selected')); b.classList.add('selected'); selected=b.dataset.value; btn.disabled=false; }; });
+        btn.disabled=true;
+        btn.onclick = () => {
+          if (!selected) return;
+          const isCorrect = (selected === this.questionsData[7].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(document.querySelectorAll('#options-container-8 .option-button')).find(b=>b.dataset.value===this.questionsData[7].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[7]) this.questionFinalCorrect[7] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(8, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[7].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(7)) this.retryQueue.push(7);
+            else if (this.inRetryMode) this.retryQueue.push(7);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(document.querySelectorAll('#options-container-8 .option-button')).find(b=>b.dataset.value===selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(8, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[7].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[7].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          document.querySelectorAll('#options-container-8 .option-button').forEach(b=>{b.disabled=true;});
+        };
+      }
+      // Question 9: multiple-choice
+      else if (actualIdx === 8) {
+        const container = document.getElementById('options-container-9');
+        const btn = document.getElementById('check-button-9');
+        const opts = ['Bivalirudin', 'Warfarin', 'Acenocoumarol', 'Apixaban'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => { const b = document.createElement('button'); b.className='option-button'; b.dataset.value=opt; b.textContent=opt; container.appendChild(b); });
+        let selected = null;
+        document.querySelectorAll('#options-container-9 .option-button').forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled=false; b.onclick=()=>{ document.querySelectorAll('#options-container-9 .option-button').forEach(bb=>bb.classList.remove('selected')); b.classList.add('selected'); selected=b.dataset.value; btn.disabled=false; }; });
+        btn.disabled=true;
+        btn.onclick = () => {
+          if (!selected) return;
+          const isCorrect = (selected === this.questionsData[8].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(document.querySelectorAll('#options-container-9 .option-button')).find(b=>b.dataset.value===this.questionsData[8].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[8]) this.questionFinalCorrect[8] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(9, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[8].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(8)) this.retryQueue.push(8);
+            else if (this.inRetryMode) this.retryQueue.push(8);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(document.querySelectorAll('#options-container-9 .option-button')).find(b=>b.dataset.value===selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(9, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[8].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[8].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          document.querySelectorAll('#options-container-9 .option-button').forEach(b=>{b.disabled=true;});
+        };
+      }
+      // Question 10: multiple-choice
+      else if (actualIdx === 9) {
+        const container = document.getElementById('options-container-10');
+        const btn = document.getElementById('check-button-10');
+        const opts = ['Dabigatran', 'Warfarin', 'Apixaban', 'Dicumarol'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => { const b = document.createElement('button'); b.className='option-button'; b.dataset.value=opt; b.textContent=opt; container.appendChild(b); });
+        let selected = null;
+        document.querySelectorAll('#options-container-10 .option-button').forEach(b => { b.classList.remove('selected','correct','incorrect'); b.disabled=false; b.onclick=()=>{ document.querySelectorAll('#options-container-10 .option-button').forEach(bb=>bb.classList.remove('selected')); b.classList.add('selected'); selected=b.dataset.value; btn.disabled=false; }; });
+        btn.disabled=true;
+        btn.onclick = () => {
+          if (!selected) return;
+          const isCorrect = (selected === this.questionsData[9].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(document.querySelectorAll('#options-container-10 .option-button')).find(b=>b.dataset.value===this.questionsData[9].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[9]) this.questionFinalCorrect[9] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(10, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[9].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(9)) this.retryQueue.push(9);
+            else if (this.inRetryMode) this.retryQueue.push(9);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(document.querySelectorAll('#options-container-10 .option-button')).find(b=>b.dataset.value===selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(10, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[9].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[9].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          document.querySelectorAll('#options-container-10 .option-button').forEach(b=>{b.disabled=true;});
+        };
+      }
+      // Question 11: matching pairs
+      else if (actualIdx === 10) {
+        const leftCol = document.getElementById('leftColumn');
+        const rightCol = document.getElementById('rightColumn');
+        const feedbackOverlay = document.getElementById('feedbackOverlay');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+        const matchingContinueBtn = document.getElementById('matchingContinueBtn');
+        const cancelIcon = document.getElementById('cancelIcon');
+        const notesIcon = document.getElementById('notesIcon');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackMsg = document.getElementById('feedbackMessage');
+        
+        let selectedLeft = null, selectedRight = null, matched = 0, gameActive = true, lifeLost = false, completed = false;
+        leftCol.innerHTML = ''; rightCol.innerHTML = '';
+        const shuffledPairs = this.shuffleArray([...this.pairsData]);
+        shuffledPairs.forEach((pair, idx) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = idx;
+          card.dataset.type = 'term';
+          card.textContent = pair.term;
+          leftCol.appendChild(card);
+          card.onclick = () => {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrong(); return; }
+            if (!gameActive || card.classList.contains('matched')) return;
+            if (card.classList.contains('wrong')) { resetWrong(); return; }
+            document.querySelectorAll('#leftColumn .card.selected').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedLeft = card;
+            if (selectedLeft && selectedRight) checkMatch();
+          };
+        });
+        const shuffledMeanings = this.shuffleArray([...shuffledPairs]);
+        shuffledMeanings.forEach(pair => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.pair = shuffledPairs.findIndex(p => p.meaning === pair.meaning);
+          card.dataset.type = 'meaning';
+          card.textContent = pair.meaning;
+          rightCol.appendChild(card);
+          card.onclick = () => {
+            if (feedbackOverlay.classList.contains('visible')) { resetWrong(); return; }
+            if (!gameActive || card.classList.contains('matched')) return;
+            if (card.classList.contains('wrong')) { resetWrong(); return; }
+            document.querySelectorAll('#rightColumn .card.selected').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedRight = card;
+            if (selectedLeft && selectedRight) checkMatch();
+          };
+        });
+        feedbackOverlay.classList.remove('visible');
+        matchingContinueBtn.style.display = 'none';
+        
+        const checkMatch = () => {
+          if (!selectedLeft || !selectedRight || !gameActive) return;
+          if (selectedLeft.dataset.pair === selectedRight.dataset.pair) {
+            this.playSound(true);
+            selectedLeft.classList.remove('selected');
+            selectedRight.classList.remove('selected');
+            selectedLeft.classList.add('correct');
+            selectedRight.classList.add('correct');
+            matched++;
+            setTimeout(() => {
+              document.querySelectorAll('#question11 .card.correct').forEach(c => {
+                c.classList.remove('correct');
+                c.classList.add('matched');
+              });
+            }, 800);
+            if (matched === this.pairsData.length && !completed) {
+              gameActive = false;
+              completed = true;
+              this.totalAttempts++;
+              if (!this.questionFinalCorrect[10]) this.questionFinalCorrect[10] = true;
+              this.currentStreak++;
+              this.updateStreakCounter();
+              if (this.currentStreak % 5 === 0 && this.currentStreak > 0) {
+                this.showModal(`answer-streak.html?streak=${this.currentStreak}`, () => this.moveToNextQuestion());
+              } else {
+                setTimeout(() => this.moveToNextQuestion(), 500);
+              }
+            }
+          } else {
+            this.playSound(false);
+            selectedLeft.classList.add('wrong');
+            selectedRight.classList.add('wrong');
+            if (this.lives > 0 && !lifeLost) {
+              this.lives--;
+              this.livesCountSpan.textContent = this.lives;
+              this.updateHeartIcon();
+              lifeLost = true;
+              if (this.lives === 0) {
+                feedbackTitle.textContent = 'Game Over';
+                feedbackMsg.textContent = 'You\'ve run out of lives! Try again from the beginning.';
+                feedbackOverlay.classList.add('visible');
+                gameActive = false;
+                return;
+              }
+            }
+            this.handleIncorrectAnswer();
+            if (this.lives > 0) { feedbackTitle.textContent = 'Incorrect'; feedbackMsg.textContent = 'Let\'s try that again'; }
+            feedbackOverlay.classList.add('visible');
+          }
+          selectedLeft = null;
+          selectedRight = null;
+        };
+        
+        const resetWrong = () => {
+          document.querySelectorAll('#question11 .card.wrong').forEach(c => c.classList.remove('wrong'));
+          document.querySelectorAll('#question11 .card.selected').forEach(c => c.classList.remove('selected'));
+          selectedLeft = null;
+          selectedRight = null;
+          feedbackOverlay.classList.remove('visible');
+        };
+        tryAgainBtn.onclick = resetWrong;
+        feedbackOverlay.onclick = (e) => { if (e.target === feedbackOverlay) resetWrong(); };
+        matchingContinueBtn.onclick = () => this.moveToNextQuestion();
+        if (cancelIcon) cancelIcon.onclick = resetWrong;
+        if (notesIcon) notesIcon.onclick = resetWrong;
+      }
+    };
+
+    // Helper shuffleArray (already defined in engine, but make available)
+    engine.shuffleArray = function(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+
+    // Start the quiz
+    engine.showQuestion(engine.currentQuestion);
+  </script>
+</body>
+</html>
