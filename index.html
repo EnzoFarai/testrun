@@ -24,7 +24,6 @@
       <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
     </div>
 
-    <!-- Question 1 -->
     <div id="question1">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question">Where is most of a cell's DNA located?</div>
@@ -37,7 +36,6 @@
       <div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div>
     </div>
 
-    <!-- Question 2 -->
     <div id="question2" style="display: none;">
       <h2 class="quiz-title">Select what is missing</h2>
       <div class="question-container">
@@ -50,7 +48,6 @@
       <div class="footer"><button id="check-button-2" class="check-button" disabled>Check</button></div>
     </div>
 
-    <!-- Question 3 -->
     <div id="question3" style="display: none;">
       <h2 class="quiz-title">Complete the statement</h2>
       <div class="question-container">
@@ -66,7 +63,6 @@
       <div class="footer"><button class="check-button" id="check-button-3" disabled>Check</button></div>
     </div>
 
-    <!-- Question 4 -->
     <div id="question4" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question">Which of the following is not a component of a nucleotide?</div>
@@ -79,7 +75,6 @@
       <div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div>
     </div>
 
-    <!-- Question 5 - Image selection -->
     <div id="question5" style="display: none;">
       <h2 class="quiz-title">Pick the correct image</h2>
       <div class="question" style="text-align: center;">Which image correctly shows a nucleotide?</div>
@@ -95,7 +90,6 @@
       <div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div>
     </div>
 
-    <!-- Question 6 - Matching pairs -->
     <div id="question6" style="display: none;">
       <h2 class="quiz-title">Match the pairs</h2>
       <div class="game-container">
@@ -122,7 +116,6 @@
     </div>
   </div>
 
-  <!-- Result Overlays 1–6 -->
   <div class="result-overlay" id="resultOverlay-1"><div class="result-container" id="resultContainer-1"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-1"></span><div class="result-header" id="resultHeader-1"></div><span class="material-symbols-outlined material-icon" id="actionIcon-1"></span></div><div class="explanation-content" id="explanationContainer-1"></div><button class="result-continue-btn" id="resultContinueBtn-1">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-2"><div class="result-container" id="resultContainer-2"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-2"></span><div class="result-header" id="resultHeader-2"></div><span class="material-symbols-outlined material-icon" id="actionIcon-2"></span></div><div class="explanation-content" id="explanationContainer-2"></div><button class="result-continue-btn" id="resultContinueBtn-2">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-3"><div class="result-container" id="resultContainer-3"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-3"></span><div class="result-header" id="resultHeader-3"></div><span class="material-symbols-outlined material-icon" id="actionIcon-3"></span></div><div class="explanation-content" id="explanationContainer-3"></div><button class="result-continue-btn" id="resultContinueBtn-3">Continue</button></div></div>
@@ -132,12 +125,11 @@
 
   <script src="quiz-common.js"></script>
   <script>
-    // DNA quiz data
     const questionsData = [
-      { id:1, type:"multiple-choice", correctAnswer:'Nucleus', explanation:"The nucleus contains most of the cell's DNA within the chromatin network. The cytoplasm and ribosomes do not store DNA, and the nuclear membrane only encloses the nucleus.", options:['Cytoplasm','Ribosomes','Nucleus','Nuclear membrane'] },
+      { id:1, type:"multiple-choice", correctAnswer:'Nucleus', explanation:"The nucleus contains most of the cell's DNA within the chromatin network. The cytoplasm and ribosomes do not store DNA, and the nuclear membrane only encloses the nucleus." },
       { id:2, type:"complete-sentence", options:[{label:"is the site of protein synthesis",value:"protein_synthesis"},{label:"contains DNA",value:"contains_dna"},{label:"produces ribosomes",value:"produces_ribosomes"},{label:"is the site of most metabolic reactions",value:"metabolic_reactions"}], correctAnswers:["contains_dna","produces_ribosomes"], explanation:"The nucleus contains the cell's DNA and produces ribosomes in the nucleolus. Protein synthesis occurs at ribosomes, and most metabolic reactions take place in the cytoplasm, not the nucleus." },
       { id:3, type:"fill-blank", correctAnswer:'nucleotides', acceptableAnswers:['nucleotides','nucleotide','nucleotides (nucleotide)','nucleotide (nucleotides)'], explanation:"DNA and RNA are nucleic acids composed of repeating monomers called nucleotides, each consisting of a phosphate group, a sugar molecule and a nitrogenous base." },
-      { id:4, type:"multiple-choice", correctAnswer:'Amino acid', explanation:"Amino acids are building blocks of proteins, not nucleotides. Nucleotides consist of a phosphate group, a sugar (deoxyribose in DNA, ribose in RNA) and a nitrogenous base.", options:['Phosphate group','Amino acid','Sugar molecule','Nitrogenous base'] },
+      { id:4, type:"multiple-choice", correctAnswer:'Amino acid', explanation:"Amino acids are building blocks of proteins, not nucleotides. Nucleotides consist of a phosphate group, a sugar (deoxyribose in DNA, ribose in RNA) and a nitrogenous base." },
       { id:5, type:"image-selection", correctAnswer:4, explanation:"A nucleotide consists of three parts: a phosphate group, a sugar molecule (deoxyribose in DNA) and a nitrogenous base, all of which Image 4 correctly represents." }
     ];
     const pairsData = [{ term: "DNA", meaning: "Deoxyribose" }, { term: "RNA", meaning: "Ribose" }];
@@ -150,7 +142,6 @@
     engine.questionsData = questionsData;
     engine.pairsData = pairsData;
 
-    // showQuestion implementation for DNA quiz
     engine.showQuestion = function(questionIndex) {
       this.questionSections.forEach(section => { if (section) section.style.display = 'none'; });
       const actualIdx = this.inRetryMode ? this.retryQueue[this.currentQuestion] : this.currentQuestion;
@@ -164,7 +155,6 @@
       this.answered = false;
       this.selectedOption = null;
 
-      // Question 1: multiple-choice
       if (actualIdx === 0) {
         const btns = document.querySelectorAll('#options-container-1 .option-button');
         const checkBtn = document.getElementById('check-button-1');
@@ -204,7 +194,6 @@
           btns.forEach(b => { b.disabled = true; b.style.cursor = 'not-allowed'; });
         };
       }
-      // Question 2: complete sentence
       else if (actualIdx === 1) {
         const blank1 = document.getElementById('blank-2-1'), blank2 = document.getElementById('blank-2-2');
         const optsContainer = document.getElementById('options-2');
@@ -266,7 +255,6 @@
           }
         };
       }
-      // Question 3: fill-blank
       else if (actualIdx === 2) {
         const input = document.getElementById('nucleotide-answer-input');
         const btn = document.getElementById('check-button-3');
@@ -299,7 +287,6 @@
         };
         input.focus();
       }
-      // Question 4: multiple-choice
       else if (actualIdx === 3) {
         const container = document.getElementById('options-container-4');
         const btn = document.getElementById('check-button-4');
@@ -334,7 +321,6 @@
           document.querySelectorAll('#options-container-4 .option-button').forEach(b=>{b.disabled=true;});
         };
       }
-      // Question 5: image selection
       else if (actualIdx === 4) {
         const tiles = document.querySelectorAll('#question5 .image-tile');
         const containers = document.querySelectorAll('#question5 .image-container');
@@ -399,7 +385,6 @@
           }
         };
       }
-      // Question 6: matching pairs
       else if (actualIdx === 5) {
         const leftCol = document.getElementById('leftColumn');
         const rightCol = document.getElementById('rightColumn');
@@ -475,9 +460,11 @@
               this.currentStreak++;
               this.updateStreakCounter();
               if (this.currentStreak % 5 === 0 && this.currentStreak > 0) {
-                this.showModal(`answer-streak.html?streak=${this.currentStreak}`, () => this.moveToNextQuestion());
+                this.pendingCelebration = true;
+                this.pendingCelebrationStreak = this.currentStreak;
+                this.processAfterExplanation(() => this.moveToNextQuestion());
               } else {
-                setTimeout(() => this.moveToNextQuestion(), 500);
+                this.moveToNextQuestion();
               }
             }
           } else {
@@ -518,14 +505,6 @@
         if (cancelIcon) cancelIcon.onclick = resetWrong;
         if (notesIcon) notesIcon.onclick = resetWrong;
       }
-    };
-
-    engine.shuffleArray = function(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
     };
 
     engine.showQuestion(engine.currentQuestion);
