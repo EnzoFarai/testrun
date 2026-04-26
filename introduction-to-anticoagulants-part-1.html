@@ -24,6 +24,7 @@
       <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
     </div>
 
+    <!-- Question 1 -->
     <div id="question1">
       <h2 class="quiz-title">Give the correct term</h2>
       <div class="question-container">
@@ -39,6 +40,7 @@
       <div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div>
     </div>
 
+    <!-- Question 2 -->
     <div id="question2" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-2">Anticoagulants are primarily used in the prevention and treatment of which of the following conditions?</div>
@@ -51,6 +53,7 @@
       <div class="footer"><button class="check-button" id="check-button-2" disabled>Check</button></div>
     </div>
 
+    <!-- Question 3 -->
     <div id="question3" style="display: none;">
       <h2 class="quiz-title">Select what is missing</h2>
       <div class="question-container">
@@ -63,6 +66,7 @@
       <div class="footer"><button id="check-button-3" class="check-button" disabled>Check</button></div>
     </div>
 
+    <!-- Question 4 -->
     <div id="question4" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-4">Which of the following anticoagulants is commonly used in blood banks for the storage of blood?</div>
@@ -75,6 +79,7 @@
       <div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div>
     </div>
 
+    <!-- Question 5 - Arrange in order -->
     <div id="question5" style="display: none;">
       <h2 class="quiz-title">Arrange in Order</h2>
       <div class="question">Arrange the following terms from the broadest category to the most specific example.</div>
@@ -90,6 +95,7 @@
       <div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div>
     </div>
 
+    <!-- Question 6 -->
     <div id="question6" style="display: none;">
       <h2 class="quiz-title">Read and respond</h2>
       <div class="question-container">
@@ -108,6 +114,7 @@
       <div class="footer"><button class="check-button" id="check-button-6" disabled>Check</button></div>
     </div>
 
+    <!-- Question 7 -->
     <div id="question7" style="display: none;">
       <h2 class="quiz-title">Complete the statement</h2>
       <div class="question-container">
@@ -122,6 +129,7 @@
       <div class="footer"><button class="check-button" id="check-button-7" disabled>Check</button></div>
     </div>
 
+    <!-- Question 8 -->
     <div id="question8" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-8">Fondaparinux is best classified as which of the following?</div>
@@ -134,6 +142,7 @@
       <div class="footer"><button class="check-button" id="check-button-8" disabled>Check</button></div>
     </div>
 
+    <!-- Question 9 -->
     <div id="question9" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-9">Which of the following drugs is a <strong>direct thrombin inhibitor</strong> used parenterally?</div>
@@ -146,6 +155,7 @@
       <div class="footer"><button class="check-button" id="check-button-9" disabled>Check</button></div>
     </div>
 
+    <!-- Question 10 -->
     <div id="question10" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-10">Which of the following oral anticoagulants acts by inhibiting Factor Xa?</div>
@@ -158,6 +168,7 @@
       <div class="footer"><button class="check-button" id="check-button-10" disabled>Check</button></div>
     </div>
 
+    <!-- Question 11 - Matching pairs -->
     <div id="question11" style="display: none;">
       <h2 class="quiz-title">Match the pairs</h2>
       <div class="game-container">
@@ -184,6 +195,7 @@
     </div>
   </div>
 
+  <!-- Result Overlays 1–11 -->
   <div class="result-overlay" id="resultOverlay-1"><div class="result-container" id="resultContainer-1"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-1"></span><div class="result-header" id="resultHeader-1"></div><span class="material-symbols-outlined material-icon" id="actionIcon-1"></span></div><div class="explanation-content" id="explanationContainer-1"></div><button class="result-continue-btn" id="resultContinueBtn-1">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-2"><div class="result-container" id="resultContainer-2"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-2"></span><div class="result-header" id="resultHeader-2"></div><span class="material-symbols-outlined material-icon" id="actionIcon-2"></span></div><div class="explanation-content" id="explanationContainer-2"></div><button class="result-continue-btn" id="resultContinueBtn-2">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-3"><div class="result-container" id="resultContainer-3"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-3"></span><div class="result-header" id="resultHeader-3"></div><span class="material-symbols-outlined material-icon" id="actionIcon-3"></span></div><div class="explanation-content" id="explanationContainer-3"></div><button class="result-continue-btn" id="resultContinueBtn-3">Continue</button></div></div>
@@ -282,6 +294,7 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
+          this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[1].correctAnswer);
           this.playSound(isCorrect);
           const correctBtn = Array.from(document.querySelectorAll('#options-container-2 .option-button')).find(b=>b.dataset.value===this.questionsData[1].correctAnswer);
@@ -337,7 +350,6 @@
         btn.disabled = true;
         btn.onclick = () => {
           if (!filled[0] || !filled[1]) return;
-          this.answered = true;
           this.totalAttempts++;
           const u1 = filled[0].value, u2 = filled[1].value;
           const isCorrect = (u1 === 'in vitro' && u2 === 'in vivo') || (u1 === 'in vivo' && u2 === 'in vitro');
@@ -374,7 +386,6 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
-          this.answered = true;
           this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[3].correctAnswer);
           this.playSound(isCorrect);
@@ -425,7 +436,6 @@
         btn.disabled = true;
         btn.onclick = () => {
           if (!filled.every(f => f !== null)) return;
-          this.answered = true;
           this.totalAttempts++;
           const userOrder = filled.map(f => f.value);
           const correctOrder = this.questionsData[4].correctOrder;
@@ -462,7 +472,6 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
-          this.answered = true;
           this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[5].correctAnswer);
           this.playSound(isCorrect);
@@ -494,7 +503,6 @@
         input.oninput = () => { btn.disabled = !input.value.trim(); };
         input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
         btn.onclick = () => {
-          this.answered = true;
           this.totalAttempts++;
           const isCorrect = this.questionsData[6].acceptableAnswers.some(a => input.value.trim().toLowerCase() === a.toLowerCase());
           if (isCorrect) input.classList.add('correct');
@@ -526,7 +534,6 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
-          this.answered = true;
           this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[7].correctAnswer);
           this.playSound(isCorrect);
@@ -560,7 +567,6 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
-          this.answered = true;
           this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[8].correctAnswer);
           this.playSound(isCorrect);
@@ -594,7 +600,6 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
-          this.answered = true;
           this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[9].correctAnswer);
           this.playSound(isCorrect);
@@ -670,6 +675,9 @@
         
         const checkMatch = () => {
           if (!selectedLeft || !selectedRight || !gameActive) return;
+          // Increment totalAttempts for EVERY match attempt (both correct and incorrect)
+          this.totalAttempts++;
+          
           if (selectedLeft.dataset.pair === selectedRight.dataset.pair) {
             this.playSound(true);
             selectedLeft.classList.remove('selected');
@@ -686,7 +694,6 @@
             if (matched === this.pairsData.length && !completed) {
               gameActive = false;
               completed = true;
-              this.totalAttempts++;
               if (!this.questionFinalCorrect[10]) this.questionFinalCorrect[10] = true;
               this.currentStreak++;
               this.updateStreakCounter();
@@ -712,6 +719,7 @@
                 feedbackMsg.textContent = 'You\'ve run out of lives! Try again from the beginning.';
                 feedbackOverlay.classList.add('visible');
                 gameActive = false;
+                // Do not call moveToNextQuestion here; the user will see game over.
                 return;
               }
             }
