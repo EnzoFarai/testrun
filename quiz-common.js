@@ -1,26 +1,21 @@
 // quiz-common.js – Shared Quiz Engine
 class QuizEngine {
   constructor(config) {
-    // Required config properties:
-    // - totalQuestions: number
-    // - redirectUrl: string (e.g., 'https://vulanet.vercel.app/lesson/...')
-    // - streakStorageKey: string (unique for each lesson)
-    // Optional: questionsData, pairsData (used only if lesson needs them)
     this.totalQuestions = config.totalQuestions;
     this.redirectUrl = config.redirectUrl;
     this.streakKey = config.streakStorageKey || 'userStreakDays';
     this.questionsData = config.questionsData || [];
     this.pairsData = config.pairsData || [];
 
-    // State
     this.lives = 5;
     this.currentQuestion = 0;
     this.retryQueue = [];
     this.inRetryMode = false;
     this.showedRetryMessage = false;
     this.currentStreak = 0;
-    this.shouldShowCelebrationAfterExplanation = false;
+    this.pendingCelebration = false;
     this.pendingCelebrationStreak = null;
+    this.waitingForCelebration = false;
 
     this.quizStartTime = Date.now();
     this.quizCompleted = false;
@@ -30,7 +25,6 @@ class QuizEngine {
     this.heartsAtCompletion = 5;
     this.currentStreakDays = 1;
 
-    // Bind methods
     this.showQuestion = this.showQuestion.bind(this);
     this.moveToNextQuestion = this.moveToNextQuestion.bind(this);
     this.finishQuiz = this.finishQuiz.bind(this);
@@ -40,8 +34,8 @@ class QuizEngine {
     this.showModal = this.showModal.bind(this);
     this.updateStreakCounter = this.updateStreakCounter.bind(this);
     this.updateHeartIcon = this.updateHeartIcon.bind(this);
+    this.processAfterExplanation = this.processAfterExplanation.bind(this);
 
-    // Grab DOM elements
     this.progressBar = document.getElementById('progress-bar');
     this.livesCountSpan = document.getElementById('lives-count');
     this.livesIcon = document.getElementById('lives-icon');
@@ -53,7 +47,6 @@ class QuizEngine {
       this.questionSections.push(document.getElementById(`question${i}`));
     }
 
-    // Attach close button
     const closeBtn = document.getElementById('close-btn');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
@@ -61,19 +54,15 @@ class QuizEngine {
       });
     }
 
-    // Before unload
     window.addEventListener('beforeunload', (e) => {
       e.preventDefault();
       e.returnValue = '';
       return '';
     });
 
-    // Load streak
     this.loadStreakFromStorage();
     this.updateStreakCounter();
     this.updateHeartIcon();
-
-    // Initial progress bar
     this.progressBar.style.width = `${(1 / this.totalQuestions) * 100}%`;
   }
 
@@ -122,6 +111,14 @@ class QuizEngine {
     return answer.toLowerCase().replace(/\s+/g, ' ').replace(/[()]/g, '').replace(/\//g, ' ').trim();
   }
 
+  shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
   showModal(modalUrl, onClose) {
     this.modalIframe.src = modalUrl;
     this.fullscreenOverlay.classList.add('visible');
@@ -160,7 +157,7 @@ class QuizEngine {
     this.currentStreak++;
     this.updateStreakCounter();
     if (this.currentStreak % 5 === 0 && this.currentStreak > 0) {
-      this.shouldShowCelebrationAfterExplanation = true;
+      this.pendingCelebration = true;
       this.pendingCelebrationStreak = this.currentStreak;
     }
   }
@@ -168,6 +165,21 @@ class QuizEngine {
   handleIncorrectAnswer() {
     this.currentStreak = 0;
     this.updateStreakCounter();
+  }
+
+  processAfterExplanation(onComplete) {
+    if (this.pendingCelebration) {
+      const streak = this.pendingCelebrationStreak;
+      this.pendingCelebration = false;
+      this.pendingCelebrationStreak = null;
+      this.waitingForCelebration = true;
+      this.showModal(`answer-streak.html?streak=${streak}`, () => {
+        this.waitingForCelebration = false;
+        if (onComplete) onComplete();
+      });
+    } else {
+      if (onComplete) onComplete();
+    }
   }
 
   showResultOverlay(questionNumber, isCorrect, explanationHTML, onComplete) {
@@ -196,23 +208,15 @@ class QuizEngine {
 
     continueBtn.onclick = () => {
       overlay.classList.remove('visible');
-      const celebrationShown = this.checkAndShowCelebration();
-      if (!celebrationShown && onComplete) onComplete();
+      this.processAfterExplanation(onComplete);
     };
   }
 
-  checkAndShowCelebration() {
-    if (this.shouldShowCelebrationAfterExplanation && this.pendingCelebrationStreak) {
-      const streak = this.pendingCelebrationStreak;
-      this.shouldShowCelebrationAfterExplanation = false;
-      this.pendingCelebrationStreak = null;
-      this.showModal(`answer-streak.html?streak=${streak}`, () => {});
-      return true;
-    }
-    return false;
-  }
-
   moveToNextQuestion() {
+    if (this.waitingForCelebration) {
+      return false;
+    }
+    
     if (this.inRetryMode) {
       this.currentQuestion++;
       if (this.currentQuestion >= this.retryQueue.length) {
@@ -250,23 +254,27 @@ class QuizEngine {
     }
   }
 
-  // Reward modals
   showCoinsReward(amount, onClose) {
     this.showModal(`coins-reward.html?amount=${amount}`, onClose);
   }
+
   showBoostReward(multiplier, duration, onClose) {
     this.showModal(`boost-reward.html?multiplier=${multiplier}&duration=${duration}`, onClose);
   }
+
   showHeartReward(heartsParam, onClose) {
     this.showModal(`heart-reward.html?hearts=${heartsParam}`, onClose);
   }
+
   showLessonCompleteModal(correct, total, time, onComplete) {
     const url = `lesson-complete.html?correctAttempts=${correct}&totalAttempts=${total}&time=${time}`;
     this.showModal(url, onComplete);
   }
+
   showAchievementModal(onComplete) {
     this.showModal('achievement.html', onComplete);
   }
+
   showStreakModal(onComplete) {
     this.showModal('streak.html', onComplete);
   }
@@ -349,7 +357,6 @@ class QuizEngine {
     });
   }
 
-  // Placeholder – to be overridden by each lesson
   showQuestion(questionIndex) {
     throw new Error('showQuestion must be implemented by the lesson');
   }
