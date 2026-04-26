@@ -24,7 +24,6 @@
       <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
     </div>
 
-    <!-- Question 1 -->
     <div id="question1">
       <h2 class="quiz-title">Give the correct term</h2>
       <div class="question-container">
@@ -40,7 +39,6 @@
       <div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div>
     </div>
 
-    <!-- Question 2 -->
     <div id="question2" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-2">Anticoagulants are primarily used in the prevention and treatment of which of the following conditions?</div>
@@ -53,7 +51,6 @@
       <div class="footer"><button class="check-button" id="check-button-2" disabled>Check</button></div>
     </div>
 
-    <!-- Question 3 -->
     <div id="question3" style="display: none;">
       <h2 class="quiz-title">Select what is missing</h2>
       <div class="question-container">
@@ -66,7 +63,6 @@
       <div class="footer"><button id="check-button-3" class="check-button" disabled>Check</button></div>
     </div>
 
-    <!-- Question 4 -->
     <div id="question4" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-4">Which of the following anticoagulants is commonly used in blood banks for the storage of blood?</div>
@@ -79,7 +75,6 @@
       <div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div>
     </div>
 
-    <!-- Question 5 - Arrange in order -->
     <div id="question5" style="display: none;">
       <h2 class="quiz-title">Arrange in Order</h2>
       <div class="question">Arrange the following terms from the broadest category to the most specific example.</div>
@@ -95,7 +90,6 @@
       <div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div>
     </div>
 
-    <!-- Question 6 -->
     <div id="question6" style="display: none;">
       <h2 class="quiz-title">Read and respond</h2>
       <div class="question-container">
@@ -114,7 +108,6 @@
       <div class="footer"><button class="check-button" id="check-button-6" disabled>Check</button></div>
     </div>
 
-    <!-- Question 7 -->
     <div id="question7" style="display: none;">
       <h2 class="quiz-title">Complete the statement</h2>
       <div class="question-container">
@@ -129,7 +122,6 @@
       <div class="footer"><button class="check-button" id="check-button-7" disabled>Check</button></div>
     </div>
 
-    <!-- Question 8 -->
     <div id="question8" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-8">Fondaparinux is best classified as which of the following?</div>
@@ -142,7 +134,6 @@
       <div class="footer"><button class="check-button" id="check-button-8" disabled>Check</button></div>
     </div>
 
-    <!-- Question 9 -->
     <div id="question9" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-9">Which of the following drugs is a <strong>direct thrombin inhibitor</strong> used parenterally?</div>
@@ -155,7 +146,6 @@
       <div class="footer"><button class="check-button" id="check-button-9" disabled>Check</button></div>
     </div>
 
-    <!-- Question 10 -->
     <div id="question10" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question" id="question-text-10">Which of the following oral anticoagulants acts by inhibiting Factor Xa?</div>
@@ -168,7 +158,6 @@
       <div class="footer"><button class="check-button" id="check-button-10" disabled>Check</button></div>
     </div>
 
-    <!-- Question 11 - Matching Pairs -->
     <div id="question11" style="display: none;">
       <h2 class="quiz-title">Match the pairs</h2>
       <div class="game-container">
@@ -195,7 +184,6 @@
     </div>
   </div>
 
-  <!-- Result Overlays 1–11 (identical to original, but with corrected IDs) -->
   <div class="result-overlay" id="resultOverlay-1"><div class="result-container" id="resultContainer-1"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-1"></span><div class="result-header" id="resultHeader-1"></div><span class="material-symbols-outlined material-icon" id="actionIcon-1"></span></div><div class="explanation-content" id="explanationContainer-1"></div><button class="result-continue-btn" id="resultContinueBtn-1">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-2"><div class="result-container" id="resultContainer-2"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-2"></span><div class="result-header" id="resultHeader-2"></div><span class="material-symbols-outlined material-icon" id="actionIcon-2"></span></div><div class="explanation-content" id="explanationContainer-2"></div><button class="result-continue-btn" id="resultContinueBtn-2">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-3"><div class="result-container" id="resultContainer-3"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-3"></span><div class="result-header" id="resultHeader-3"></div><span class="material-symbols-outlined material-icon" id="actionIcon-3"></span></div><div class="explanation-content" id="explanationContainer-3"></div><button class="result-continue-btn" id="resultContinueBtn-3">Continue</button></div></div>
@@ -210,7 +198,6 @@
 
   <script src="quiz-common.js"></script>
   <script>
-    // Question data for anticoagulants
     const questionsData = [
       { id:1, type:"fill-blank", correctAnswer:'Anticoagulants', acceptableAnswers:['anticoagulants','anticoagulant'], explanation:"Anticoagulants reduce blood coagulability and are primarily used to prevent and treat thrombotic disorders such as DVT, pulmonary embolism, and stroke." },
       { id:2, type:"multiple-choice", correctAnswer:'Thrombotic disorders such as deep vein thrombosis, pulmonary embolism and stroke', explanation:"Anticoagulants are essential in preventing and treating thrombotic conditions caused by abnormal blood clot formation." },
@@ -233,7 +220,6 @@
       { term: "Heparin", meaning: "Used in vitro and in vivo" }
     ];
 
-    // Initialize engine
     const engine = new QuizEngine({
       totalQuestions: 11,
       redirectUrl: 'https://vulanet.vercel.app/lesson/pharmacology-ii',
@@ -242,9 +228,7 @@
     engine.questionsData = questionsData;
     engine.pairsData = pairsData;
 
-    // ========== SHOW QUESTION IMPLEMENTATION (FULL) ==========
     engine.showQuestion = function(questionIndex) {
-      // Hide all sections
       this.questionSections.forEach(section => { if (section) section.style.display = 'none'; });
       const actualIdx = this.inRetryMode ? this.retryQueue[this.currentQuestion] : this.currentQuestion;
       if (this.questionSections[actualIdx]) this.questionSections[actualIdx].style.display = 'block';
@@ -254,8 +238,9 @@
         : Math.round(((this.currentQuestion + 1) / this.totalQuestions) * 100);
       this.progressBar.style.width = `${percent}%`;
       this.updateStreakCounter();
+      this.answered = false;
+      this.selectedOption = null;
 
-      // Question 1: fill-blank
       if (actualIdx === 0) {
         const input = document.getElementById('answer-input-1');
         const btn = document.getElementById('check-button-1');
@@ -285,7 +270,6 @@
         };
         input.focus();
       }
-      // Question 2: multiple-choice
       else if (actualIdx === 1) {
         const container = document.getElementById('options-container-2');
         const btn = document.getElementById('check-button-2');
@@ -318,7 +302,6 @@
           document.querySelectorAll('#options-container-2 .option-button').forEach(b=>{b.disabled=true;});
         };
       }
-      // Question 3: complete sentence (two blanks)
       else if (actualIdx === 2) {
         const blank1 = document.getElementById('blank-3-1'), blank2 = document.getElementById('blank-3-2');
         const optsContainer = document.getElementById('options-3');
@@ -354,6 +337,8 @@
         btn.disabled = true;
         btn.onclick = () => {
           if (!filled[0] || !filled[1]) return;
+          this.answered = true;
+          this.totalAttempts++;
           const u1 = filled[0].value, u2 = filled[1].value;
           const isCorrect = (u1 === 'in vitro' && u2 === 'in vivo') || (u1 === 'in vivo' && u2 === 'in vitro');
           this.playSound(isCorrect);
@@ -377,7 +362,6 @@
           }
         };
       }
-      // Question 4: multiple-choice
       else if (actualIdx === 3) {
         const container = document.getElementById('options-container-4');
         const btn = document.getElementById('check-button-4');
@@ -390,6 +374,8 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[3].correctAnswer);
           this.playSound(isCorrect);
           const correctBtn = Array.from(document.querySelectorAll('#options-container-4 .option-button')).find(b=>b.dataset.value===this.questionsData[3].correctAnswer);
@@ -410,7 +396,6 @@
           document.querySelectorAll('#options-container-4 .option-button').forEach(b=>{b.disabled=true;});
         };
       }
-      // Question 5: arrange order
       else if (actualIdx === 4) {
         const blanks = [document.getElementById('order-blank-1'), document.getElementById('order-blank-2'), document.getElementById('order-blank-3'), document.getElementById('order-blank-4')];
         const optionsContainer = document.getElementById('ordering-options-container');
@@ -440,6 +425,8 @@
         btn.disabled = true;
         btn.onclick = () => {
           if (!filled.every(f => f !== null)) return;
+          this.answered = true;
+          this.totalAttempts++;
           const userOrder = filled.map(f => f.value);
           const correctOrder = this.questionsData[4].correctOrder;
           const isCorrect = userOrder.every((val, i) => val === correctOrder[i]);
@@ -463,7 +450,6 @@
           }
         };
       }
-      // Question 6: multiple-choice
       else if (actualIdx === 5) {
         const container = document.getElementById('options-container-6');
         const btn = document.getElementById('check-button-6');
@@ -476,6 +462,8 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[5].correctAnswer);
           this.playSound(isCorrect);
           const correctBtn = Array.from(document.querySelectorAll('#options-container-6 .option-button')).find(b=>b.dataset.value===this.questionsData[5].correctAnswer);
@@ -496,7 +484,6 @@
           document.querySelectorAll('#options-container-6 .option-button').forEach(b=>{b.disabled=true;});
         };
       }
-      // Question 7: fill-blank (inline)
       else if (actualIdx === 6) {
         const input = document.getElementById('lmwh-answer-input');
         const btn = document.getElementById('check-button-7');
@@ -507,6 +494,8 @@
         input.oninput = () => { btn.disabled = !input.value.trim(); };
         input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
         btn.onclick = () => {
+          this.answered = true;
+          this.totalAttempts++;
           const isCorrect = this.questionsData[6].acceptableAnswers.some(a => input.value.trim().toLowerCase() === a.toLowerCase());
           if (isCorrect) input.classList.add('correct');
           else input.classList.add('incorrect');
@@ -525,7 +514,6 @@
           }
         };
       }
-      // Question 8: multiple-choice
       else if (actualIdx === 7) {
         const container = document.getElementById('options-container-8');
         const btn = document.getElementById('check-button-8');
@@ -538,6 +526,8 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[7].correctAnswer);
           this.playSound(isCorrect);
           const correctBtn = Array.from(document.querySelectorAll('#options-container-8 .option-button')).find(b=>b.dataset.value===this.questionsData[7].correctAnswer);
@@ -558,7 +548,6 @@
           document.querySelectorAll('#options-container-8 .option-button').forEach(b=>{b.disabled=true;});
         };
       }
-      // Question 9: multiple-choice
       else if (actualIdx === 8) {
         const container = document.getElementById('options-container-9');
         const btn = document.getElementById('check-button-9');
@@ -571,6 +560,8 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[8].correctAnswer);
           this.playSound(isCorrect);
           const correctBtn = Array.from(document.querySelectorAll('#options-container-9 .option-button')).find(b=>b.dataset.value===this.questionsData[8].correctAnswer);
@@ -591,7 +582,6 @@
           document.querySelectorAll('#options-container-9 .option-button').forEach(b=>{b.disabled=true;});
         };
       }
-      // Question 10: multiple-choice
       else if (actualIdx === 9) {
         const container = document.getElementById('options-container-10');
         const btn = document.getElementById('check-button-10');
@@ -604,6 +594,8 @@
         btn.disabled=true;
         btn.onclick = () => {
           if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
           const isCorrect = (selected === this.questionsData[9].correctAnswer);
           this.playSound(isCorrect);
           const correctBtn = Array.from(document.querySelectorAll('#options-container-10 .option-button')).find(b=>b.dataset.value===this.questionsData[9].correctAnswer);
@@ -624,7 +616,6 @@
           document.querySelectorAll('#options-container-10 .option-button').forEach(b=>{b.disabled=true;});
         };
       }
-      // Question 11: matching pairs
       else if (actualIdx === 10) {
         const leftCol = document.getElementById('leftColumn');
         const rightCol = document.getElementById('rightColumn');
@@ -700,9 +691,11 @@
               this.currentStreak++;
               this.updateStreakCounter();
               if (this.currentStreak % 5 === 0 && this.currentStreak > 0) {
-                this.showModal(`answer-streak.html?streak=${this.currentStreak}`, () => this.moveToNextQuestion());
+                this.pendingCelebration = true;
+                this.pendingCelebrationStreak = this.currentStreak;
+                this.processAfterExplanation(() => this.moveToNextQuestion());
               } else {
-                setTimeout(() => this.moveToNextQuestion(), 500);
+                this.moveToNextQuestion();
               }
             }
           } else {
@@ -745,16 +738,6 @@
       }
     };
 
-    // Helper shuffleArray (already defined in engine, but make available)
-    engine.shuffleArray = function(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    };
-
-    // Start the quiz
     engine.showQuestion(engine.currentQuestion);
   </script>
 </body>
