@@ -24,6 +24,7 @@
       <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
     </div>
 
+    <!-- Question 1 -->
     <div id="question1">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question">Where is most of a cell's DNA located?</div>
@@ -36,6 +37,7 @@
       <div class="footer"><button class="check-button" id="check-button-1" disabled>Check</button></div>
     </div>
 
+    <!-- Question 2 -->
     <div id="question2" style="display: none;">
       <h2 class="quiz-title">Select what is missing</h2>
       <div class="question-container">
@@ -48,6 +50,7 @@
       <div class="footer"><button id="check-button-2" class="check-button" disabled>Check</button></div>
     </div>
 
+    <!-- Question 3 -->
     <div id="question3" style="display: none;">
       <h2 class="quiz-title">Complete the statement</h2>
       <div class="question-container">
@@ -63,6 +66,7 @@
       <div class="footer"><button class="check-button" id="check-button-3" disabled>Check</button></div>
     </div>
 
+    <!-- Question 4 -->
     <div id="question4" style="display: none;">
       <h2 class="quiz-title">Choose the correct option</h2>
       <div class="question">Which of the following is not a component of a nucleotide?</div>
@@ -75,6 +79,7 @@
       <div class="footer"><button class="check-button" id="check-button-4" disabled>Check</button></div>
     </div>
 
+    <!-- Question 5 - Image selection -->
     <div id="question5" style="display: none;">
       <h2 class="quiz-title">Pick the correct image</h2>
       <div class="question" style="text-align: center;">Which image correctly shows a nucleotide?</div>
@@ -90,6 +95,7 @@
       <div class="footer"><button id="check-button-5" class="check-button" disabled>Check</button></div>
     </div>
 
+    <!-- Question 6 - Matching pairs -->
     <div id="question6" style="display: none;">
       <h2 class="quiz-title">Match the pairs</h2>
       <div class="game-container">
@@ -116,6 +122,7 @@
     </div>
   </div>
 
+  <!-- Result Overlays 1–6 -->
   <div class="result-overlay" id="resultOverlay-1"><div class="result-container" id="resultContainer-1"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-1"></span><div class="result-header" id="resultHeader-1"></div><span class="material-symbols-outlined material-icon" id="actionIcon-1"></span></div><div class="explanation-content" id="explanationContainer-1"></div><button class="result-continue-btn" id="resultContinueBtn-1">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-2"><div class="result-container" id="resultContainer-2"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-2"></span><div class="result-header" id="resultHeader-2"></div><span class="material-symbols-outlined material-icon" id="actionIcon-2"></span></div><div class="explanation-content" id="explanationContainer-2"></div><button class="result-continue-btn" id="resultContinueBtn-2">Continue</button></div></div>
   <div class="result-overlay" id="resultOverlay-3"><div class="result-container" id="resultContainer-3"><div class="result-main"><span class="material-symbols-outlined material-icon" id="resultIcon-3"></span><div class="result-header" id="resultHeader-3"></div><span class="material-symbols-outlined material-icon" id="actionIcon-3"></span></div><div class="explanation-content" id="explanationContainer-3"></div><button class="result-continue-btn" id="resultContinueBtn-3">Continue</button></div></div>
@@ -439,6 +446,9 @@
         
         const checkMatch = () => {
           if (!selectedLeft || !selectedRight || !gameActive) return;
+          // Increment totalAttempts for EVERY match attempt (both correct and incorrect)
+          this.totalAttempts++;
+          
           if (selectedLeft.dataset.pair === selectedRight.dataset.pair) {
             this.playSound(true);
             selectedLeft.classList.remove('selected');
@@ -455,7 +465,6 @@
             if (matched === this.pairsData.length && !completed) {
               gameActive = false;
               completed = true;
-              this.totalAttempts++;
               if (!this.questionFinalCorrect[5]) this.questionFinalCorrect[5] = true;
               this.currentStreak++;
               this.updateStreakCounter();
