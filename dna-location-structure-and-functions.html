@@ -13,9 +13,9 @@
 <body>
   <audio id="correctSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/correct.mp3" type="audio/mpeg"></audio>
   <audio id="incorrectSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/incorrect.mp3" type="audio/mpeg"></audio>
-  
+ 
   <div id="fullscreenModalOverlay" class="fullscreen-modal-overlay"><iframe id="modalIframe" src="about:blank"></iframe></div>
-  
+ 
   <div class="quiz-container">
     <div class="streak-counter" id="streakCounter"></div>
     <div class="header">
@@ -24,10 +24,10 @@
       <div class="lives-container"><i id="lives-icon" class="ph-fill ph-heart"></i><span id="lives-count">5</span></div>
     </div>
 
-    <!-- Question 1 - Select what is missing -->
+    <!-- Question 1 - Select what is missing (fixed container class) -->
     <div id="question1">
       <h2 class="quiz-title">Select what is missing</h2>
-      <div class="question1-container">
+      <div class="question-container">
         <div class="icon-container"><i class="ph-fill ph-rabbit"></i></div>
         <div speech-bubble pleft abottom style="--bbColor:#FFFFFF">
           <div class="bubble-text">Two places in an animal cell where DNA is located are the <span id="blank-1-1" class="blank" tabindex="0"></span> and the <span id="blank-1-2" class="blank" tabindex="0"></span><span class="full-stop">.</span></div>
@@ -289,8 +289,8 @@
       this.questionSections.forEach(section => { if (section) section.style.display = 'none'; });
       const actualIdx = this.inRetryMode ? this.retryQueue[this.currentQuestion] : this.currentQuestion;
       if (this.questionSections[actualIdx]) this.questionSections[actualIdx].style.display = 'block';
-      
-      let percent = this.inRetryMode 
+     
+      let percent = this.inRetryMode
         ? Math.round(((this.currentQuestion + 1) / this.retryQueue.length) * 100)
         : Math.round(((this.currentQuestion + 1) / this.totalQuestions) * 100);
       this.progressBar.style.width = `${percent}%`;
@@ -304,17 +304,17 @@
         const blank2 = document.getElementById('blank-1-2');
         const optsContainer = document.getElementById('options-1');
         const btn = document.getElementById('check-button-1');
-        
+       
         blank1.textContent = '';
         blank2.textContent = '';
         blank1.classList.remove('filled', 'correct', 'incorrect');
         blank2.classList.remove('filled', 'correct', 'incorrect');
         optsContainer.innerHTML = '';
-        
+       
         let filled = [null, null];
         let optionBtns = [];
         const shuffledOpts = this.shuffleArray([...this.questionsData[0].options]);
-        
+       
         shuffledOpts.forEach(opt => {
           const button = document.createElement('button');
           button.className = 'option-button';
@@ -335,7 +335,7 @@
           };
           optsContainer.appendChild(button);
         });
-        
+       
         blank1.onclick = () => {
           if (this.answered || !filled[0]) return;
           const b = optionBtns.find(btn => btn.dataset.value === filled[0].value);
@@ -345,7 +345,7 @@
           filled[0] = null;
           btn.disabled = !(filled[0] && filled[1]);
         };
-        
+       
         blank2.onclick = () => {
           if (this.answered || !filled[1]) return;
           const b = optionBtns.find(btn => btn.dataset.value === filled[1].value);
@@ -355,7 +355,7 @@
           filled[1] = null;
           btn.disabled = !(filled[0] && filled[1]);
         };
-        
+       
         btn.disabled = true;
         btn.onclick = () => {
           if (!filled[0] || !filled[1]) return;
@@ -366,7 +366,7 @@
           const isCorrect = (u1 === 'nucleus' && u2 === 'mitochondria') || (u1 === 'mitochondria' && u2 === 'nucleus');
           this.playSound(isCorrect);
           optionBtns.forEach(b => { b.disabled = true; });
-          
+         
           if (isCorrect) {
             if (!this.questionFinalCorrect[0]) this.questionFinalCorrect[0] = true;
             blank1.classList.add('correct');
@@ -487,7 +487,7 @@
         let filled = [null, null, null, null];
         let optionBtns = [];
         const shuffledOpts = this.shuffleArray([...this.questionsData[3].options]);
-        
+       
         shuffledOpts.forEach(opt => {
           const button = document.createElement('button');
           button.className = 'ordering-option-button';
@@ -506,7 +506,7 @@
           };
           optsContainer.appendChild(button);
         });
-        
+       
         // De-select: clicking a filled blank removes the option
         blanks.forEach((blank, idx) => {
           blank.onclick = () => {
@@ -521,7 +521,7 @@
             }
           };
         });
-        
+       
         btn.disabled = true;
         btn.onclick = () => {
           if (!filled.every(f => f !== null)) return;
@@ -532,13 +532,13 @@
           const isCorrect = userOrder.every((val, i) => val === correctOrder[i]);
           this.playSound(isCorrect);
           optionBtns.forEach(b => b.disabled = true);
-          
+         
           for (let i = 0; i < correctOrder.length; i++) {
             if (filled[i].value === correctOrder[i]) blanks[i].classList.add('correct');
             else blanks[i].classList.add('incorrect');
             blanks[i].classList.remove('filled');
           }
-          
+         
           if (isCorrect) {
             if (!this.questionFinalCorrect[3]) this.questionFinalCorrect[3] = true;
             this.handleCorrectAnswer();
@@ -595,10 +595,10 @@
         const zoomLabel = document.getElementById('zoomImageLabel');
         const zoomClose = document.getElementById('zoomCloseBtn');
         let state = { selected: null, answered: false };
-        
+       
         tiles.forEach(t => { t.classList.remove('selected', 'correct', 'incorrect'); t.style.cursor = 'pointer'; });
         btn.disabled = true;
-        
+       
         tiles.forEach(tile => {
           tile.onclick = (e) => {
             if (state.answered) return;
@@ -609,7 +609,7 @@
             btn.disabled = false;
           };
         });
-        
+       
         containers.forEach(container => {
           container.onclick = (e) => {
             e.stopPropagation();
@@ -623,10 +623,10 @@
             }
           };
         });
-        
+       
         zoomModal.onclick = (e) => { if (e.target === zoomModal) zoomModal.classList.remove('visible'); };
         zoomClose.onclick = () => zoomModal.classList.remove('visible');
-        
+       
         btn.onclick = () => {
           if (state.selected === null || state.answered) return;
           state.answered = true;
@@ -640,7 +640,7 @@
           });
           const isCorrect = (state.selected === this.questionsData[5].correctAnswer);
           this.playSound(isCorrect);
-          
+         
           if (isCorrect) {
             if (!this.questionFinalCorrect[5]) this.questionFinalCorrect[5] = true;
             this.handleCorrectAnswer();
@@ -660,7 +660,7 @@
         const input = document.getElementById(`bond-answer-input-${qIdx}`);
         const btn = document.getElementById(`check-button-${qIdx}`);
         if (!input || !btn) return;
-        
+       
         input.value = '';
         input.classList.remove('correct', 'incorrect');
         input.disabled = false;
