@@ -35,6 +35,9 @@ class QuizEngine {
     this.updateStreakCounter = this.updateStreakCounter.bind(this);
     this.updateHeartIcon = this.updateHeartIcon.bind(this);
     this.processAfterExplanation = this.processAfterExplanation.bind(this);
+    this.shuffleArray = this.shuffleArray.bind(this);
+    this.normalizeAnswer = this.normalizeAnswer.bind(this);
+    this.playSound = this.playSound.bind(this);
 
     this.progressBar = document.getElementById('progress-bar');
     this.livesCountSpan = document.getElementById('lives-count');
