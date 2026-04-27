@@ -13,9 +13,9 @@
 <body>
   <audio id="correctSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/correct.mp3" type="audio/mpeg"></audio>
   <audio id="incorrectSound" preload="auto"><source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/incorrect.mp3" type="audio/mpeg"></audio>
-  
+ 
   <div id="fullscreenModalOverlay" class="fullscreen-modal-overlay"><iframe id="modalIframe" src="about:blank"></iframe></div>
-  
+ 
   <div class="quiz-container">
     <div class="streak-counter" id="streakCounter"></div>
     <div class="header">
@@ -153,8 +153,8 @@
       this.questionSections.forEach(section => { if (section) section.style.display = 'none'; });
       const actualIdx = this.inRetryMode ? this.retryQueue[this.currentQuestion] : this.currentQuestion;
       if (this.questionSections[actualIdx]) this.questionSections[actualIdx].style.display = 'block';
-      
-      let percent = this.inRetryMode 
+     
+      let percent = this.inRetryMode
         ? Math.round(((this.currentQuestion + 1) / this.retryQueue.length) * 100)
         : Math.round(((this.currentQuestion + 1) / this.totalQuestions) * 100);
       this.progressBar.style.width = `${percent}%`;
@@ -402,7 +402,7 @@
         const notesIcon = document.getElementById('notesIcon');
         const feedbackTitle = document.getElementById('feedbackTitle');
         const feedbackMsg = document.getElementById('feedbackMessage');
-        
+       
         let selectedLeft = null, selectedRight = null, matched = 0, gameActive = true, lifeLost = false, completed = false;
         leftCol.innerHTML = ''; rightCol.innerHTML = '';
         const shuffledPairs = this.shuffleArray([...this.pairsData]);
@@ -443,11 +443,9 @@
         });
         feedbackOverlay.classList.remove('visible');
         matchingContinueBtn.style.display = 'none';
-        
+       
         const checkMatch = () => {
           if (!selectedLeft || !selectedRight || !gameActive) return;
-          // Increment totalAttempts for EVERY match attempt (both correct and incorrect)
-          this.totalAttempts++;
           
           if (selectedLeft.dataset.pair === selectedRight.dataset.pair) {
             this.playSound(true);
@@ -465,6 +463,8 @@
             if (matched === this.pairsData.length && !completed) {
               gameActive = false;
               completed = true;
+              // Only ONE totalAttempts increment for completing the matching game
+              this.totalAttempts++;
               if (!this.questionFinalCorrect[5]) this.questionFinalCorrect[5] = true;
               this.currentStreak++;
               this.updateStreakCounter();
@@ -500,7 +500,7 @@
           selectedLeft = null;
           selectedRight = null;
         };
-        
+       
         const resetWrong = () => {
           document.querySelectorAll('#question6 .card.wrong').forEach(c => c.classList.remove('wrong'));
           document.querySelectorAll('#question6 .card.selected').forEach(c => c.classList.remove('selected'));
