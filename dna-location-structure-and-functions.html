@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DNA — Location, Structure and Functions</title>
+  <title>DNA Location, Structure and Functions</title>
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
@@ -285,15 +285,448 @@
     engine.questionsData = questionsData;
     engine.pairsData = [];
 
-    // The showQuestion implementation is identical to the one I provided before,
-    // but now it uses the restored explanation texts above.
-    // For brevity in this message I am not repeating the entire 200‑line handler,
-    // but in the final delivered zip file it will be fully included.
-    // The only change from the previous version is the content of questionsData.
-    
     engine.showQuestion = function(questionIndex) {
-      // ... (exact same handler as before, no changes to logic) ...
-      // It will reference this.questionsData which now has the restored explanations.
+      this.questionSections.forEach(section => { if (section) section.style.display = 'none'; });
+      const actualIdx = this.inRetryMode ? this.retryQueue[this.currentQuestion] : this.currentQuestion;
+      if (this.questionSections[actualIdx]) this.questionSections[actualIdx].style.display = 'block';
+      
+      let percent = this.inRetryMode 
+        ? Math.round(((this.currentQuestion + 1) / this.retryQueue.length) * 100)
+        : Math.round(((this.currentQuestion + 1) / this.totalQuestions) * 100);
+      this.progressBar.style.width = `${percent}%`;
+      this.updateStreakCounter();
+      this.answered = false;
+      this.selectedOption = null;
+
+      // Question 1 - Select what is missing (complete-sentence)
+      if (actualIdx === 0) {
+        const blank1 = document.getElementById('blank-1-1');
+        const blank2 = document.getElementById('blank-1-2');
+        const optsContainer = document.getElementById('options-1');
+        const btn = document.getElementById('check-button-1');
+        
+        blank1.textContent = '';
+        blank2.textContent = '';
+        blank1.classList.remove('filled', 'correct', 'incorrect');
+        blank2.classList.remove('filled', 'correct', 'incorrect');
+        optsContainer.innerHTML = '';
+        
+        let filled = [null, null];
+        let optionBtns = [];
+        const shuffledOpts = this.shuffleArray([...this.questionsData[0].options]);
+        
+        shuffledOpts.forEach(opt => {
+          const button = document.createElement('button');
+          button.className = 'option-button';
+          button.dataset.value = opt.value;
+          button.innerHTML = `<span>${opt.label}</span>`;
+          optionBtns.push(button);
+          button.onclick = () => {
+            if (this.answered) return;
+            if (filled.some(f => f && f.value === opt.value)) return;
+            let idx = filled[0] === null ? 0 : (filled[1] === null ? 1 : -1);
+            if (idx === -1) return;
+            const target = idx === 0 ? blank1 : blank2;
+            filled[idx] = { value: opt.value, label: opt.label };
+            target.textContent = opt.label;
+            target.classList.add('filled');
+            button.classList.add('used-option');
+            btn.disabled = !(filled[0] && filled[1]);
+          };
+          optsContainer.appendChild(button);
+        });
+        
+        blank1.onclick = () => {
+          if (this.answered || !filled[0]) return;
+          const b = optionBtns.find(btn => btn.dataset.value === filled[0].value);
+          if (b) b.classList.remove('used-option');
+          blank1.textContent = '';
+          blank1.classList.remove('filled', 'correct', 'incorrect');
+          filled[0] = null;
+          btn.disabled = !(filled[0] && filled[1]);
+        };
+        
+        blank2.onclick = () => {
+          if (this.answered || !filled[1]) return;
+          const b = optionBtns.find(btn => btn.dataset.value === filled[1].value);
+          if (b) b.classList.remove('used-option');
+          blank2.textContent = '';
+          blank2.classList.remove('filled', 'correct', 'incorrect');
+          filled[1] = null;
+          btn.disabled = !(filled[0] && filled[1]);
+        };
+        
+        btn.disabled = true;
+        btn.onclick = () => {
+          if (!filled[0] || !filled[1]) return;
+          this.answered = true;
+          this.totalAttempts++;
+          const u1 = filled[0].value;
+          const u2 = filled[1].value;
+          const isCorrect = (u1 === 'nucleus' && u2 === 'mitochondria') || (u1 === 'mitochondria' && u2 === 'nucleus');
+          this.playSound(isCorrect);
+          optionBtns.forEach(b => { b.disabled = true; });
+          
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[0]) this.questionFinalCorrect[0] = true;
+            blank1.classList.add('correct');
+            blank2.classList.add('correct');
+            optionBtns.forEach(b => { if (b.dataset.value === 'nucleus' || b.dataset.value === 'mitochondria') b.classList.add('correct'); });
+            this.handleCorrectAnswer();
+            this.showResultOverlay(1, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[0].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            blank1.classList.add('incorrect');
+            blank2.classList.add('incorrect');
+            if (!this.retryQueue.includes(0)) this.retryQueue.push(0);
+            else if (this.inRetryMode) this.retryQueue.push(0);
+            this.handleIncorrectAnswer();
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            optionBtns.forEach(b => { if (b.dataset.value === 'nucleus' || b.dataset.value === 'mitochondria') b.classList.add('correct'); });
+            this.showResultOverlay(1, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span><span class="underlined">nucleus</span> and <span class="underlined">mitochondria</span></span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[0].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Question 2 - Multiple choice fixed order (no shuffle)
+      else if (actualIdx === 1) {
+        const btns = document.querySelectorAll('#options-container-2 .option-button');
+        const btn = document.getElementById('check-button-2');
+        btns.forEach(b => { b.classList.remove('selected', 'correct', 'incorrect'); b.disabled = false; b.style.cursor = 'pointer'; });
+        btn.disabled = true;
+        let selected = null;
+        btns.forEach(b => {
+          b.onclick = () => {
+            if (this.answered) return;
+            btns.forEach(bb => bb.classList.remove('selected'));
+            b.classList.add('selected');
+            selected = b.dataset.value;
+            btn.disabled = false;
+          };
+        });
+        btn.onclick = () => {
+          if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
+          const isCorrect = (selected === this.questionsData[1].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(btns).find(b => b.dataset.value === this.questionsData[1].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[1]) this.questionFinalCorrect[1] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(2, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[1].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(1)) this.retryQueue.push(1);
+            else if (this.inRetryMode) this.retryQueue.push(1);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(btns).find(b => b.dataset.value === selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(2, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[1].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[1].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          btns.forEach(b => { b.disabled = true; b.style.cursor = 'not-allowed'; });
+        };
+      }
+      // Question 3 - Multiple choice shuffled
+      else if (actualIdx === 2) {
+        const container = document.getElementById('options-container-3');
+        const opts = ['Rosalind Franklin and Maurice Wilkins', 'Maurice Wilkins and Francis Crick', 'James Watson and Rosalind Franklin', 'James Watson and Francis Crick'];
+        this.shuffleArray(opts);
+        container.innerHTML = '';
+        opts.forEach(opt => {
+          const b = document.createElement('button');
+          b.className = 'option-button';
+          b.dataset.value = opt;
+          b.textContent = opt;
+          container.appendChild(b);
+        });
+        const btns = document.querySelectorAll('#options-container-3 .option-button');
+        const btn = document.getElementById('check-button-3');
+        btns.forEach(b => { b.classList.remove('selected', 'correct', 'incorrect'); b.disabled = false; b.style.cursor = 'pointer'; });
+        btn.disabled = true;
+        let selected = null;
+        btns.forEach(b => {
+          b.onclick = () => {
+            if (this.answered) return;
+            btns.forEach(bb => bb.classList.remove('selected'));
+            b.classList.add('selected');
+            selected = b.dataset.value;
+            btn.disabled = false;
+          };
+        });
+        btn.onclick = () => {
+          if (!selected) return;
+          this.answered = true;
+          this.totalAttempts++;
+          const isCorrect = (selected === this.questionsData[2].correctAnswer);
+          this.playSound(isCorrect);
+          const correctBtn = Array.from(btns).find(b => b.dataset.value === this.questionsData[2].correctAnswer);
+          if (correctBtn) correctBtn.classList.add('correct');
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[2]) this.questionFinalCorrect[2] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(3, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[2].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(2)) this.retryQueue.push(2);
+            else if (this.inRetryMode) this.retryQueue.push(2);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            const selBtn = Array.from(btns).find(b => b.dataset.value === selected);
+            if (selBtn) selBtn.classList.add('incorrect');
+            this.showResultOverlay(3, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${this.questionsData[2].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[2].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          btns.forEach(b => { b.disabled = true; b.style.cursor = 'not-allowed'; });
+        };
+      }
+      // Question 4 - Arrange in Order (with de-select on blank click)
+      else if (actualIdx === 3) {
+        const blanks = [document.getElementById('order-blank-1'), document.getElementById('order-blank-2'), document.getElementById('order-blank-3'), document.getElementById('order-blank-4')];
+        const optsContainer = document.getElementById('ordering-options-container');
+        const btn = document.getElementById('check-button-4');
+        blanks.forEach(blank => { blank.querySelector('.blank-text').innerHTML = ''; blank.classList.remove('filled', 'correct', 'incorrect'); });
+        optsContainer.innerHTML = '';
+        let filled = [null, null, null, null];
+        let optionBtns = [];
+        const shuffledOpts = this.shuffleArray([...this.questionsData[3].options]);
+        
+        shuffledOpts.forEach(opt => {
+          const button = document.createElement('button');
+          button.className = 'ordering-option-button';
+          button.innerHTML = `<span>${opt}</span>`;
+          optionBtns.push(button);
+          button.onclick = () => {
+            if (this.answered) return;
+            if (filled.some(f => f && f.value === opt)) return;
+            const idx = filled.findIndex(f => f === null);
+            if (idx === -1) return;
+            filled[idx] = { value: opt, element: button };
+            blanks[idx].querySelector('.blank-text').innerHTML = opt;
+            blanks[idx].classList.add('filled');
+            button.classList.add('used-option');
+            btn.disabled = !filled.every(f => f !== null);
+          };
+          optsContainer.appendChild(button);
+        });
+        
+        // De-select: clicking a filled blank removes the option
+        blanks.forEach((blank, idx) => {
+          blank.onclick = () => {
+            if (this.answered) return;
+            if (filled[idx] !== null) {
+              const btnToRestore = filled[idx].element;
+              btnToRestore.classList.remove('used-option');
+              blank.querySelector('.blank-text').innerHTML = '';
+              blank.classList.remove('filled');
+              filled[idx] = null;
+              btn.disabled = !filled.every(f => f !== null);
+            }
+          };
+        });
+        
+        btn.disabled = true;
+        btn.onclick = () => {
+          if (!filled.every(f => f !== null)) return;
+          this.answered = true;
+          this.totalAttempts++;
+          const userOrder = filled.map(f => f.value);
+          const correctOrder = this.questionsData[3].correctOrder;
+          const isCorrect = userOrder.every((val, i) => val === correctOrder[i]);
+          this.playSound(isCorrect);
+          optionBtns.forEach(b => b.disabled = true);
+          
+          for (let i = 0; i < correctOrder.length; i++) {
+            if (filled[i].value === correctOrder[i]) blanks[i].classList.add('correct');
+            else blanks[i].classList.add('incorrect');
+            blanks[i].classList.remove('filled');
+          }
+          
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[3]) this.questionFinalCorrect[3] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(4, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[3].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            this.handleIncorrectAnswer();
+            if (!this.retryQueue.includes(3)) this.retryQueue.push(3);
+            else if (this.inRetryMode) this.retryQueue.push(3);
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(4, false, `<div class="correct-answer-section"><span class="correct-text">Correct order:</span> <span class="underlined">See explanation</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[3].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Question 5 - Fill blank (inline input)
+      else if (actualIdx === 4) {
+        const input = document.getElementById('dna-answer-input');
+        const btn = document.getElementById('check-button-5');
+        input.value = '';
+        input.classList.remove('correct', 'incorrect');
+        input.disabled = false;
+        btn.disabled = true;
+        input.oninput = () => { btn.disabled = !input.value.trim(); if (this.answered) { input.classList.remove('correct', 'incorrect'); this.answered = false; } };
+        input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
+        btn.onclick = () => {
+          this.answered = true;
+          this.totalAttempts++;
+          const user = this.normalizeAnswer(input.value.trim());
+          const isCorrect = this.questionsData[4].acceptableAnswers.some(a => user === this.normalizeAnswer(a));
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[4]) this.questionFinalCorrect[4] = true;
+            input.classList.add('correct');
+            this.handleCorrectAnswer();
+            this.showResultOverlay(5, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[4].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            if (!this.retryQueue.includes(4)) this.retryQueue.push(4);
+            else if (this.inRetryMode) this.retryQueue.push(4);
+            this.handleIncorrectAnswer();
+            input.classList.add('incorrect');
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(5, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">Double helix</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[4].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          input.disabled = true;
+        };
+        input.focus();
+      }
+      // Question 6 - Image selection
+      else if (actualIdx === 5) {
+        const tiles = document.querySelectorAll('#question6 .image-tile');
+        const containers = document.querySelectorAll('#question6 .image-container');
+        const btn = document.getElementById('check-button-6');
+        const zoomModal = document.getElementById('imageZoomModal');
+        const zoomImg = document.getElementById('zoomedImage');
+        const zoomLabel = document.getElementById('zoomImageLabel');
+        const zoomClose = document.getElementById('zoomCloseBtn');
+        let state = { selected: null, answered: false };
+        
+        tiles.forEach(t => { t.classList.remove('selected', 'correct', 'incorrect'); t.style.cursor = 'pointer'; });
+        btn.disabled = true;
+        
+        tiles.forEach(tile => {
+          tile.onclick = (e) => {
+            if (state.answered) return;
+            if (e.target.closest('.image-container')) return;
+            tiles.forEach(t => t.classList.remove('selected'));
+            tile.classList.add('selected');
+            state.selected = parseInt(tile.dataset.image);
+            btn.disabled = false;
+          };
+        });
+        
+        containers.forEach(container => {
+          container.onclick = (e) => {
+            e.stopPropagation();
+            const img = container.querySelector('img');
+            if (img && img.src) {
+              zoomImg.src = img.src;
+              zoomLabel.textContent = `Image ${container.dataset.image}`;
+              zoomModal.classList.add('visible');
+              const escHandler = (e) => { if (e.key === 'Escape') { zoomModal.classList.remove('visible'); document.removeEventListener('keydown', escHandler); } };
+              document.addEventListener('keydown', escHandler);
+            }
+          };
+        });
+        
+        zoomModal.onclick = (e) => { if (e.target === zoomModal) zoomModal.classList.remove('visible'); };
+        zoomClose.onclick = () => zoomModal.classList.remove('visible');
+        
+        btn.onclick = () => {
+          if (state.selected === null || state.answered) return;
+          state.answered = true;
+          this.totalAttempts++;
+          tiles.forEach(t => t.style.cursor = 'default');
+          tiles.forEach(t => {
+            const num = parseInt(t.dataset.image);
+            if (num === this.questionsData[5].correctAnswer) t.classList.add('correct');
+            else if (num === state.selected && num !== this.questionsData[5].correctAnswer) t.classList.add('incorrect');
+            t.classList.remove('selected');
+          });
+          const isCorrect = (state.selected === this.questionsData[5].correctAnswer);
+          this.playSound(isCorrect);
+          
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[5]) this.questionFinalCorrect[5] = true;
+            this.handleCorrectAnswer();
+            this.showResultOverlay(6, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[5].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            if (!this.retryQueue.includes(5)) this.retryQueue.push(5);
+            else if (this.inRetryMode) this.retryQueue.push(5);
+            this.handleIncorrectAnswer();
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(6, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">Image ${this.questionsData[5].correctAnswer}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[5].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+        };
+      }
+      // Questions 7, 8, 9 - Examine the image (diagram analysis)
+      else if (actualIdx === 6 || actualIdx === 7 || actualIdx === 8) {
+        const qIdx = actualIdx + 1;
+        const input = document.getElementById(`bond-answer-input-${qIdx}`);
+        const btn = document.getElementById(`check-button-${qIdx}`);
+        if (!input || !btn) return;
+        
+        input.value = '';
+        input.classList.remove('correct', 'incorrect');
+        input.disabled = false;
+        btn.disabled = true;
+        input.oninput = () => { btn.disabled = !input.value.trim(); if (this.answered) { input.classList.remove('correct', 'incorrect'); this.answered = false; } };
+        input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
+        btn.onclick = () => {
+          this.answered = true;
+          this.totalAttempts++;
+          const user = this.normalizeAnswer(input.value.trim());
+          const isCorrect = this.questionsData[actualIdx].acceptableAnswers.some(a => user === this.normalizeAnswer(a));
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[actualIdx]) this.questionFinalCorrect[actualIdx] = true;
+            input.classList.add('correct');
+            this.handleCorrectAnswer();
+            this.showResultOverlay(qIdx, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[actualIdx].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            if (!this.retryQueue.includes(actualIdx)) this.retryQueue.push(actualIdx);
+            else if (this.inRetryMode) this.retryQueue.push(actualIdx);
+            this.handleIncorrectAnswer();
+            input.classList.add('incorrect');
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            let correctDisplay = '';
+            if (actualIdx === 6) correctDisplay = '(Weak) hydrogen bond';
+            else if (actualIdx === 7) correctDisplay = 'Nucleotide';
+            else if (actualIdx === 8) correctDisplay = 'Thymine';
+            this.showResultOverlay(qIdx, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">${correctDisplay}</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[actualIdx].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          input.disabled = true;
+        };
+        input.focus();
+      }
+      // Question 10 - Fill blank (standard)
+      else if (actualIdx === 9) {
+        const input = document.getElementById('bond-answer-input-10');
+        const btn = document.getElementById('check-button-10');
+        input.value = '';
+        input.classList.remove('correct', 'incorrect');
+        input.disabled = false;
+        btn.disabled = true;
+        input.oninput = () => { btn.disabled = !input.value.trim(); if (this.answered) { input.classList.remove('correct', 'incorrect'); this.answered = false; } };
+        input.onkeypress = (e) => { if (e.key === 'Enter' && !btn.disabled) btn.click(); };
+        btn.onclick = () => {
+          this.answered = true;
+          this.totalAttempts++;
+          const user = this.normalizeAnswer(input.value.trim());
+          const isCorrect = this.questionsData[9].acceptableAnswers.some(a => user === this.normalizeAnswer(a));
+          this.playSound(isCorrect);
+          if (isCorrect) {
+            if (!this.questionFinalCorrect[9]) this.questionFinalCorrect[9] = true;
+            input.classList.add('correct');
+            this.handleCorrectAnswer();
+            this.showResultOverlay(10, true, `<div class="explanation-section"><span class="explanation-text">${this.questionsData[9].explanation}</span></div>`, () => this.moveToNextQuestion());
+          } else {
+            if (!this.retryQueue.includes(9)) this.retryQueue.push(9);
+            else if (this.inRetryMode) this.retryQueue.push(9);
+            this.handleIncorrectAnswer();
+            input.classList.add('incorrect');
+            if (this.lives > 0) { this.lives--; this.livesCountSpan.textContent = this.lives; this.updateHeartIcon(); }
+            this.showResultOverlay(10, false, `<div class="correct-answer-section"><span class="correct-text">Correct answer:</span> <span class="underlined">(Weak) hydrogen bonds</span></div><div class="explanation-section"><span class="explanation-label">Explanation:</span> <span class="explanation-text">${this.questionsData[9].explanation}</span></div>`, () => this.moveToNextQuestion());
+          }
+          input.disabled = true;
+        };
+        input.focus();
+      }
     };
 
     engine.showQuestion(engine.currentQuestion);
