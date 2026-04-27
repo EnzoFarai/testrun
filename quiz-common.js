@@ -219,7 +219,7 @@ class QuizEngine {
     if (this.waitingForCelebration) {
       return false;
     }
-    
+   
     if (this.inRetryMode) {
       this.currentQuestion++;
       if (this.currentQuestion >= this.retryQueue.length) {
@@ -329,6 +329,13 @@ class QuizEngine {
     for (let i = 0; i < this.questionFinalCorrect.length; i++) {
       if (this.questionFinalCorrect[i]) finalCorrect++;
     }
+    
+    // SAFETY: Ensure totalAttempts is at least finalCorrect (prevents >100% scores)
+    if (this.totalAttempts < finalCorrect) {
+      console.warn(`totalAttempts (${this.totalAttempts}) < finalCorrect (${finalCorrect}). Adjusting.`);
+      this.totalAttempts = finalCorrect;
+    }
+    
     this.heartsAtCompletion = this.lives;
     this.incrementStreak();
 
