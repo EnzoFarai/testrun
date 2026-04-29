@@ -1,198 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Heart Reward</title>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Atkinson Hyperlegible', sans-serif;
-            background: #FFFFFF;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-        }
-        .treasure-panel {
-            width: 100%;
-            max-width: 100%;
-            background: white;
-            border-radius: 0;
-            box-shadow: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .reward-content {
-            width: 100%;
-            max-width: 420px;
-            margin: 0 auto;
-            padding: 40px 24px 48px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .reward-title {
-            margin-top: 20px;
-            font-weight: 700;
-            color: #0f1c22;
-            font-size: 20px;
-            line-height: 1.4;
-            max-width: 320px;
-        }
-        .reward-subtitle {
-            margin-top: 8px;
-            font-weight: 400;
-            color: #6b7280;
-            font-size: 14px;
-            line-height: 1.4;
-            max-width: 280px;
-            margin-bottom: 24px;
-        }
-        .reward-scene {
-            width: 100%;
-            height: 200px;
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .hearts-container {
-            width: 100%;
-            height: 160px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-        }
-        .heart-icon {
-            color: #FF0000;
-            font-size: 80px;
-            transition: transform 0.2s ease;
-        }
-        .reward-buttons-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .claim-button {
-            width: 100%;
-            height: 58px;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border: none;
-            font-size: 16px;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-family: 'Atkinson Hyperlegible', sans-serif;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            gap: 8px;
-            color: #ffffff;
-            background-color: #4285F4;
-            border-bottom: 0.25rem solid #3a75d9;
-        }
-        .claim-button:hover {
-            background-color: #3a75d9;
-            border-bottom-color: #3166c4;
-            transform: translateY(-0.125rem);
-        }
-        .claim-button:active {
-            transform: translateY(0.0625rem);
-            border-bottom-width: 0.125rem;
-        }
-        .small-heart-icon {
-            color: #FF0000;
-            font-size: 18px;
-            margin-left: 4px;
-        }
-        @media (max-width: 768px) {
-            .reward-content { padding: 32px 20px 40px; }
-            .reward-title { font-size: 18px; max-width: 280px; }
-            .reward-subtitle { font-size: 13px; max-width: 260px; }
-            .reward-scene { height: 180px; }
-            .hearts-container { height: 140px; gap: 10px; }
-            .heart-icon { font-size: 70px; }
-            .claim-button { height: 54px; font-size: 15px; }
-        }
-        @media (max-width: 480px) {
-            .reward-content { padding: 28px 16px 36px; }
-            .hearts-container { gap: 8px; }
-            .heart-icon { font-size: 60px; }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Heart Reward</title>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.2"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background: #FFFFFF;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .treasure-panel {
+            width: 100%;
+            max-width: 100%;
+            background: white;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .reward-content {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 40px 24px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .reward-title {
+            margin-top: 20px;
+            font-weight: 700;
+            color: #0f1c22;
+            font-size: 20px;
+            line-height: 1.4;
+            max-width: 320px;
+        }
+        .reward-subtitle {
+            margin-top: 8px;
+            font-weight: 400;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.4;
+            max-width: 280px;
+            margin-bottom: 24px;
+        }
+        .reward-scene {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hearts-container {
+            width: 100%;
+            height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        .heart-icon {
+            color: #FF0000;
+            font-size: 80px;
+            transition: transform 0.2s ease;
+        }
+        .reward-buttons-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .claim-button {
+            width: 100%;
+            height: 58px;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: none;
+            font-size: 16px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            gap: 8px;
+            color: #ffffff;
+            background-color: #4285F4;
+            border-bottom: 0.25rem solid #3a75d9;
+        }
+        .claim-button:hover {
+            background-color: #3a75d9;
+            border-bottom-color: #3166c4;
+            transform: translateY(-0.125rem);
+        }
+        .claim-button:active {
+            transform: translateY(0.0625rem);
+            border-bottom-width: 0.125rem;
+        }
+        .small-heart-icon {
+            color: #FF0000;
+            font-size: 18px;
+            margin-left: 4px;
+        }
+        @media (max-width: 768px) {
+            .reward-content { padding: 32px 20px 40px; }
+            .reward-title { font-size: 18px; max-width: 280px; }
+            .reward-subtitle { font-size: 13px; max-width: 260px; }
+            .reward-scene { height: 180px; }
+            .hearts-container { height: 140px; gap: 10px; }
+            .heart-icon { font-size: 70px; }
+            .claim-button { height: 54px; font-size: 15px; }
+        }
+        @media (max-width: 480px) {
+            .reward-content { padding: 28px 16px 36px; }
+            .hearts-container { gap: 8px; }
+            .heart-icon { font-size: 60px; }
+        }
+    </style>
 </head>
 <body>
-    <audio id="heartbeatAudio" preload="auto">
-        <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/heartbeat.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="heartbeatAudio" preload="auto">
+        <source src="https://github.com/EnzoFarai/RsLib/raw/main/audios/heartbeat.mp3" type="audio/mpeg">
+    </audio>
 
-    <div class="treasure-panel">
-        <div class="reward-content">
-            <div class="reward-scene">
-                <div class="hearts-container" id="heartsContainer">
-                </div>
-            </div>
-            <div class="reward-title" id="rewardTitle">You gained more hearts!</div>
-            <div class="reward-subtitle" id="rewardSubtitle">You now have 5 hearts again.</div>
-            <div class="reward-buttons-container">
-                <button class="claim-button" id="claimButton">Claim hearts <i class="ph-fill ph-heart small-heart-icon"></i></button>
-            </div>
-        </div>
-    </div>
+    <div class="treasure-panel">
+        <div class="reward-content">
+            <div class="reward-scene">
+                <div class="hearts-container" id="heartsContainer"></div>
+            </div>
+            <div class="reward-title" id="rewardTitle">You gained more hearts!</div>
+            <div class="reward-subtitle" id="rewardSubtitle">You now have 5 hearts again.</div>
+            <div class="reward-buttons-container">
+                <button class="claim-button" id="claimButton">Claim hearts <i class="ph-fill ph-heart small-heart-icon"></i></button>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // Play sound
-        const audio = document.getElementById('heartbeatAudio');
-        audio.play().catch(e => console.log("Audio play failed:", e));
+    <script>
+        const audio = document.getElementById('heartbeatAudio');
+        audio.play().catch(e => console.log("Audio play failed:", e));
 
-        // Parse hearts parameter
-        const params = new URLSearchParams(window.location.search);
-        let heartsParam = params.get('hearts') || 'full';
-        let heartCount = 0;
+        const params = new URLSearchParams(window.location.search);
+        let heartsParam = params.get('hearts') || 'full';
+        let heartCount = 0;
 
-        if (heartsParam === 'full') {
-            heartCount = 5;
-        } else {
-            heartCount = parseInt(heartsParam);
-            if (isNaN(heartCount)) heartCount = 1;
-        }
+        if (heartsParam === 'full') {
+            heartCount = 5;
+        } else {
+            heartCount = parseInt(heartsParam);
+            if (isNaN(heartCount)) heartCount = 1;
+        }
 
-        // Render hearts
-        const container = document.getElementById('heartsContainer');
-        container.innerHTML = '';
-        for (let i = 0; i < heartCount; i++) {
-            const heartIcon = document.createElement('i');
-            heartIcon.className = 'ph-fill ph-heart heart-icon';
-            container.appendChild(heartIcon);
-        }
+        const container = document.getElementById('heartsContainer');
+        container.innerHTML = '';
+        for (let i = 0; i < heartCount; i++) {
+            const heartIcon = document.createElement('i');
+            heartIcon.className = 'ph-fill ph-heart heart-icon';
+            container.appendChild(heartIcon);
+        }
 
-        // Update text
-        if (heartCount === 5) {
-            document.getElementById('rewardSubtitle').innerText = 'You now have 5 hearts again.';
-            document.getElementById('rewardTitle').innerText = 'You gained more hearts!';
-        } else {
-            document.getElementById('rewardSubtitle').innerText = `You now have ${heartCount} heart${heartCount > 1 ? 's' : ''}.`;
-            document.getElementById('rewardTitle').innerText = heartCount === 1 ? 'You gained a heart!' : 'You gained more hearts!';
-        }
+        if (heartCount === 5) {
+            document.getElementById('rewardSubtitle').innerText = 'You now have 5 hearts again.';
+            document.getElementById('rewardTitle').innerText = 'You gained more hearts!';
+        } else {
+            document.getElementById('rewardSubtitle').innerText = `You now have ${heartCount} heart${heartCount > 1 ? 's' : ''}.`;
+            document.getElementById('rewardTitle').innerText = heartCount === 1 ? 'You gained a heart!' : 'You gained more hearts!';
+        }
 
-        document.getElementById('claimButton').addEventListener('click', () => {
-            window.parent.postMessage('modalClose', '*');
-        });
-    </script>
+        document.getElementById('claimButton').addEventListener('click', () => {
+            window.parent.postMessage('modalClose', '*');
+        });
+    </script>
 </body>
 </html>
