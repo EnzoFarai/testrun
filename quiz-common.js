@@ -216,9 +216,7 @@ class QuizEngine {
   }
 
   moveToNextQuestion() {
-    if (this.waitingForCelebration) {
-      return false;
-    }
+    if (this.waitingForCelebration) return false;
    
     if (this.inRetryMode) {
       this.currentQuestion++;
@@ -330,7 +328,7 @@ class QuizEngine {
       if (this.questionFinalCorrect[i]) finalCorrect++;
     }
     
-    // SAFETY: Ensure totalAttempts is at least finalCorrect (prevents >100% scores)
+    // SAFETY: Ensure totalAttempts is at least finalCorrect
     if (this.totalAttempts < finalCorrect) {
       console.warn(`totalAttempts (${this.totalAttempts}) < finalCorrect (${finalCorrect}). Adjusting.`);
       this.totalAttempts = finalCorrect;
@@ -341,26 +339,40 @@ class QuizEngine {
 
     this.showLessonCompleteModal(finalCorrect, this.totalAttempts, timeSeconds, () => {
       this.showStreakModal(() => {
-        const random = Math.random();
-        const showBoost = random < 0.5;
-        if (showBoost) {
-          const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
-          const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
-          this.showBoostReward(chosen.mult, chosen.dur, () => {
+        // Determine if milestone day (streak divisible by 5)
+        const isMilestone = (this.currentStreakDays % 5 === 0);
+        
+        if (isMilestone) {
+          // Milestone: coins reward
+          let coinsAmount = 250; // for 5,10,15,20,25
+          if (this.currentStreakDays >= 30 && this.currentStreakDays <= 70) coinsAmount = 500;
+          this.showCoinsReward(coinsAmount, () => {
             this.showDailyQuestAndHandleClaims(finalCorrect, this.totalAttempts);
           });
         } else {
-          if (this.heartsAtCompletion <= 2) {
-            let param = 'full';
-            if (this.heartsAtCompletion === 1) param = '1';
-            else if (this.heartsAtCompletion === 2) param = '2';
-            this.showHeartReward(param, () => {
+          // Non-milestone day: random boost or heart (if hearts <= 2)
+          const random = Math.random();
+          const showBoost = (random < 0.5);
+          if (showBoost) {
+            const multipliers = [{ mult: 1.5, dur: 30 }, { mult: 2, dur: 20 }, { mult: 3, dur: 15 }];
+            const chosen = multipliers[Math.floor(Math.random() * multipliers.length)];
+            this.showBoostReward(chosen.mult, chosen.dur, () => {
               this.showDailyQuestAndHandleClaims(finalCorrect, this.totalAttempts);
             });
           } else {
-            this.showBoostReward(1.5, 30, () => {
-              this.showDailyQuestAndHandleClaims(finalCorrect, this.totalAttempts);
-            });
+            if (this.heartsAtCompletion <= 2) {
+              let heartsParam = 'full';
+              if (this.heartsAtCompletion === 1) heartsParam = '1';
+              else if (this.heartsAtCompletion === 2) heartsParam = '2';
+              this.showHeartReward(heartsParam, () => {
+                this.showDailyQuestAndHandleClaims(finalCorrect, this.totalAttempts);
+              });
+            } else {
+              // Fallback to boost
+              this.showBoostReward(1.5, 30, () => {
+                this.showDailyQuestAndHandleClaims(finalCorrect, this.totalAttempts);
+              });
+            }
           }
         }
       });
