@@ -166,12 +166,14 @@
     <script>
         const audio = document.getElementById('boostAudio');
         audio.play().catch(e => console.log("Audio play failed:", e));
+
         const params = new URLSearchParams(window.location.search);
         let multiplier = parseFloat(params.get('multiplier')) || 1.5;
         let duration = parseInt(params.get('duration')) || 30;
+
         document.getElementById('multiplierDisplay').innerText = `x${multiplier}`;
-        document.getElementById('rewardTitle').innerHTML = `You found an XP Boost!`;
         document.getElementById('rewardSubtitle').innerHTML = `Congrats! You now have ${multiplier}x XP in lessons for the next ${duration} minutes.`;
+
         document.getElementById('claimButton').addEventListener('click', () => {
             window.parent.postMessage('modalClose', '*');
         });
