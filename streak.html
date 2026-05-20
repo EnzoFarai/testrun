@@ -11,7 +11,7 @@
   <!-- Button Styles -->
   <link rel="stylesheet" href="../../../src/styles/components/buttons.css">
 
-  <!-- Local html2canvas -->
+  <!-- html2canvas local -->
   <script src="../../../src/lib/html2canvas.min.js"></script>
 
   <style>
@@ -22,8 +22,6 @@
       min-height: 100vh; padding: 16px;
       font-family: 'Atkinson Hyperlegible Next', sans-serif;
     }
-
-    /* Header */
     .header {
       position: fixed; top: 0; left: 0; right: 0; height: 60px;
       display: flex; justify-content: space-between; align-items: center;
@@ -35,91 +33,51 @@
     }
     .header-icon img { width: 24px; height: 24px; }
 
-    /* CSS Filters for header icons */
-    .header-icon img {
-      filter: brightness(0) saturate(100%) invert(47%) sepia(8%) saturate(324%) hue-rotate(174deg) brightness(92%) contrast(88%);
+    /* CSS filters for header icons (Hippo grey) */
+    #exit-button img {
+      filter: brightness(0) saturate(100%) invert(77%) sepia(10%) saturate(214%) hue-rotate(174deg) brightness(88%) contrast(92%);
+    }
+    #share-button img {
+      filter: brightness(0) saturate(100%) invert(77%) sepia(10%) saturate(214%) hue-rotate(174deg) brightness(88%) contrast(92%);
     }
 
     .container { max-width: 400px; width: 100%; margin-top: 40px; text-align: center; }
-
-    /* Flame */
     .flame { visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease; }
     .flame.visible { visibility: visible; opacity: 1; }
     .flame img { width: 110px; height: auto; margin: 0 auto 4px; }
-
-    /* Streak number with white outline (text-shadow) */
     .streak-number {
       font-size: 72px; font-weight: 700; color: #FF6D01; /* Tiger */
-      text-shadow:
-        -4px -4px 0 #FFFFFF,
-         4px -4px 0 #FFFFFF,
-        -4px  4px 0 #FFFFFF,
-         4px  4px 0 #FFFFFF;
-      margin: 0; line-height: 1.1; visibility: hidden; opacity: 0;
-      transition: visibility 0s, opacity 0.3s ease;
+      text-shadow: -4px -4px 0 #FFFFFF, 4px -4px 0 #FFFFFF, -4px 4px 0 #FFFFFF, 4px 4px 0 #FFFFFF;
+      margin: 0; line-height: 1.1; visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease;
     }
     .streak-number.visible { visibility: visible; opacity: 1; }
-
     .streak-text {
       font-size: 28px; color: #FF6D01; font-weight: 700; margin-top: -6px;
       visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease;
     }
     .streak-text.visible { visibility: visible; opacity: 1; }
-
-    /* Card */
     .card {
       margin-top: 30px; background: #FFFFFF; border-radius: 22px;
       padding: 18px; box-shadow: 0 0 0 3px #E5E5E5;
     }
-
-    .days {
-      display: flex; justify-content: space-between; margin-bottom: 10px;
-      color: #999; font-weight: 600; font-size: 0.9rem;
-    }
+    .days { display: flex; justify-content: space-between; margin-bottom: 10px; color: #999; font-weight: 600; font-size: 0.9rem; }
     .days span { width: 38px; text-align: center; }
     .days span.active { color: #FF6D01; }
-
     .ticks { display: flex; justify-content: space-between; margin-bottom: 16px; }
-
-    .tick {
-      width: 38px; height: 38px; border-radius: 50%;
-      display: flex; justify-content: center; align-items: center;
-      transition: all 0.3s ease;
-    }
-
+    .tick { width: 38px; height: 38px; border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; }
     .tick.orange { background: #FF6D01; }
     .tick.grey { background: #AFAFAF; }
-
-    /* Revived day (Streak Revival) */
-    .tick.revived {
-      background: white;
-      border: 2px solid #EA4335;
-    }
-
+    .tick.freeze { background: white; border: 2px solid #EA4335; }
     .tick img { width: 22px; height: 22px; }
 
-    /* CSS Filters for tick icons */
-    .tick.orange img {
-      /* Check icon stays white – no filter needed on orange bg */
-      filter: brightness(0) saturate(100%) invert(100%);
-    }
-    .tick.grey img {
-      /* X icon on grey bg – white */
-      filter: brightness(0) saturate(100%) invert(100%);
-    }
-    .tick.revived img {
-      /* First-aid icon in Ladybug red */
-      filter: brightness(0) saturate(100%) invert(33%) sepia(98%) saturate(1748%) hue-rotate(330deg) brightness(97%) contrast(94%);
-    }
+    /* Filters to make check icon white when on orange background, keep it white on grey as well */
+    .tick.orange img { filter: brightness(0) saturate(100%) invert(100%); }
+    .tick.grey img { filter: brightness(0) saturate(100%) invert(100%); }
+    /* First-aid icon red */
+    .tick.freeze img { filter: brightness(0) saturate(100%) invert(33%) sepia(98%) saturate(1748%) hue-rotate(330deg) brightness(97%) contrast(94%); }
 
     .divider { height: 1px; background: #E5E5E5; margin: 18px 0; }
-
-    .message {
-      font-size: 20px; color: #4B4B4B;
-      /* Restored normal weight – NOT bold */
-      font-weight: 400;
-    }
-
+    .message { font-size: 20px; color: #444; } /* not bold */
     .continue-wrap { margin-top: 24px; width: 100%; }
     .btn { width: 100%; }
 
@@ -134,19 +92,9 @@
     .share-sheet { background: #fff; border-top: 1px solid #dadada; border-radius: 24px 24px 0 0; padding: 16px 12px; }
     .share-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
     .share-item, .bottom-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-    .share-icon-circle, .bottom-icon-circle {
-      width: 44px; height: 44px; border-radius: 50%; background: #f0f0f0;
-      display: flex; align-items: center; justify-content: center; margin-bottom: 8px;
-    }
+    .share-icon-circle, .bottom-icon-circle { width: 44px; height: 44px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
     .share-icon, .bottom-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
     .share-icon img { width: 100%; height: 100%; object-fit: contain; }
-
-    /* CSS Filters for social share icons */
-    .share-icon img {
-      /* Facebook, X, WhatsApp – keep original colours */
-      filter: none;
-    }
-
     .share-text, .bottom-text { font-size: 11px; color: #333; }
     .bottom-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 20px; }
     .mini-streak { display: flex; flex-direction: column; align-items: center; }
@@ -155,7 +103,7 @@
       text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;
     }
     .share-streak-text { font-size: 22px; color: #FF6D01; font-weight: 700; }
-    .share-message { font-size: 18px; color: #4B4B4B; margin: 8px 0; font-weight: 400; }
+    .share-message { font-size: 18px; color: #4B4B4B; margin: 8px 0; }
     .share-brand { margin-top: 16px; font-weight: 700; color: #4285F4; font-size: 24px; }
   </style>
 </head>
@@ -206,11 +154,11 @@
           <div class="share-text">Facebook</div>
         </div>
         <div class="share-item" id="share-x">
-          <div class="share-icon-circle"><div class="share-icon"><img src="../../../public/assets/icons/social/x-twitter-brands-solid-full.svg" alt="X"></div></div>
+          <div class="share-icon-circle"><div class="share-icon"><img src="../../../public/assets/icons/social/x-twitter.svg" alt="X"></div></div>
           <div class="share-text">X</div>
         </div>
         <div class="share-item" id="share-whatsapp">
-          <div class="share-icon-circle"><div class="share-icon"><img src="../../../public/assets/icons/social/whatsapp-brands-solid-full.svg" alt="WhatsApp"></div></div>
+          <div class="share-icon-circle"><div class="share-icon"><img src="../../../public/assets/icons/social/whatsapp.svg" alt="WhatsApp"></div></div>
           <div class="share-text">WhatsApp</div>
         </div>
         <div class="share-item" id="share-sms">
@@ -220,11 +168,11 @@
       </div>
       <div class="bottom-grid">
         <div class="bottom-item" id="save-image">
-          <div class="bottom-icon-circle"><div class="bottom-icon"><img src="../../../public/assets/icons/material-symbols/outline/download.svg" alt="Download"></div></div>
+          <div class="bottom-icon-circle"><div class="bottom-icon"><img src="../../../public/assets/icons/phosphor/regular/download.svg" alt="Download"></div></div>
           <div class="bottom-text">Save image</div>
         </div>
         <div class="bottom-item" id="more-options">
-          <div class="bottom-icon-circle"><div class="bottom-icon"><img src="../../../public/assets/icons/material-symbols/outline/more_horiz.svg" alt="More"></div></div>
+          <div class="bottom-icon-circle"><div class="bottom-icon"><img src="../../../public/assets/icons/phosphor/regular/dots-three.svg" alt="More"></div></div>
           <div class="bottom-text">More</div>
         </div>
       </div>
@@ -295,12 +243,11 @@
     const currentStreak = streakData.currentStreak;
     const totalAppDays = streakData.totalAppDays;
     const timezone = streakData.timezone || 'UTC';
-
-    // ================================================================
-    //  TIMELINE POSITION LOGIC
-    // ================================================================
     const isEarlyUser = totalAppDays < 7;
 
+    // ================================================================
+    //  BUILD DAY LABELS
+    // ================================================================
     const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const daysContainer = document.getElementById('daysContainer');
     daysContainer.innerHTML = '';
@@ -330,7 +277,6 @@
       }
     }
 
-    // Render day labels
     dates.forEach((dateStr, idx) => {
       const d = new Date(dateStr + 'T12:00:00');
       const dayName = dayNames[d.getDay()];
@@ -344,7 +290,9 @@
       daysContainer.appendChild(span);
     });
 
-    // Build ticks
+    // ================================================================
+    //  BUILD TICKS
+    // ================================================================
     const ticksContainer = document.getElementById('ticksContainer');
     ticksContainer.innerHTML = '';
 
@@ -358,22 +306,24 @@
       const tickDiv = document.createElement('div');
       tickDiv.className = 'tick';
 
+      // All statuses use check-fat.svg, only styling changes
+      tickDiv.innerHTML = '<img src="../../../public/assets/icons/phosphor/fill/check-fat.svg" alt="✓">';
+
       if (status === 'completed') {
-        tickDiv.innerHTML = '<img src="../../../public/assets/icons/phosphor/fill/check-fat.svg" alt="✓">';
         const isTodayPosition = isEarlyUser ? (idx === totalAppDays - 1) : (idx === 6);
         if (isTodayPosition) {
-          // Today's circle starts grey, will animate to orange
+          // today's circle starts grey, will animate
           tickDiv.classList.add('grey');
         } else {
-          // Past completed days are already orange
+          // past completed circles are orange immediately
           tickDiv.classList.add('orange');
         }
       } else if (status === 'revived') {
+        // For revived, we switch to first-aid icon, not check
         tickDiv.innerHTML = '<img src="../../../public/assets/icons/phosphor/fill/first-aid.svg" alt="Revive">';
-        tickDiv.classList.add('revived');
+        tickDiv.classList.add('freeze');
       } else {
-        // Missed or future day (early user)
-        tickDiv.innerHTML = '<img src="../../../public/assets/icons/phosphor/regular/x.svg" alt="✗">';
+        // missed day: grey circle with check icon (no X)
         tickDiv.classList.add('grey');
       }
 
@@ -421,21 +371,22 @@
     }
 
     // ================================================================
-    //  ANIMATION (only today's active circle)
+    //  UPDATE DOM
     // ================================================================
-    const flame = document.getElementById('flame');
-    const streakNumber = document.getElementById('streakNumber');
-    const streakText = document.getElementById('streakText');
-    const streakMessage = document.getElementById('streakMessage');
-
-    streakNumber.textContent = currentStreak;
-    streakText.textContent = currentStreak === 1 ? 'day streak!' : 'day streak!';
-    streakMessage.textContent = message;
+    document.getElementById('streakNumber').textContent = currentStreak;
+    document.getElementById('streakText').textContent = currentStreak === 1 ? 'day streak!' : 'day streak!';
+    document.getElementById('streakMessage').textContent = message;
 
     document.getElementById('shareStreakNumber').textContent = currentStreak;
     document.querySelector('.share-streak-text').textContent = currentStreak === 1 ? 'day streak!' : 'day streak!';
     document.getElementById('shareMessage').textContent = message;
 
+    // ================================================================
+    //  ANIMATION
+    // ================================================================
+    const flame = document.getElementById('flame');
+    const streakNumberEl = document.getElementById('streakNumber');
+    const streakTextEl = document.getElementById('streakText');
     const todayPosition = isEarlyUser ? totalAppDays - 1 : 6;
     const todayTick = ticksContainer.children[todayPosition];
 
@@ -444,14 +395,14 @@
         todayTick.classList.remove('grey');
         todayTick.classList.add('orange');
         flame.classList.add('visible');
-        streakNumber.classList.add('visible');
-        streakText.classList.add('visible');
+        streakNumberEl.classList.add('visible');
+        streakTextEl.classList.add('visible');
       }, 1000);
     } else {
       setTimeout(() => {
         flame.classList.add('visible');
-        streakNumber.classList.add('visible');
-        streakText.classList.add('visible');
+        streakNumberEl.classList.add('visible');
+        streakTextEl.classList.add('visible');
       }, 1000);
     }
 
